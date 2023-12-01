@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('mtgtracker.urls')),
+    path('social-auth/', include('social_django.urls', namespace='social-auth')),
 ]

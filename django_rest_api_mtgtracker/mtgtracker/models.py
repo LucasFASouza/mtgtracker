@@ -1,7 +1,18 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+class User(AbstractUser):
+    pass
 
 class Game(models.Model):
+    RESULTS_CHOICES = [
+        ('W', 'W'),
+        ('L', 'L'),
+        ('D', 'D'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="games")
+
     your_deck = models.CharField(max_length=100)
     opp_deck = models.CharField(max_length=100)
 
@@ -11,9 +22,9 @@ class Game(models.Model):
 
     started_play = models.BooleanField(blank=True, null=True)
 
-    result_g1 = models.CharField(max_length=1)
-    result_g2 = models.CharField(max_length=1)
-    result_g3 = models.CharField(max_length=1, blank=True)
+    result_g1 = models.CharField(choices=RESULTS_CHOICES, max_length=1)
+    result_g2 = models.CharField(choices=RESULTS_CHOICES, max_length=1)
+    result_g3 = models.CharField(choices=RESULTS_CHOICES, max_length=1, blank=True)
 
     mulligans_g1 = models.PositiveIntegerField(blank=True, null=True)
     mulligans_g2 = models.PositiveIntegerField(blank=True, null=True)
