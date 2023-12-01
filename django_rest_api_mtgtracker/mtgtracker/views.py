@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from .serializers import GameSerializer
 from .models import Game
@@ -49,3 +50,16 @@ def game_detail(request, pk):
         task.delete() 
 
         return HttpResponse(status=204) 
+
+@csrf_exempt     
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'message': 'Login successful!', 'user': user}, status=200)
+        else:
+            return JsonResponse({'message': 'Login failed!'}, status=401)

@@ -5,4 +5,5 @@ from mtgtracker import views
 urlpatterns = [
     path('games/', views.games),
     path('games/<int:pk>/', views.game_detail),
+    path('login/', views.login),
 ]

@@ -28,13 +28,18 @@ export default {
     };
   },
   methods: {
-    async submitForm() {
+    async submitForm(submitEvent) {
       try {
+        this.username = submitEvent.target.username.value;
+        this.password = submitEvent.target.password.value;
+
         const response = await axios.post("http://localhost:8000/api/login/", {
           username: this.username,
           password: this.password,
         });
+
         console.log(response);
+        
       } catch (error) {
         console.log(error);
       }
