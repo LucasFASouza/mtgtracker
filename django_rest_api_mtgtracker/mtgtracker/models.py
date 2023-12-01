@@ -22,4 +22,4 @@ class Game(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.your_deck} vs {self.opp_deck} at {self.created_at}'
+        return f"{self.your_deck} vs {self.opp_deck} at {self.created_at}"
