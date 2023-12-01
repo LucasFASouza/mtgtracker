@@ -51,3 +51,25 @@
         }
     }
 </script>
+
+<style scoped>
+h3 {
+  margin: 40px 0 0;
+}
+th {
+  color: #42b983;
+  padding: 10px 20px;
+  border-bottom: 2px solid #00cccc;
+}
+td {
+  color: #666;
+  padding: 10px 20px;
+}
+table {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    border-radius: 12px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1), 0px 10px 20px rgba(0, 0, 0, 0.05), 0px 20px 20px rgba(0, 0, 0, 0.05), 0px 30px 20px rgba(0, 0, 0, 0.05);
+}
+</style>
