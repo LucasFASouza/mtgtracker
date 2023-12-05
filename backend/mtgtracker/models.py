@@ -15,14 +15,20 @@ class Deck(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="decks")
     deck_name = models.CharField(max_length=100)
 
-    games_played_with = models.PositiveIntegerField(blank=True, null=True)
-    games_won_with = models.PositiveIntegerField(blank=True, null=True)
-
-    games_played_against = models.PositiveIntegerField(blank=True, null=True)
-    games_won_against = models.PositiveIntegerField(blank=True, null=True)
-
     def __str__(self):
         return f'{self.user} - {self.deck_name}'
+    
+    def games_played_with(self):
+        return sum([game.games_played() for game in self.games.all() if self in game.your_deck.all()])
+    
+    def games_won_with(self):
+        return sum([game.games_won() for game in self.games.all() if self in game.your_deck.all()])
+    
+    def games_played_against(self):
+        return sum([game.games_played() for game in self.games.all() if self in game.opp_deck.all()])
+    
+    def games_won_against(self):
+        return sum([game.games_won() for game in self.games.all() if self in game.opp_deck.all()])
 
 class Game(models.Model):
     RESULTS_CHOICES = [
@@ -49,10 +55,13 @@ class Game(models.Model):
     mulligans_g2 = models.PositiveIntegerField(blank=True, null=True)
     mulligans_g3 = models.PositiveIntegerField(blank=True, null=True)
 
-    games_played = models.PositiveIntegerField(blank=True, null=True)
-    games_won = models.PositiveIntegerField(blank=True, null=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.your_deck} vs {self.opp_deck} at {self.created_at}'
+    
+    def games_played(self):
+        return 3 if self.result_g3 else 2
+    
+    def games_won(self):
+        return len([result for result in [self.result_g1, self.result_g2, self.result_g3] if result == 'W'])
