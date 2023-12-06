@@ -21,11 +21,11 @@ class GameSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
     your_deck = DeckSerializer(many=False, read_only=True)
     opp_deck = DeckSerializer(many=False, read_only=True)
-    matches = MatchSerializer(many=False, read_only=True)
+    matches = MatchSerializer(many=True, read_only=True)
 
     class Meta:
         model = Game
-        fields = ['id', 'tags', 'your_deck', 'opp_deck', 'notes', 'created_at', 'matches']
+        fields = ['id', 'tags', 'your_deck', 'opp_deck', 'notes', 'created_at', 'matches', 'user']
 
     def post(self, validated_data):
         tags_data = validated_data.pop('tags')
