@@ -72,4 +72,37 @@ class GameSerializer(serializers.ModelSerializer):
             Match.objects.create(game=game, **match_data)
 
         return game
+    
+    def update(self, instance, validated_data):
+        tags_data = validated_data.pop('tags', [])
+        your_deck_data = validated_data.pop('your_deck')
+        opp_deck_data = validated_data.pop('opp_deck')
+        matches_data = validated_data.pop('matches')
+
+        instance.tags.clear()
+        instance.your_deck.games_with.remove(instance)
+        instance.opp_deck.games_against.remove(instance)
+        instance.matches.all().delete()
+
+        instance = super().update(instance, validated_data)
+
+        user = validated_data['user']
+
+        for tag_data in tags_data:
+            tag_data['user'] = user
+            tag = Tag.objects.get_or_create(**tag_data)[0]
+            instance.tags.add(tag)
+
+        your_deck_data['user'] = user
+        your_deck = Deck.objects.get_or_create(**your_deck_data)[0]
+        your_deck.games_with.add(instance)
+
+        opp_deck_data['user'] = user
+        opp_deck = Deck.objects.get_or_create(**opp_deck_data)[0]
+        opp_deck.games_against.add(instance)
+
+        for match_data in matches_data:
+            Match.objects.create(game=instance, **match_data)
+
+        return instance
         
