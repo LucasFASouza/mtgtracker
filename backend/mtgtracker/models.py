@@ -5,20 +5,20 @@ class User(AbstractUser):
     pass
 
 class Tag(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tags")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tags", blank=True, null=True)
     tag = models.CharField(max_length=100)
 
     games = models.ManyToManyField('Game', blank=True, related_name="tags")
 
     def __str__(self):
-        return f'{self.user} - {self.tag}'
+        return f'{self.tag}'
     
 class Deck(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="decks")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="decks", blank=True, null=True)
     deck_name = models.CharField(max_length=100)
 
     def __str__(self):
-        return f'{self.user} - {self.deck_name}'
+        return f'{self.deck_name}'
 
 class Game(models.Model):
     RESULTS_CHOICES = [
@@ -29,8 +29,8 @@ class Game(models.Model):
 
     user = models.ForeignKey(User, related_name="games", on_delete=models.CASCADE)
 
-    your_deck = models.ForeignKey(Deck, related_name="games_with", on_delete=models.CASCADE)
-    opp_deck = models.ForeignKey(Deck, related_name="games_against", on_delete=models.CASCADE)
+    your_deck = models.ForeignKey(Deck, related_name="games_with", on_delete=models.CASCADE, blank=True, null=True)
+    opp_deck = models.ForeignKey(Deck, related_name="games_against", on_delete=models.CASCADE, blank=True, null=True)
 
     notes = models.TextField(blank=True)
 
