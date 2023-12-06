@@ -51,6 +51,7 @@ class Match(models.Model):
     result = models.CharField(choices=RESULTS_CHOICES, max_length=1)
     mulligans = models.PositiveIntegerField(blank=True, null=True)
     started_play = models.BooleanField(blank=True, null=True)
+    is_first_match = models.BooleanField()
 
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="matches")
 
