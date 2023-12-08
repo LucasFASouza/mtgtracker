@@ -1,26 +1,25 @@
 <template>
-  <h1>mtgtracker</h1>
-  <HelloWorld />
+  <div id="app">
+    <h1>mtgtracker</h1>
+    <BasicTable />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import BasicTable from "./components/BasicTable.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    BasicTable,
+  },
+  data() {
+    return {
+      token: "ddfb13f5887055f30c578c898d6863f44dba845f",
+    };
+  },
+  mounted() {
+    localStorage.setItem("token", JSON.stringify(this.token));
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
