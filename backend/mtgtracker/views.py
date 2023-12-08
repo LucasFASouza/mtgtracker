@@ -28,6 +28,9 @@ class UserDetailView(APIView):
         user = User.objects.get(username=username)
         serializer = UserSerializer(user, data=request.data)
 
+        if request.user.id != user.id:
+            return Response(status=403)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
@@ -44,14 +47,13 @@ class GameView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        games = Game.objects.all()
+        games = Game.objects.filter(user=request.user.id)
         serializer = GameSerializer(games, many=True)
 
         return Response(serializer.data)
 
     def post(self, request):
         request.data['user'] = request.user.id
-
         serializer = GameSerializer(data=request.data)
         
         if serializer.is_valid():
@@ -66,6 +68,10 @@ class GameDetailView(APIView):
 
     def get(self, request, pk):
         game = Game.objects.get(pk=pk)
+
+        if request.user.id != game.user.id:
+            return Response(status=403)
+        
         serializer = GameSerializer(game)
 
         return Response(serializer.data)
@@ -74,6 +80,10 @@ class GameDetailView(APIView):
         request.data['user'] = request.user.id
 
         game = Game.objects.get(pk=pk)
+
+        if request.user.id != game.user.id:
+            return Response(status=403)
+        
         serializer = GameSerializer(game, data=request.data)
 
         if serializer.is_valid():
@@ -84,6 +94,10 @@ class GameDetailView(APIView):
 
     def delete(self, request, pk):
         game = Game.objects.get(pk=pk)
+
+        if request.user.id != game.user.id:
+            return Response(status=403)
+        
         game.delete()
 
         return Response(status=204)
