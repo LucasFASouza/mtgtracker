@@ -4,6 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: "#4b0082",
   },
   title: {},
   logo: {
@@ -17,15 +18,14 @@ export default StyleSheet.create({
     height: 48,
     borderRadius: 5,
     overflow: "hidden",
-    backgroundColor: "white",
     marginTop: 10,
-    marginBottom: 10,
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16,
+    color: "white",
   },
   button: {
-    backgroundColor: "#788eec",
+    backgroundColor: "#ff6b6b",
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
@@ -46,11 +46,23 @@ export default StyleSheet.create({
   },
   footerText: {
     fontSize: 16,
-    color: "#2e2e2d",
+    color: "white",
   },
   footerLink: {
-    color: "#788eec",
+    color: "#ff6b6b",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  navbar: {
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#800080",
+  },
+  navbarTitle: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });
