@@ -2,9 +2,12 @@ import React from "react";
 import { Text, View } from "react-native";
 
 export default function HomeScreen(props) {
-  return (
-    <View>
-      <Text>Home Screen</Text>
-    </View>
-  );
+    const { token } = props; // Access the token prop
+
+    return (
+        <View>
+            <Text>Home Screen</Text>
+            <Text>Token: {token}</Text> // Display the token
+        </View>
+    );
 }

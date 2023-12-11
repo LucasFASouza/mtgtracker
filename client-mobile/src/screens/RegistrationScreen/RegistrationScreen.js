@@ -23,7 +23,7 @@ export default function RegistrationScreen({ navigation }) {
       >
         <Image
           style={styles.logo}
-          source={require("../../../assets/icon.png")}
+          source={require("../../assets/icon.png")}
         />
         <TextInput
           style={styles.input}
@@ -52,6 +52,7 @@ export default function RegistrationScreen({ navigation }) {
           value={password}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
+          type='password'
         />
         <TextInput
           style={styles.input}
@@ -62,6 +63,7 @@ export default function RegistrationScreen({ navigation }) {
           value={confirmPassword}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
+          r
         />
         <TouchableOpacity
           style={styles.button}
