@@ -13,7 +13,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   const onLoginPress = () => {
-    fetch("http://10.0.2.2:8000/api/token", {
+    fetch("https://mtgtracker-api.fly.dev/api/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
