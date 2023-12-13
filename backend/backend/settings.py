@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8oa(xl_y84m1xj**!036mmt^4&^jc&euf=*r+b!qy4-ca_92_e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["mtgtracker-api.fly.dev"]
 
 
 # Application definition
