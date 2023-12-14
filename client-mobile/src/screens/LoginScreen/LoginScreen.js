@@ -23,8 +23,8 @@ export default function LoginScreen({ navigation }) {
       .then((response) => response.json())
       .then((json) => {
         setToken(json.token);
-        console.log(json);
-        navigation.navigate("Home", { token: json.token });
+        const token = json.token;
+        navigation.navigate("Home", { token });
       })
       .catch((error) => {
         console.error(error);

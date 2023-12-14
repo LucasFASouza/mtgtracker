@@ -7,7 +7,7 @@ export default function HomeScreen(props) {
     return (
         <View>
             <Text>Home Screen</Text>
-            <Text>Token: {token}</Text> // Display the token
+            <Text>Token: {token}</Text>
         </View>
     );
 }

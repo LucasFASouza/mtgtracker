@@ -17,14 +17,14 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {user ? (
+        {token ? (
           <Stack.Screen name="Home">
-            {(props) => <HomeScreen {...props} extraData={user} />}
+            {(props) => <HomeScreen {...props} extraData={token} />}
           </Stack.Screen>
         ) : (
           <>
