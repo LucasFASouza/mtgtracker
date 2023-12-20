@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "client-mobile",
-    "slug": "client-mobile",
-    "version": "1.0.0",
+    "name": "mtgtracker",
+    "slug": "mtgtracker",
+    "version": "0.8.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
