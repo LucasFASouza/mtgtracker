@@ -12,7 +12,7 @@ import AddGameScreen from "./screens/AddGameScreen";
 
 const Tab = createBottomTabNavigator();
 
-const AuthContext = React.createContext({});
+export const AuthContext = React.createContext({});
 
 export default function App() {
   const [state, dispatch] = React.useReducer(
@@ -67,17 +67,17 @@ export default function App() {
         console.log(data);
 
         dispatch({
-          type: "SIGN_IN",
+          type: "LOGIN",
           token: "ddfb13f5887055f30c578c898d6863f44dba845f",
         });
       },
-      logout: () => dispatch({ type: "SIGN_OUT" }),
+      logout: () => dispatch({ type: "LOGOUT" }),
       register: async (data) => {
         // Register new user via API
         console.log(data)
 
         dispatch({
-          type: "SIGN_IN",
+          type: "LOGIN",
           token: "ddfb13f5887055f30c578c898d6863f44dba845f",
         });
       },

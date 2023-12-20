@@ -1,5 +1,7 @@
 import React from "react";
-import { Button, View, Text } from "react-native";
+import { Button, View, TextInput } from "react-native";
+
+import { AuthContext } from "../App.js";
 
 export default function LoginScreen() {
     const [username, setUsername] = React.useState("");
