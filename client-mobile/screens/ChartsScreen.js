@@ -1,14 +1,12 @@
 import React from "react";
 import { Button, View, Text } from "react-native";
 
-export default function ChartsScreen({ navigation }) {
+export default function ChartsScreen() {
+  const { logout } = React.useContext(AuthContext);
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View>
       <Text>Charts Screen</Text>
-      <Button
-        title="Add new game"
-        onPress={() => navigation.navigate("AddGame")}
-      />
+      <Button title="Logout" onPress={logout()} />
     </View>
   );
 }
