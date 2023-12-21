@@ -34,7 +34,7 @@ export default function LoginScreen({ navigation }) {
           backgroundColor: "rgba(255, 120, 200, 0.1)",
           paddingHorizontal: 8,
           borderRadius: 8,
-          marginVertical: 8,
+          marginVertical: 6,
         }}
         value={username}
         onChangeText={setUsername}
@@ -49,7 +49,7 @@ export default function LoginScreen({ navigation }) {
           backgroundColor: "rgba(255, 120, 200, 0.1)",
           paddingHorizontal: 8,
           borderRadius: 8,
-          marginVertical: 8,
+          marginVertical: 6,
         }}
         value={password}
         onChangeText={setPassword}
