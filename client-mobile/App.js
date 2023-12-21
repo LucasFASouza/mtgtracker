@@ -3,15 +3,20 @@ import * as SecureStore from "expo-secure-store";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { AuthContext } from "./services/AuthContext";
 
 import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 import ChartsScreen from "./screens/ChartsScreen";
 import TableScreen from "./screens/TableScreen";
 import AddGameScreen from "./screens/AddGameScreen";
 
+import MainHeader from "./components/MainHeader";
+
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [state, dispatch] = React.useReducer(
@@ -85,17 +90,23 @@ export default function App() {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         {state.userToken ? (
-          <Tab.Navigator
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Tab.Screen name="Table" component={TableScreen} />
-            <Tab.Screen name="+" component={AddGameScreen} />
-            <Tab.Screen name="Charts" component={ChartsScreen} />
-          </Tab.Navigator>
+          <>
+            <MainHeader />
+            <Tab.Navigator
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Tab.Screen name="Table" component={TableScreen} />
+              <Tab.Screen name="+" component={AddGameScreen} />
+              <Tab.Screen name="Charts" component={ChartsScreen} />
+            </Tab.Navigator>
+          </>
         ) : (
-          <LoginScreen />
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+          </Stack.Navigator>
         )}
       </NavigationContainer>
     </AuthContext.Provider>
