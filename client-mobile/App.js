@@ -4,13 +4,12 @@ import * as SecureStore from "expo-secure-store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import { AuthContext } from "./services/AuthContext";
+
 import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
 import ChartsScreen from "./screens/ChartsScreen";
 import TableScreen from "./screens/TableScreen";
 import AddGameScreen from "./screens/AddGameScreen";
-
-import { AuthContext } from "./services/AuthContext";
 
 const Tab = createBottomTabNavigator();
 
@@ -71,8 +70,7 @@ export default function App() {
       },
       logout: () => dispatch({ type: "LOGOUT" }),
       register: async (data) => {
-        // Register new user via API
-        console.log(data)
+        console.log(data);
 
         dispatch({
           type: "LOGIN",
@@ -86,20 +84,19 @@ export default function App() {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <Tab.Navigator>
-          {state.userToken ? (
-            <>
-              <Tab.Screen name="Charts" component={ChartsScreen} />
-              <Tab.Screen name="+" component={AddGameScreen} />
-              <Tab.Screen name="Table" component={TableScreen} />
-            </>
-          ) : (
-            <>
-              <Tab.Screen name="Login" component={LoginScreen} />
-              <Tab.Screen name="Register" component={RegisterScreen} />
-            </>
-          )}
-        </Tab.Navigator>
+        {state.userToken ? (
+          <Tab.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Tab.Screen name="Charts" component={ChartsScreen} />
+            <Tab.Screen name="+" component={AddGameScreen} />
+            <Tab.Screen name="Table" component={TableScreen} />
+          </Tab.Navigator>
+        ) : (
+          <LoginScreen />
+        )}
       </NavigationContainer>
     </AuthContext.Provider>
   );

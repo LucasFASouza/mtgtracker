@@ -1,7 +1,8 @@
 import React from "react";
-import { Button, View, TextInput } from "react-native";
-
 import { AuthContext } from "../services/AuthContext";
+
+import { View, TextInput } from "react-native";
+import { Button } from "@rneui/themed";
 
 export default function LoginScreen() {
     const [username, setUsername] = React.useState("");
@@ -10,19 +11,19 @@ export default function LoginScreen() {
     const { login } = React.useContext(AuthContext);
 
     return (
-        <View>
+      <View>
         <TextInput
-            placeholder="Username"
-            value={username}
-            onChangeText={setUsername}
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
         />
         <TextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
         />
         <Button title="Login" onPress={() => login({ username, password })} />
-        </View>
+      </View>
     );
 }
