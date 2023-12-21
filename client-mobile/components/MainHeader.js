@@ -2,6 +2,7 @@ import React from "react";
 import { Header } from "@rneui/base";
 
 import { AuthContext } from "../services/AuthContext";
+import { Image } from "react-native";
 
 const MainHeader = () => {
   const { logout } = React.useContext(AuthContext);
@@ -18,6 +19,12 @@ const MainHeader = () => {
           fontWeight: "bold",
         },
       }}
+      leftComponent={
+        <Image
+          source={require("../assets/icon.png")}
+          style={{ width: 30, height: 30, marginTop: 8 }}
+        />
+      }
       rightComponent={{
         icon: "logout",
         color: "#fa5075",
