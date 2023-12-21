@@ -13,17 +13,20 @@ export default function RegisterScreen({ navigation }) {
   const { register } = React.useContext(AuthContext);
 
   return (
-    <View style={{ backgroundColor: "#55034b", height: 1000 }}>
+    <View
+      style={{
+        backgroundColor: "#55034b",
+        height: "100%",
+        paddingHorizontal: "15%",
+        paddingVertical: "50%",
+      }}
+    >
       <TextInput
         placeholder="Username"
         value={username}
         onChangeText={setUsername}
       />
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
+      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
       <TextInput
         placeholder="Password"
         value={password}
@@ -43,9 +46,7 @@ export default function RegisterScreen({ navigation }) {
         onPress={() => register({ username, password })}
       />
 
-      <Text style={{ color: "white" }}>
-        Already have an account?
-      </Text>
+      <Text style={{ color: "white" }}>Already have an account?</Text>
       <Text
         style={{ color: "#fa5075" }}
         onPress={() => navigation.navigate("Login")}

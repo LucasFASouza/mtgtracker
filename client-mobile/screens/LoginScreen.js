@@ -11,7 +11,14 @@ export default function LoginScreen({ navigation }) {
   const { login } = React.useContext(AuthContext);
 
   return (
-    <View style={{ backgroundColor: "#55034b", height: 1000 }}>
+    <View
+      style={{
+        backgroundColor: "#55034b",
+        height: "100%",
+        paddingHorizontal: "15%",
+        paddingVertical: "50%",
+      }}
+    >
       <TextInput
         placeholder="Username"
         value={username}
@@ -30,9 +37,7 @@ export default function LoginScreen({ navigation }) {
         onPress={() => login({ username, password })}
       />
 
-      <Text style={{ color: "white" }}>
-        Don't have an account?
-      </Text>
+      <Text style={{ color: "white" }}>Don't have an account?</Text>
       <Text
         style={{ color: "#fa5075" }}
         onPress={() => navigation.navigate("Register")}
