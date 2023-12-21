@@ -90,9 +90,9 @@ export default function App() {
               headerShown: false,
             }}
           >
-            <Tab.Screen name="Charts" component={ChartsScreen} />
-            <Tab.Screen name="+" component={AddGameScreen} />
             <Tab.Screen name="Table" component={TableScreen} />
+            <Tab.Screen name="+" component={AddGameScreen} />
+            <Tab.Screen name="Charts" component={ChartsScreen} />
           </Tab.Navigator>
         ) : (
           <LoginScreen />

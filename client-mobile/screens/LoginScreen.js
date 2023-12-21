@@ -11,7 +11,7 @@ export default function LoginScreen() {
     const { login } = React.useContext(AuthContext);
 
     return (
-      <View>
+      <View style={{ backgroundColor: "#55034b", height: 1000 }}>
         <TextInput
           placeholder="Username"
           value={username}
