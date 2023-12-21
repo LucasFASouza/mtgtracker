@@ -10,9 +10,9 @@ import ChartsScreen from "./screens/ChartsScreen";
 import TableScreen from "./screens/TableScreen";
 import AddGameScreen from "./screens/AddGameScreen";
 
-const Tab = createBottomTabNavigator();
+import { AuthContext } from "./services/AuthContext";
 
-export const AuthContext = React.createContext({});
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [state, dispatch] = React.useReducer(
@@ -22,7 +22,6 @@ export default function App() {
           return {
             ...prevState,
             userToken: action.token,
-            isLoading: false,
           };
         case "LOGIN":
           return {
@@ -39,7 +38,6 @@ export default function App() {
       }
     },
     {
-      isLoading: true,
       isLoggedIn: false,
       userToken: null,
     }
