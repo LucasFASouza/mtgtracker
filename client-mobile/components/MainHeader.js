@@ -9,7 +9,7 @@ const MainHeader = () => {
 
   return (
     <Header
-      backgroundColor="#55034B"
+      backgroundColor="#2A0D2E"
       barStyle="default"
       centerComponent={{
         text: "mtgtracker",
@@ -35,6 +35,6 @@ const MainHeader = () => {
       placement="left"
     />
   );
-}
+};
 
 export default MainHeader;

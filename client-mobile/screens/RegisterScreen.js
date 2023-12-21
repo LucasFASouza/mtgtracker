@@ -1,8 +1,8 @@
 import React from "react";
 import { AuthContext } from "../services/AuthContext";
 
-import { View, TextInput, Text } from "react-native";
-import { Button } from "@rneui/themed";
+import { View, TextInput } from "react-native";
+import { Button, Text } from "@rneui/themed";
 
 export default function RegisterScreen({ navigation }) {
   const [username, setUsername] = React.useState("");
@@ -15,9 +15,9 @@ export default function RegisterScreen({ navigation }) {
   return (
     <View
       style={{
-        backgroundColor: "#55034b",
+        backgroundColor: "#2A0D2E",
         height: "100%",
-        paddingHorizontal: "15%",
+        paddingHorizontal: "10%",
         paddingVertical: "50%",
       }}
     >
