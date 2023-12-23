@@ -3,13 +3,55 @@ import { AuthContext } from "../services/AuthContext";
 
 import { View, Image } from "react-native";
 import { Button, Text } from "@rneui/themed";
-import Input from "../components/Input"; 
+import Input from "../components/Input";
 
 export default function LoginScreen({ navigation }) {
+  const { login } = React.useContext(AuthContext);
+
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const { login } = React.useContext(AuthContext);
+  const [usernameError, setUsernameError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState("");
+
+  function handleLogin() {
+    let hasError = false;
+
+    if (username.trim() === "") {
+      setUsernameError("Username is required");
+      hasError = true;
+    }
+
+    if (password.trim() === "") {
+      setPasswordError("Password is required");
+      hasError = true;
+    }
+
+    if (hasError) {
+      return;
+    }
+
+    setUsernameError("");
+    setPasswordError("");
+
+    let response = login({ username, password });
+  }
+
+  function handleUsernameBlur() {
+    if (username.trim() === "") {
+      setUsernameError("Username is required");
+    } else {
+      setUsernameError("");
+    }
+  }
+
+  function handlePasswordBlur() {
+    if (password.trim() === "") {
+      setPasswordError("Password is required");
+    } else {
+      setPasswordError("");
+    }
+  }
 
   return (
     <View
@@ -27,10 +69,10 @@ export default function LoginScreen({ navigation }) {
       />
 
       <View style={{ width: "100%", paddingBottom: 30, paddingHorizontal: 8 }}>
-        <Text style={{ color: "white", fontSize: 24, fontWeight: "bold" }}>
+        <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
           Hello, welcome back to
         </Text>
-        <Text style={{ color: "#fa5075", fontSize: 24, fontWeight: "bold" }}>
+        <Text style={{ color: "#fa5075", fontSize: 20, fontWeight: "bold" }}>
           mtgtracker
         </Text>
       </View>
@@ -39,34 +81,47 @@ export default function LoginScreen({ navigation }) {
         label="Username"
         value={username}
         onChangeText={setUsername}
+        errorMessage={usernameError}
+        onBlur={handleUsernameBlur}
       />
 
       <Input
         label="Password"
         value={password}
         onChangeText={setPassword}
+        errorMessage={passwordError}
+        onBlur={handlePasswordBlur}
       />
 
-      <Button
-        title="Login"
-        color={"#fa5075"}
-        onPress={() => login({ username, password })}
-        buttonStyle={{
-          width: 200,
-          height: 50,
-          borderRadius: 7,
-          alignSelf: "center",
-          marginVertical: 20,
-        }}
-      />
-
-      <Text style={{ color: "white" }}>Don't have an account?</Text>
-      <Text
-        style={{ color: "#fa5075" }}
-        onPress={() => navigation.navigate("Register")}
+      <View
+      style={{
+        marginVertical: 20,
+        width: "100%",
+        alignItems: "center",
+      }}
       >
-        Register here
-      </Text>
+        <Button
+          title="Login"
+          color={"#fa5075"}
+          onPress={() => handleLogin({ username, password })}
+          buttonStyle={{
+            width: 200,
+            height: 50,
+            borderRadius: 7,
+            marginBottom: 10,
+          }}
+        />
+
+        <Text style={{ color: "white", fontWeight: "bold" }}>
+          Don't have an account?
+        </Text>
+        <Text
+          style={{ color: "#fa5075", fontWeight: "bold" }}
+          onPress={() => navigation.navigate("Register")}
+        >
+          Register here
+        </Text>
+      </View>
     </View>
   );
 }
