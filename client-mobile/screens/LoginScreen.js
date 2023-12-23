@@ -70,10 +70,10 @@ export default function LoginScreen({ navigation }) {
 
       <View style={{ width: "100%", paddingBottom: 30, paddingHorizontal: 8 }}>
         <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
-          Hello, welcome back to
+            Hello, welcome back to
         </Text>
         <Text style={{ color: "#fa5075", fontSize: 20, fontWeight: "bold" }}>
-          mtgtracker
+          MTGTracker
         </Text>
       </View>
 
@@ -88,17 +88,18 @@ export default function LoginScreen({ navigation }) {
       <Input
         label="Password"
         value={password}
+        secureTextEntry
         onChangeText={setPassword}
         errorMessage={passwordError}
         onBlur={handlePasswordBlur}
       />
 
       <View
-      style={{
-        marginVertical: 20,
-        width: "100%",
-        alignItems: "center",
-      }}
+        style={{
+          marginVertical: 20,
+          width: "100%",
+          alignItems: "center",
+        }}
       >
         <Button
           title="Login"
@@ -109,6 +110,11 @@ export default function LoginScreen({ navigation }) {
             height: 50,
             borderRadius: 7,
             marginBottom: 10,
+          }}
+          titleStyle={{
+            color: "white",
+            fontSize: 18,
+            fontWeight: "bold",
           }}
         />
 
