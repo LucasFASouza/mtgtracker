@@ -16,14 +16,23 @@ export default function LoginScreen({ navigation }) {
         backgroundColor: "#2A0D2E",
         height: "100%",
         paddingHorizontal: "10%",
-        paddingVertical: "42%",
         alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <Image
         source={require("../assets/icon.png")}
-        style={{ width: 150, height: 150, marginBottom: 50 }}
+        style={{ width: 150, height: 150, marginBottom: 30 }}
       />
+
+      <View style={{ width: "100%", paddingBottom: 30, paddingHorizontal: 8 }}>
+        <Text style={{ color: "white", fontSize: 24, fontWeight: "bold" }}>
+          Hello, welcome back to
+        </Text>
+        <Text style={{ color: "#fa5075", fontSize: 24, fontWeight: "bold" }}>
+          mtgtracker
+        </Text>
+      </View>
 
       <Input
         label="Username"
@@ -64,7 +73,7 @@ export default function LoginScreen({ navigation }) {
           height: 50,
           borderRadius: 7,
           alignSelf: "center",
-          marginBottom: 20,
+          marginVertical: 20,
         }}
       />
 
