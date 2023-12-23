@@ -1,8 +1,9 @@
 import React from "react";
 import { AuthContext } from "../services/AuthContext";
 
-import { View, TextInput, Image } from "react-native";
-import { Button, Text, Input } from "@rneui/themed";
+import { View, Image } from "react-native";
+import { Button, Text } from "@rneui/themed";
+import Input from "../components/Input"; 
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = React.useState("");
@@ -36,30 +37,12 @@ export default function LoginScreen({ navigation }) {
 
       <Input
         label="Username"
-        inputStyle={{ color: "#FFF" }}
-        labelStyle={{ color: "#FFF", marginHorizontal: 5 }}
-        inputContainerStyle={{
-          borderBottomWidth: 0,
-          backgroundColor: "rgba(255, 120, 200, 0.1)",
-          paddingHorizontal: 8,
-          borderRadius: 8,
-          marginVertical: 6,
-        }}
         value={username}
         onChangeText={setUsername}
       />
 
       <Input
         label="Password"
-        inputStyle={{ color: "#FFF" }}
-        labelStyle={{ color: "#FFF", marginHorizontal: 5 }}
-        inputContainerStyle={{
-          borderBottomWidth: 0,
-          backgroundColor: "rgba(255, 120, 200, 0.1)",
-          paddingHorizontal: 8,
-          borderRadius: 8,
-          marginVertical: 6,
-        }}
         value={password}
         onChangeText={setPassword}
       />
