@@ -317,6 +317,34 @@ DATA_MOCK = [
 ];
 
 export default function HistoryScreen() {
+  const [separetedList, setSeparetedList] = React.useState([]);
+
+  function separateByDate(data) {
+    const separatedList = [];
+
+    data.forEach((item) => {
+      const createdAt = new Date(item.created_at).toLocaleDateString();
+      const existingDate = separatedList.find(
+        (date) => date.createdAt === createdAt
+      );
+
+      if (existingDate) {
+        existingDate.items.push(item);
+      } else {
+        separatedList.push({
+          createdAt,
+          items: [item],
+        });
+      }
+    });
+
+    return separatedList;
+  }
+
+  React.useEffect(() => {
+    setSeparetedList(separateByDate(DATA_MOCK));
+  }, []);
+
   return (
     <ScrollView style={{ backgroundColor: "#282828" }}>
       <View
@@ -336,8 +364,9 @@ export default function HistoryScreen() {
         <Icon name="filter" size={24} color="white" type="ionicon" />
       </View>
 
-      <MatchesGroup />
-      <MatchesGroup />
+      {separetedList.map((group) => (
+        <MatchesGroup key={group.createdAt} matches={group.items} />
+      ))}
     </ScrollView>
   );
 }
