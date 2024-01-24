@@ -4,7 +4,6 @@ import { View } from "react-native";
 import { Text, Badge, Icon } from "@rneui/themed";
 
 const Match = () => {
-
   return (
     <View
       style={{
