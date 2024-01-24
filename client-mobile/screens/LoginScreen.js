@@ -16,6 +16,14 @@ export default function LoginScreen({ navigation }) {
   const [usernameError, setUsernameError] = React.useState("");
   const [passwordError, setPasswordError] = React.useState("");
 
+  React.useEffect(() => {
+    setUsername("");
+    setPassword("");
+
+    setUsernameError("");
+    setPasswordError("");
+  }, []);
+
   function handleLogin() {
     let hasError = false;
 

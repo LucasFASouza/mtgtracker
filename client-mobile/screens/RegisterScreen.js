@@ -21,6 +21,18 @@ export default function RegisterScreen({ navigation }) {
   const [passwordConfirmError, setPasswordConfirmError] = React.useState("");
   const [emailError, setEmailError] = React.useState("");
 
+  React.useEffect(() => {
+    setUsername("");
+    setPassword("");
+    setPasswordConfirm("");
+    setEmail("");
+
+    setUsernameError("");
+    setPasswordError("");
+    setPasswordConfirmError("");
+    setEmailError("");
+  }, []);
+
   function handleRegister() {
     let hasError = false;
 
