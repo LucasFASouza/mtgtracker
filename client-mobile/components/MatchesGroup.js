@@ -1,9 +1,9 @@
 import React from "react";
 
-import { ScrollView, View } from "react-native";
-import { Text, Icon } from "@rneui/themed";
+import { View } from "react-native";
+import { Text } from "@rneui/themed";
 
-import MatchesGroup from "../components/MatchesGroup";
+import Match from "./Match";
 
 DATA_MOCK = [
   {
@@ -316,28 +316,37 @@ DATA_MOCK = [
   },
 ];
 
-export default function HistoryScreen() {
+const MatchesGroup = () => {
+
   return (
-    <ScrollView style={{ backgroundColor: "#282828" }}>
-      <View
+    <View
+      style={{
+        marginHorizontal: 16,
+        marginTop: 12,
+      }}
+    >
+      <Text
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingVertical: 12,
-          paddingHorizontal: 16,
-          borderColor: "#5F5F5F",
-          borderBottomWidth: 1,
+          color: "#5F5F5F",
+          fontSize: 16,
+          fontWeight: "bold",
         }}
       >
-        <Text style={{ fontSize: 22, fontWeight: "bold", color: "white" }}>
-          Match History
-        </Text>
-
-        <Icon name="filter" size={24} color="white" type="ionicon" />
+        Today
+      </Text>
+      <View
+        style={{
+          marginVertical: 12,
+          borderColor: "#5F5F5F",
+          borderTopWidth: 1,
+        }}
+      >
+        {DATA_MOCK.map((match) => {
+          return <Match key={match.id} match={match} />;
+        })}
       </View>
-
-      <MatchesGroup />
-      <MatchesGroup />
-    </ScrollView>
+    </View>
   );
-}
+};
+
+export default MatchesGroup;
