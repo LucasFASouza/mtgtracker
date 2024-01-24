@@ -9,7 +9,7 @@ const MainHeader = () => {
 
   return (
     <Header
-      backgroundColor="#2A0D2E"
+      backgroundColor="#282828"
       barStyle="default"
       centerComponent={{
         text: "mtgtracker",
@@ -22,16 +22,16 @@ const MainHeader = () => {
       leftComponent={
         <Image
           source={require("../assets/icon.png")}
-          style={{ width: 30, height: 30, marginTop: 8 }}
+          style={{ width: 33, height: 30, marginTop: 8 }}
         />
       }
       rightComponent={{
         icon: "logout",
-        color: "#fa5075",
+        color: "#5F5F5F",
         style: { marginTop: 8 },
         onPress: () => logout(),
       }}
-      containerStyle={{ width: "100%", borderBottomColor: "#fa5075" }}
+      containerStyle={{ width: "100%", borderBottomColor: "#5F5F5F" }}
       placement="left"
     />
   );

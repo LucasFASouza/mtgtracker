@@ -56,7 +56,7 @@ export default function LoginScreen({ navigation }) {
   return (
     <View
       style={{
-        backgroundColor: "#2A0D2E",
+        backgroundColor: "#282828",
         height: "100%",
         paddingHorizontal: "10%",
         alignItems: "center",
@@ -65,15 +65,15 @@ export default function LoginScreen({ navigation }) {
     >
       <Image
         source={require("../assets/icon.png")}
-        style={{ width: 150, height: 150, marginBottom: 30 }}
+        style={{ width: 165, height: 150, marginVertical: 30 }}
       />
 
       <View style={{ width: "100%", paddingBottom: 30, paddingHorizontal: 8 }}>
-        <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
-            Hello, welcome back to
+        <Text style={{ color: "white", fontSize: 24, fontWeight: "bold" }}>
+          Hello, welcome back to
         </Text>
-        <Text style={{ color: "#fa5075", fontSize: 20, fontWeight: "bold" }}>
-          MTGTracker
+        <Text style={{ color: "#fa5075", fontSize: 24, fontWeight: "bold" }}>
+          mtgtracker
         </Text>
       </View>
 
@@ -96,7 +96,7 @@ export default function LoginScreen({ navigation }) {
 
       <View
         style={{
-          marginVertical: 20,
+          marginTop: 40,
           width: "100%",
           alignItems: "center",
         }}
@@ -106,7 +106,7 @@ export default function LoginScreen({ navigation }) {
           color={"#fa5075"}
           onPress={() => handleLogin({ username, password })}
           buttonStyle={{
-            width: 200,
+            width: 180,
             height: 50,
             borderRadius: 7,
             marginBottom: 10,
@@ -118,11 +118,11 @@ export default function LoginScreen({ navigation }) {
           }}
         />
 
-        <Text style={{ color: "white", fontWeight: "bold" }}>
+        <Text style={{ color: "#5F5F5F", fontWeight: "bold" }}>
           Don't have an account?
         </Text>
         <Text
-          style={{ color: "#fa5075", fontWeight: "bold" }}
+          style={{ color: "white", fontWeight: "bold" }}
           onPress={() => navigation.navigate("Register")}
         >
           Register here

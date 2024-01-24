@@ -95,7 +95,7 @@ export default function RegisterScreen({ navigation }) {
   return (
     <View
       style={{
-        backgroundColor: "#2A0D2E",
+        backgroundColor: "#282828",
         height: "100%",
         paddingHorizontal: "10%",
         alignItems: "center",
@@ -104,15 +104,15 @@ export default function RegisterScreen({ navigation }) {
     >
       <Image
         source={require("../assets/icon.png")}
-        style={{ width: 100, height: 100, marginVertical: 30 }}
-      />
+        style={{ width: 150, height: 135, marginVertical: 30 }}
+      /> 
 
       <View style={{ width: "100%", paddingBottom: 30, paddingHorizontal: 8 }}>
-        <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
+        <Text style={{ color: "white", fontSize: 24, fontWeight: "bold" }}>
           Hello, welcome to
         </Text>
-        <Text style={{ color: "#fa5075", fontSize: 20, fontWeight: "bold" }}>
-          MTGTracker
+        <Text style={{ color: "#fa5075", fontSize: 24, fontWeight: "bold" }}>
+          mtgtracker
         </Text>
       </View>
 
@@ -159,7 +159,7 @@ export default function RegisterScreen({ navigation }) {
           color={"#fa5075"}
           onPress={() => handleRegister({ username, email, password })}
           buttonStyle={{
-            width: 200,
+            width: 180,
             height: 50,
             borderRadius: 7,
             marginBottom: 10,
@@ -171,11 +171,11 @@ export default function RegisterScreen({ navigation }) {
           }}
         />
 
-        <Text style={{ color: "white", fontWeight: "bold" }}>
+        <Text style={{ color: "#5F5F5F", fontWeight: "bold" }}>
           Already have an account?
         </Text>
         <Text
-          style={{ color: "#fa5075", fontWeight: "bold" }}
+          style={{ color: "white", fontWeight: "bold" }}
           onPress={() => navigation.navigate("Login")}
         >
           Login here

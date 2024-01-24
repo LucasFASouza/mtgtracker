@@ -95,6 +95,9 @@ export default function App() {
             <Tab.Navigator
               screenOptions={{
                 headerShown: false,
+                tabBarStyle: {
+                  backgroundColor: "#282828",
+                },
               }}
             >
               <Tab.Screen name="Table" component={TableScreen} />
