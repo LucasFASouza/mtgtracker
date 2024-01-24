@@ -5,12 +5,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { Ionicons } from "@expo/vector-icons";
+
 import { AuthContext } from "./services/AuthContext";
 
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
-import ChartsScreen from "./screens/ChartsScreen";
-import TableScreen from "./screens/TableScreen";
+import AnalyticsScreen from "./screens/AnalyticsScreen";
+import HistoryScreen from "./screens/HistoryScreen";
 import AddGameScreen from "./screens/AddGameScreen";
 
 import MainHeader from "./components/MainHeader";
@@ -53,6 +55,7 @@ export default function App() {
 
       try {
         userToken = await SecureStore.getItemAsync("userToken");
+        userToken = "TESTE, APAGAR DEPOIS!";
       } catch (e) {
         console.log(e);
       }
@@ -94,15 +97,43 @@ export default function App() {
             <MainHeader />
             <Tab.Navigator
               screenOptions={{
+                tabBarActiveTintColor: "#FA5075",
+                tabBarInactiveTintColor: "#5F5F5F",
                 headerShown: false,
                 tabBarStyle: {
                   backgroundColor: "#282828",
+                  borderTopColor: "#5F5F5F",
                 },
+                NavigationColor: "green",
               }}
             >
-              <Tab.Screen name="Table" component={TableScreen} />
-              <Tab.Screen name="+" component={AddGameScreen} />
-              <Tab.Screen name="Charts" component={ChartsScreen} />
+              <Tab.Screen
+                name="Match History"
+                options={{
+                  tabBarIcon: ({ color }) => (
+                    <Ionicons name="list" size={24} color={color} />
+                  ),
+                }}
+                component={HistoryScreen}
+              />
+              <Tab.Screen
+                name="Add Match"
+                options={{
+                  tabBarIcon: ({ color }) => (
+                    <Ionicons name="add-circle" size={24} color={color} />
+                  ),
+                }}
+                component={AddGameScreen}
+              />
+              <Tab.Screen
+                name="Analytics"
+                options={{
+                  tabBarIcon: ({ color }) => (
+                    <Ionicons name="analytics" size={24} color={color} />
+                  ),
+                }}
+                component={AnalyticsScreen}
+              />
             </Tab.Navigator>
           </>
         ) : (

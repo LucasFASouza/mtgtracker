@@ -2,8 +2,11 @@ import React from "react";
 import { AuthContext } from "../services/AuthContext";
 
 import { View, Image } from "react-native";
-import { Button, Text } from "@rneui/themed";
+import { Text } from "@rneui/themed";
+
 import Input from "../components/Input";
+import Button from "../components/Button";
+
 
 export default function RegisterScreen({ navigation }) {
   const { register } = React.useContext(AuthContext);
@@ -104,7 +107,7 @@ export default function RegisterScreen({ navigation }) {
     >
       <Image
         source={require("../assets/icon.png")}
-        style={{ width: 150, height: 135, marginVertical: 30 }}
+        style={{ width: 110, height: 100, marginVertical: 30 }}
       /> 
 
       <View style={{ width: "100%", paddingBottom: 30, paddingHorizontal: 8 }}>
@@ -156,19 +159,7 @@ export default function RegisterScreen({ navigation }) {
       >
         <Button
           title="Register"
-          color={"#fa5075"}
           onPress={() => handleRegister({ username, email, password })}
-          buttonStyle={{
-            width: 180,
-            height: 50,
-            borderRadius: 7,
-            marginBottom: 10,
-          }}
-          titleStyle={{
-            color: "white",
-            fontSize: 18,
-            fontWeight: "bold",
-          }}
         />
 
         <Text style={{ color: "#5F5F5F", fontWeight: "bold" }}>

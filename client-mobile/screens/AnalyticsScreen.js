@@ -1,9 +1,10 @@
 import React from "react";
 
 import { View } from "react-native";
-import { Text } from "@rneui/themed";
+import { Text, Button } from "@rneui/themed";
+import { Ionicons } from "@expo/vector-icons";
 
-export default function AddGameScreen() {
+export default function AnalyticsScreen() {
   return (
     <View style={{ backgroundColor: "#282828", height: "100%" }}>
       <View
@@ -17,8 +18,9 @@ export default function AddGameScreen() {
         }}
       >
         <Text style={{ fontSize: 22, fontWeight: "bold", color: "white" }}>
-          Add Match
+          Analytics
         </Text>
+        <Ionicons name="filter" size={24} color="white" />
       </View>
     </View>
   );

@@ -2,8 +2,10 @@ import React from "react";
 import { AuthContext } from "../services/AuthContext";
 
 import { View, Image } from "react-native";
-import { Button, Text } from "@rneui/themed";
+import { Text } from "@rneui/themed";
+
 import Input from "../components/Input";
+import Button from "../components/Button";
 
 export default function LoginScreen({ navigation }) {
   const { login } = React.useContext(AuthContext);
@@ -103,19 +105,7 @@ export default function LoginScreen({ navigation }) {
       >
         <Button
           title="Login"
-          color={"#fa5075"}
           onPress={() => handleLogin({ username, password })}
-          buttonStyle={{
-            width: 180,
-            height: 50,
-            borderRadius: 7,
-            marginBottom: 10,
-          }}
-          titleStyle={{
-            color: "white",
-            fontSize: 18,
-            fontWeight: "bold",
-          }}
         />
 
         <Text style={{ color: "#5F5F5F", fontWeight: "bold" }}>

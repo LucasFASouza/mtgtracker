@@ -31,7 +31,7 @@ const MainHeader = () => {
         style: { marginTop: 8 },
         onPress: () => logout(),
       }}
-      containerStyle={{ width: "100%", borderBottomColor: "#5F5F5F" }}
+      containerStyle={{ width: "100%", borderBottomColor: "#282828" }}
       placement="left"
     />
   );
