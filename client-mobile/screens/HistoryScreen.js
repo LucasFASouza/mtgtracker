@@ -1,8 +1,9 @@
 import React from "react";
 
 import { View } from "react-native";
-import { Text, Button } from "@rneui/themed";
-import { Ionicons } from "@expo/vector-icons";
+import { Text, Icon } from "@rneui/themed";
+
+import Match from "../components/Match";
 
 export default function HistoryScreen() {
   return (
@@ -20,7 +21,33 @@ export default function HistoryScreen() {
         <Text style={{ fontSize: 22, fontWeight: "bold", color: "white" }}>
           Match History
         </Text>
-        <Ionicons name="filter" size={24} color='white' />
+
+        <Icon name="filter" size={24} color="white" type="ionicon" />
+      </View>
+
+      <Text
+        style={{
+          color: "#5F5F5F",
+          fontSize: 16,
+          fontWeight: "bold",
+          marginHorizontal: 16,
+          marginTop: 12,
+        }}
+      >
+        Today
+      </Text>
+      <View
+        style={{
+          marginHorizontal: 16,
+          marginVertical: 12,
+          borderColor: "#5F5F5F",
+          borderTopWidth: 1,
+        }}
+      >
+        <Match />
+        <Match />
+        <Match />
+        <Match />
       </View>
     </View>
   );

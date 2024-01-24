@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { Ionicons } from "@expo/vector-icons";
+import { Icon } from "@rneui/themed";
 
 import { AuthContext } from "./services/AuthContext";
 
@@ -111,7 +111,7 @@ export default function App() {
                 name="Match History"
                 options={{
                   tabBarIcon: ({ color }) => (
-                    <Ionicons name="list" size={24} color={color} />
+                    <Icon type="ionicon" name="list" size={24} color={color} />
                   ),
                 }}
                 component={HistoryScreen}
@@ -120,7 +120,12 @@ export default function App() {
                 name="Add Match"
                 options={{
                   tabBarIcon: ({ color }) => (
-                    <Ionicons name="add-circle" size={24} color={color} />
+                    <Icon
+                      type="ionicon"
+                      name="add-circle"
+                      size={24}
+                      color={color}
+                    />
                   ),
                 }}
                 component={AddGameScreen}
@@ -129,7 +134,12 @@ export default function App() {
                 name="Analytics"
                 options={{
                   tabBarIcon: ({ color }) => (
-                    <Ionicons name="analytics" size={24} color={color} />
+                    <Icon
+                      type="ionicon"
+                      name="analytics"
+                      size={24}
+                      color={color}
+                    />
                   ),
                 }}
                 component={AnalyticsScreen}

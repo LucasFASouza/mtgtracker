@@ -1,8 +1,7 @@
 import React from "react";
 
 import { View } from "react-native";
-import { Text, Button } from "@rneui/themed";
-import { Ionicons } from "@expo/vector-icons";
+import { Text, Button, Icon } from "@rneui/themed";
 
 export default function AnalyticsScreen() {
   return (
@@ -20,7 +19,8 @@ export default function AnalyticsScreen() {
         <Text style={{ fontSize: 22, fontWeight: "bold", color: "white" }}>
           Analytics
         </Text>
-        <Ionicons name="filter" size={24} color="white" />
+
+        <Icon name="filter" size={24} color="white" type="ionicon" />
       </View>
     </View>
   );
