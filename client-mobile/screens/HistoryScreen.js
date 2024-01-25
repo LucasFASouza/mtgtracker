@@ -322,6 +322,12 @@ export default function HistoryScreen() {
   function separateByDate(data) {
     const separatedList = [];
 
+    data.sort((a, b) => {
+      const dateA = new Date(a.created_at);
+      const dateB = new Date(b.created_at);
+      return dateB - dateA;
+    });
+
     data.forEach((item) => {
       const createdAt = new Date(item.created_at).toLocaleDateString();
       const existingDate = separatedList.find(
