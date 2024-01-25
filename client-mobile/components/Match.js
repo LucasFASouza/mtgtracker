@@ -3,53 +3,6 @@ import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Text, Icon } from "@rneui/themed";
 
-MOCK_DATA = {
-  id: 7,
-  tags: [
-    {
-      id: 2,
-      tag: "Insomnia",
-      user: 1,
-    },
-  ],
-  your_deck: {
-    id: 1,
-    deck_name: "Mono U Terror",
-    user: 1,
-  },
-  opp_deck: {
-    id: 2,
-    deck_name: "Kuldotha Burn",
-    user: 1,
-  },
-  notes: "test 1",
-  created_at: "2023-12-06T19:52:26.790161Z",
-  matches: [
-    {
-      id: 4,
-      result: "W",
-      mulligans: 0,
-      started_play: false,
-      is_first_match: true,
-    },
-    {
-      id: 5,
-      result: "D",
-      mulligans: 1,
-      started_play: false,
-      is_first_match: false,
-    },
-    {
-      id: 6,
-      result: "W",
-      mulligans: 0,
-      started_play: true,
-      is_first_match: false,
-    },
-  ],
-  user: 1,
-};
-
 const Match = (matchData) => {
   const [result, setResult] = React.useState("");
   const [color, setColor] = React.useState("");
@@ -150,7 +103,8 @@ const Match = (matchData) => {
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            marginTop: 12,
+            marginTop: 6,
+            marginHorizontal: 12,
           }}
         >
           <View
@@ -269,7 +223,7 @@ const Match = (matchData) => {
                 <Icon
                   type="ionicon"
                   name="create-outline"
-                  size={48}
+                  size={42}
                   color="#5F5F5F"
                 />
               </TouchableOpacity>
@@ -281,7 +235,7 @@ const Match = (matchData) => {
                 <Icon
                   type="ionicon"
                   name="trash-outline"
-                  size={48}
+                  size={42}
                   color="#5F5F5F"
                 />
               </TouchableOpacity>

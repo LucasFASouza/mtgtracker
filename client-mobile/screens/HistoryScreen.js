@@ -1,11 +1,13 @@
 import React from "react";
 
-import { ScrollView, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import { Text, Icon } from "@rneui/themed";
 
+import Button from "../components/Button";
 import MatchesGroup from "../components/MatchesGroup";
+import Select from "../components/Select";
 
-DATA_MOCK = [
+const DATA_MOCK = [
   {
     id: 7,
     tags: [
@@ -276,6 +278,21 @@ DATA_MOCK = [
     id: 14,
     tags: [
       {
+        id: 45456,
+        tag: "MTGO",
+        user: 1,
+      },
+      {
+        id: 4567,
+        tag: "V.1.2",
+        user: 1,
+      },
+      {
+        id: 354,
+        tag: "Fuguete League",
+        user: 41,
+      },
+      {
         id: 3,
         tag: "Insomnia PUT",
         user: 1,
@@ -321,8 +338,11 @@ DATA_MOCK = [
   },
 ];
 
+const DECKS_MOCK = ['Mono U Terror', 'Kuldotha Burn', 'BG Gardens', 'CAW Gates', 'Toxic Groselha', 'Hot Cats', 'Dimir Terror'];
+
 export default function HistoryScreen() {
   const [separetedList, setSeparetedList] = React.useState([]);
+  const [toggle, setToggle] = React.useState(false);
 
   function separateByDate(data) {
     const separatedList = [];
@@ -353,26 +373,47 @@ export default function HistoryScreen() {
   }
 
   React.useEffect(() => {
-    setSeparetedList(separateByDate(DATA_MOCK));
+    setSeparetedList(separateByDate(DATA_MOCK));9
   }, []);
 
   return (
     <ScrollView style={{ backgroundColor: "#282828" }}>
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingVertical: 12,
-          paddingHorizontal: 16,
           borderColor: "#5F5F5F",
           borderBottomWidth: 1,
+          backgroundColor: "#282828",
         }}
       >
-        <Text style={{ fontSize: 22, fontWeight: "bold", color: "white" }}>
-          Match History
-        </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingVertical: 12,
+            paddingHorizontal: 16,
+          }}
+        >
+          <Text style={{ fontSize: 22, fontWeight: "bold", color: "white" }}>
+            Match History
+          </Text>
 
-        <Icon name="filter" size={24} color="white" type="ionicon" />
+          <TouchableOpacity onPress={() => setToggle(!toggle)}>
+            <Icon name="filter" size={24} color="white" type="ionicon" />
+          </TouchableOpacity>
+        </View>
+
+        {toggle && (
+          <View
+            style={{
+              padding: 16,
+            }}
+          >
+            <Select
+              data={DECKS_MOCK}
+            />
+            <Button title="Filter" />
+          </View>
+        )}
       </View>
 
       {separetedList.map((group) => (
