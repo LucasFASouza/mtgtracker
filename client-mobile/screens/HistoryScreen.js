@@ -63,7 +63,7 @@ DATA_MOCK = [
     user: 1,
   },
   {
-    id: 8,
+    id: 88,
     tags: [],
     your_deck: {
       id: 1,
@@ -291,7 +291,8 @@ DATA_MOCK = [
       deck_name: "Dimir Terror",
       user: 1,
     },
-    notes: "test 3",
+    notes:
+      "Sideboarded 3 Sheodreds before the judge catched me, so overall a good day.",
     created_at: "2024-01-24T20:40:51.488988Z",
     matches: [
       {

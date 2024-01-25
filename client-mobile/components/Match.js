@@ -146,17 +146,68 @@ const Match = (matchData) => {
       </TouchableOpacity>
 
       {status === "open" && (
-        <View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 12,
+          }}
+        >
           <View
             style={{
-              flexDirection: "row",
-              marginTop: 16,
-              justifyContent: "space-between",
+              width: "80%",
             }}
           >
             <View
               style={{
-                width: "38%",
+                marginTop: 16,
+              }}
+            >
+              <Text
+                style={{
+                  color: "#5F5F5F",
+                  fontWeight: "bold",
+                }}
+              >
+                PLAY/DRAW
+              </Text>
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 18,
+                }}
+              >
+                {match.matches[0].started_play ? "Play" : "Draw"}
+              </Text>
+            </View>
+
+            {match.notes && match.notes.length > 0 && (
+              <View
+                style={{
+                  marginTop: 16,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#5F5F5F",
+                    fontWeight: "bold",
+                  }}
+                >
+                  NOTES
+                </Text>
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  {match.notes}
+                </Text>
+              </View>
+            )}
+
+            <View
+              style={{
+                marginTop: 16,
               }}
             >
               <Text
@@ -185,81 +236,57 @@ const Match = (matchData) => {
                       fontSize: 14,
                       margin: 2,
                     }}
+                    key={tag.id}
                   >
                     {tag.tag}
                   </Text>
                 ))}
               </View>
             </View>
+          </View>
+
+          <View
+            style={{
+              marginTop: 16,
+              alignContent: "flex-end",
+            }}
+          >
+            <Text
+              style={{
+                color: "#5F5F5F",
+                fontWeight: "bold",
+              }}
+            >
+              ACTIONS
+            </Text>
 
             <View>
-              <Text
+              <TouchableOpacity
                 style={{
-                  color: "#5F5F5F",
-                  fontWeight: "bold",
+                  marginVertical: 12,
                 }}
               >
-                PLAY/DRAW
-              </Text>
-              <Text
+                <Icon
+                  type="ionicon"
+                  name="create-outline"
+                  size={48}
+                  color="#5F5F5F"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={{
-                  color: "white",
-                  fontSize: 18,
+                  marginVertical: 12,
                 }}
               >
-                {match.matches[0].started_play ? "Play" : "Draw"}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                alignContent: "flex-end",
-              }}
-            >
-              <Text
-                style={{
-                  color: "#5F5F5F",
-                  fontWeight: "bold",
-                }}
-              >
-                ACTIONS
-              </Text>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Icon type="ionicon" name="create" size={32} color="#5F5F5F" />
-                <Icon type="ionicon" name="trash" size={32} color="#5F5F5F" />
-              </View>
+                <Icon
+                  type="ionicon"
+                  name="trash-outline"
+                  size={48}
+                  color="#5F5F5F"
+                />
+              </TouchableOpacity>
             </View>
           </View>
-                
-          {match.notes && match.notes.length > 0 && (
-            <View
-              style={{
-                marginTop: 16,
-              }}
-            >
-              <Text
-                style={{
-                  color: "#5F5F5F",
-                  fontWeight: "bold",
-                }}
-              >
-                NOTES
-              </Text>
-              <Text
-                style={{
-                  color: "white",
-                }}
-              >
-                {match.notes}
-              </Text>
-            </View>
-          )}
         </View>
       )}
     </View>
