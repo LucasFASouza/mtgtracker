@@ -14,6 +14,16 @@ DATA_MOCK = [
         tag: "Insomnia",
         user: 1,
       },
+      {
+        id: 896,
+        tag: "MTGO",
+        user: 1,
+      },
+      {
+        id: 78,
+        tag: "Fuguete League",
+        user: 1,
+      },
     ],
     your_deck: {
       id: 1,
@@ -54,13 +64,7 @@ DATA_MOCK = [
   },
   {
     id: 8,
-    tags: [
-      {
-        id: 2,
-        tag: "Insomnia",
-        user: 1,
-      },
-    ],
+    tags: [],
     your_deck: {
       id: 1,
       deck_name: "Mono U Terror",
@@ -71,7 +75,7 @@ DATA_MOCK = [
       deck_name: "Kuldotha Burn",
       user: 1,
     },
-    notes: "test 2",
+    notes: "",
     created_at: "2023-12-05T19:52:34.442057Z",
     matches: [
       {

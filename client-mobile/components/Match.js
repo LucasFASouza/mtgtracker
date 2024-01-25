@@ -1,7 +1,7 @@
 import React from "react";
 
-import { View } from "react-native";
-import { Text, Badge, Icon } from "@rneui/themed";
+import { View, TouchableOpacity } from "react-native";
+import { Text, Icon } from "@rneui/themed";
 
 MOCK_DATA = {
   id: 7,
@@ -53,6 +53,9 @@ MOCK_DATA = {
 const Match = (matchData) => {
   const [result, setResult] = React.useState("");
   const [color, setColor] = React.useState("");
+
+  const [status, setStatus] = React.useState("closed");
+
   const match = matchData.match;
 
   React.useEffect(() => {
@@ -74,53 +77,191 @@ const Match = (matchData) => {
     setColor(wins > losses ? "#50FAA8" : wins < losses ? "#FA5075" : "#5F5F5F");
   }, []);
 
+  function toggleMatch() {
+    if (status == "closed") {
+      setStatus("open");
+    } else {
+      setStatus("closed");
+    }
+  }
+
   return (
     <View
       style={{
-        flexDirection: "row",
-        alignItems: "center",
         paddingVertical: 12,
         borderColor: "#5F5F5F",
         borderBottomWidth: 1,
+        borderTopWidth: 1,
       }}
     >
-      <View style={{ width: "8%" }}>
-        <Icon type="ionicon" name="ellipse" size={8} color={color} />
-      </View>
-      <Text
+      <TouchableOpacity
         style={{
-          color: "white",
-          width: "32%",
-          fontWeight: "bold",
-          textAlign: "center",
+          flexDirection: "row",
+          alignItems: "center",
         }}
+        onPress={toggleMatch}
       >
-        {match.your_deck.deck_name}
-      </Text>
-      <Text
-        style={{
-          color: "white",
-          width: "20%",
-          fontWeight: "bold",
-          fontSize: 22,
-          textAlign: "center",
-        }}
-      >
-        {result}
-      </Text>
-      <Text
-        style={{
-          color: "white",
-          width: "32%",
-          fontWeight: "bold",
-          textAlign: "center",
-        }}
-      >
-        {match.opp_deck.deck_name}
-      </Text>
-      <View style={{ width: "8%" }}>
-        <Icon type="ionicon" name="chevron-down" size={18} color="#5F5F5F" />
-      </View>
+        <View style={{ width: "8%" }}>
+          <Icon type="ionicon" name="ellipse" size={8} color={color} />
+        </View>
+        <Text
+          style={{
+            color: "white",
+            width: "32%",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          {match.your_deck.deck_name}
+        </Text>
+        <Text
+          style={{
+            color: "white",
+            width: "20%",
+            fontWeight: "bold",
+            fontSize: 22,
+            textAlign: "center",
+          }}
+        >
+          {result}
+        </Text>
+        <Text
+          style={{
+            color: "white",
+            width: "32%",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          {match.opp_deck.deck_name}
+        </Text>
+        <View style={{ width: "8%" }}>
+          <Icon
+            type="ionicon"
+            name={status == "closed" ? "chevron-down" : "chevron-up"}
+            size={18}
+            color="#5F5F5F"
+          />
+        </View>
+      </TouchableOpacity>
+
+      {status === "open" && (
+        <View>
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 16,
+              justifyContent: "space-between",
+            }}
+          >
+            <View
+              style={{
+                width: "38%",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#5F5F5F",
+                  fontWeight: "bold",
+                }}
+              >
+                TAGS
+              </Text>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                }}
+              >
+                {match.tags.map((tag) => (
+                  <Text
+                    style={{
+                      color: "white",
+                      backgroundColor: "#5F5F5F",
+                      paddingVertical: 2,
+                      paddingHorizontal: 6,
+                      borderRadius: 4,
+                      fontSize: 14,
+                      margin: 2,
+                    }}
+                  >
+                    {tag.tag}
+                  </Text>
+                ))}
+              </View>
+            </View>
+
+            <View>
+              <Text
+                style={{
+                  color: "#5F5F5F",
+                  fontWeight: "bold",
+                }}
+              >
+                PLAY/DRAW
+              </Text>
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 18,
+                }}
+              >
+                {match.matches[0].started_play ? "Play" : "Draw"}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                alignContent: "flex-end",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#5F5F5F",
+                  fontWeight: "bold",
+                }}
+              >
+                ACTIONS
+              </Text>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Icon type="ionicon" name="create" size={32} color="#5F5F5F" />
+                <Icon type="ionicon" name="trash" size={32} color="#5F5F5F" />
+              </View>
+            </View>
+          </View>
+                
+          {match.notes && match.notes.length > 0 && (
+            <View
+              style={{
+                marginTop: 16,
+              }}
+            >
+              <Text
+                style={{
+                  color: "#5F5F5F",
+                  fontWeight: "bold",
+                }}
+              >
+                NOTES
+              </Text>
+              <Text
+                style={{
+                  color: "white",
+                }}
+              >
+                {match.notes}
+              </Text>
+            </View>
+          )}
+        </View>
+      )}
     </View>
   );
 };

@@ -62,6 +62,7 @@ const MatchesGroup = (matches) => {
           marginVertical: 12,
           borderColor: "#5F5F5F",
           borderTopWidth: 1,
+          borderBottomWidth: 1,
         }}
       >
         {matchesList.map((match) => {
