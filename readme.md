@@ -4,13 +4,12 @@
 
 MTGTracker is a mobile application designed for competitive Magic: The Gathering (MTG) players to keep track of their matches, maintain a detailed history, and analyze performance statistics. The app aims to provide valuable insights, such as win rates, mulligan frequencies, and information on decks that pose challenges, empowering players to make informed decisions and improve their skills.
 
-
 ## Features
 
-* **Match Logging:** Record details of each MTG match, including decks played and outcomes.
-* **Historical Data:** View and analyze a comprehensive history of past matches to identify patterns and trends.
-* **Performance Metrics:** Gain insights into win rates, average mulligans, and other performance indicators.
-* **Deck Analysis:** Identify specific decks that present challenges or are consistently defeated.
+- **Match Logging:** Record details of each MTG match, including decks played and outcomes.
+- **Historical Data:** View and analyze a comprehensive history of past matches to identify patterns and trends.
+- **Performance Metrics:** Gain insights into win rates, average mulligans, and other performance indicators.
+- **Deck Analysis:** Identify specific decks that present challenges or are consistently defeated.
 
 ## Technology Stack
 
@@ -33,3 +32,5 @@ This project is licensed under the [MIT License]().
 Thank you for using MTGTracker! Your feedback and contributions are highly appreciated. If you encounter any issues or have suggestions, please open an issue or submit a pull request. Happy tracking!
 
 **Disclaimer:** Magic: The Gathering is a trademark of Wizards of the Coast LLC, a subsidiary of Hasbro, Inc. MTGTracker is not affiliated with or endorsed by Wizards of the Coast.
+
+![icon](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/Lucas/mtgtracker/client-mobile/assets/icon-test.png)
