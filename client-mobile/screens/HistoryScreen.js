@@ -17,7 +17,7 @@ export default function HistoryScreen() {
   const [yourDecks, setYourDecks] = React.useState([]);
   const [oppDecks, setOppDecks] = React.useState([]);
 
-  const getMatches = async () => {
+  async function getMatches() {
     let userToken;
 
     try {
@@ -60,7 +60,7 @@ export default function HistoryScreen() {
     });
 
     return separatedList;
-  }
+  };
 
   function getTags(data) {
     let tags = [];
@@ -76,8 +76,7 @@ export default function HistoryScreen() {
     });
 
     setTags(tags);
-    console.log(tags)
-  }
+  };
 
   function getDecks(data) {
     let yourDecks = [];
@@ -109,14 +108,20 @@ export default function HistoryScreen() {
     });
 
     setOppDecks(oppDecks);
-  }
+  };
 
   React.useEffect(() => {
-    getMatches();
+    const fetchdata = async () => {
+      await getMatches();
+    };
+    fetchdata().catch(() => console.log("e"));
+  }, []);
+
+  React.useEffect(() => {
     setSeparetedList(matchesByDate(matches));
     getTags(matches);
     getDecks(matches);
-  }, []);
+  }, [matches]);
 
   return (
     <ScrollView style={{ backgroundColor: "#282828" }}>
