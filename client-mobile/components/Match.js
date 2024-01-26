@@ -90,7 +90,7 @@ const Match = (matchData) => {
           <View style={styles.actionsContainer}>
             <Text style={styles.itemLabel}>ACTIONS</Text>
 
-            <View style={styles.actionsWrapper}>
+            <View>
               <TouchableOpacity style={styles.actionButton}>
                 <Icon
                   type="ionicon"
@@ -183,9 +183,6 @@ const styles = StyleSheet.create({
   actionsContainer: {
     marginTop: 16,
     alignContent: "flex-end",
-  },
-  actionsWrapper: {
-    flexDirection: "row",
   },
   actionButton: {
     marginVertical: 12,

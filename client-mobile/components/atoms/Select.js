@@ -1,29 +1,31 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { Text } from "@rneui/themed";
 import { MultiSelect } from "react-native-element-dropdown";
 
 const Select = ({...props}) => {
   const [selected, setSelected] = useState([]);
 
   return (
-    <View>
+    <View style={styles.container}>
       <MultiSelect
+        containerStyle={styles.containerStyle}
         style={styles.dropdown}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
-        itemContainerStyle={styles.itemContainerStyle}
+        selectedStyle={styles.selectedStyle}
+        itemTextStyle={styles.itemTextStyle}
+        activeColor="#5F5F5F"
         search
         labelField="label"
         valueField="value"
-        placeholder="Your deck"
         searchPlaceholder="Search..."
         value={selected}
         onChange={(item) => {
           setSelected(item);
         }}
-        selectedStyle={styles.selectedStyle}
         {...props}
       />
     </View>
@@ -33,18 +35,20 @@ const Select = ({...props}) => {
 export default Select;
 
 const styles = StyleSheet.create({
+  container: {
+    marginVertical: 8,
+  },
   dropdown: {
-    height: 50,
+    height: 40,
     backgroundColor: "#333",
     borderBottomColor: "#5F5F5F",
-    borderBottomWidth: 0.5,
-    borderTopEndRadius: 8,
-    borderTopStartRadius: 8,
+    borderRadius: 8,
   },
   placeholderStyle: {
     fontSize: 16,
+    fontWeight: "bold",
     color: "white",
-    paddingLeft: 8,
+    paddingLeft: 12,
   },
   selectedTextStyle: {
     fontSize: 14,
@@ -56,7 +60,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#333",
     borderColor: "#5F5F5F",
     borderRadius: 8,
-    borderWidth: 0.5,
+    borderEndWidth: 1,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
   },
   icon: {
     marginRight: 5,
@@ -71,6 +77,16 @@ const styles = StyleSheet.create({
     color: "white",
   },
   selectedStyle: {
-    backgroundColor: "#5F5F5F",
+    backgroundColor: "#333",
+    borderRadius: 8,
+    borderWidth: 0,
   },
+  containerStyle: {
+    backgroundColor: "#333",
+    borderWidth: 0,
+    borderRadius: 8,
+  },
+  itemTextStyle: {
+    color: "white"
+  }
 });

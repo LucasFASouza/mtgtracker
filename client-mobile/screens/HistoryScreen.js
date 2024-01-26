@@ -294,7 +294,7 @@ const DATA_MOCK = [
       },
       {
         id: 3,
-        tag: "Insomnia PUT",
+        tag: "Pauper",
         user: 1,
       },
     ],
@@ -339,13 +339,21 @@ const DATA_MOCK = [
 ];
 
 const DECKS_MOCK = [
-  {label: "Mono U Terror", value: 'Mono U Terror'},
-  {label: "Kuldotha Burn", value: 'Kuldotha Burn'},
-  {label: "BG Gardens", value: 'BG Gardens'},
-  {label: "CAW Gates", value: 'CAW Gates'},
-  {label: "Toxic Groselha", value: 'Toxic Groselha'},
-  {label: "Hot Cats", value: 'Hot Cats'},
-  {label: "Dimir Terror", value: 'Dimir Terror'},
+  { label: "Mono U Terror", value: "Mono U Terror" },
+  { label: "Kuldotha Burn", value: "Kuldotha Burn" },
+  { label: "BG Gardens", value: "BG Gardens" },
+  { label: "CAW Gates", value: "CAW Gates" },
+  { label: "Toxic Groselha", value: "Toxic Groselha" },
+  { label: "Hot Cats", value: "Hot Cats" },
+  { label: "Dimir Terror", value: "Dimir Terror" },
+];
+
+const TAGS_MOCK = [
+  { label: "Insomnia", value: "Insomnia" },
+  { label: "MTGO", value: "MTGO" },
+  { label: "Fuguete League", value: "Fuguete League" },
+  { label: "V.1.2", value: "V.1.2" },
+  { label: "Insomnia PUT", value: "Insomnia PUT" },
 ];
 
 export default function HistoryScreen() {
@@ -381,7 +389,8 @@ export default function HistoryScreen() {
   }
 
   React.useEffect(() => {
-    setSeparetedList(separateByDate(DATA_MOCK));9
+    setSeparetedList(separateByDate(DATA_MOCK));
+    9;
   }, []);
 
   return (
@@ -413,13 +422,29 @@ export default function HistoryScreen() {
         {toggle && (
           <View
             style={{
-              padding: 16,
+              paddingHorizontal: 22,
+              paddingBottom: 12,
             }}
           >
-            <Select
-              data={DECKS_MOCK}
-            />
-            <Button title="Filter" />
+            <Select placeholder="Your Deck" data={DECKS_MOCK} />
+            <Select placeholder="Opponent's Deck" data={DECKS_MOCK} />
+            <Select placeholder="Tags" data={TAGS_MOCK} />
+            <View style={{ width: "100%", alignItems: "flex-end" }}>
+              <Button
+                title="Filter"
+                buttonStyle={{
+                  width: 120,
+                  height: 40,
+                  borderRadius: 8,
+                  marginVertical: 10,
+                }}
+                titleStyle={{
+                  color: "white",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              />
+            </View>
           </View>
         )}
       </View>

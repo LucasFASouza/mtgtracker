@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
   dateText: {
     color: "#5F5F5F",
     fontSize: 16,
-    fontWeight: "bold",
   },
   matchesContainer: {
     marginVertical: 12,
