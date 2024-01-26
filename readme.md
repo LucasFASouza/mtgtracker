@@ -33,4 +33,4 @@ Thank you for using MTGTracker! Your feedback and contributions are highly appre
 
 **Disclaimer:** Magic: The Gathering is a trademark of Wizards of the Coast LLC, a subsidiary of Hasbro, Inc. MTGTracker is not affiliated with or endorsed by Wizards of the Coast.
 
-![icon](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/Lucas/mtgtracker/client-mobile/assets/icon-test.png)
+![icon](https://github.com/LucasFASouza/mtgtracker/blob/main/client-mobile/assets/icon-test.png?raw=true)
