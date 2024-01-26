@@ -1,8 +1,6 @@
 import React from "react";
-
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Text } from "@rneui/themed";
-
 import Match from "./Match";
 
 const MatchesGroup = (matches) => {
@@ -39,32 +37,12 @@ const MatchesGroup = (matches) => {
 
   React.useEffect(() => {
     setDate(getDate());
-  } , []);
+  }, []);
 
   return (
-    <View
-      style={{
-        marginHorizontal: 16,
-        marginTop: 12,
-      }}
-    >
-      <Text
-        style={{
-          color: "#5F5F5F",
-          fontSize: 16,
-          fontWeight: "bold",
-        }}
-      >
-        {date}
-      </Text>
-      <View
-        style={{
-          marginVertical: 12,
-          borderColor: "#5F5F5F",
-          borderTopWidth: 1,
-          borderBottomWidth: 1,
-        }}
-      >
+    <View style={styles.container}>
+      <Text style={styles.dateText}>{date}</Text>
+      <View style={styles.matchesContainer}>
         {matchesList.map((match) => {
           return <Match key={match.id} match={match} />;
         })}
@@ -72,5 +50,23 @@ const MatchesGroup = (matches) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 16,
+    marginTop: 12,
+  },
+  dateText: {
+    color: "#5F5F5F",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  matchesContainer: {
+    marginVertical: 12,
+    borderColor: "#5F5F5F",
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+  },
+});
 
 export default MatchesGroup;

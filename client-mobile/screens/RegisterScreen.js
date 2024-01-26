@@ -4,8 +4,8 @@ import { AuthContext } from "../services/AuthContext";
 import { View, Image } from "react-native";
 import { Text } from "@rneui/themed";
 
-import Input from "../components/Input";
-import Button from "../components/Button";
+import Input from "../components/atoms/Input";
+import Button from "../components/atoms/Button";
 
 
 export default function RegisterScreen({ navigation }) {

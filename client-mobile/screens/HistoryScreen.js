@@ -3,9 +3,9 @@ import React from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import { Text, Icon } from "@rneui/themed";
 
-import Button from "../components/Button";
+import Button from "../components/atoms/Button";
 import MatchesGroup from "../components/MatchesGroup";
-import Select from "../components/Select";
+import Select from "../components/atoms/Select";
 
 const DATA_MOCK = [
   {
@@ -338,7 +338,15 @@ const DATA_MOCK = [
   },
 ];
 
-const DECKS_MOCK = ['Mono U Terror', 'Kuldotha Burn', 'BG Gardens', 'CAW Gates', 'Toxic Groselha', 'Hot Cats', 'Dimir Terror'];
+const DECKS_MOCK = [
+  {label: "Mono U Terror", value: 'Mono U Terror'},
+  {label: "Kuldotha Burn", value: 'Kuldotha Burn'},
+  {label: "BG Gardens", value: 'BG Gardens'},
+  {label: "CAW Gates", value: 'CAW Gates'},
+  {label: "Toxic Groselha", value: 'Toxic Groselha'},
+  {label: "Hot Cats", value: 'Hot Cats'},
+  {label: "Dimir Terror", value: 'Dimir Terror'},
+];
 
 export default function HistoryScreen() {
   const [separetedList, setSeparetedList] = React.useState([]);
