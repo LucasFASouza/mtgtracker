@@ -7,37 +7,21 @@ import Button from "../components/atoms/Button";
 import MatchesGroup from "../components/MatchesGroup";
 import Select from "../components/atoms/Select";
 
-const DECKS_MOCK = [
-  { label: "Mono U Terror", value: "Mono U Terror" },
-  { label: "Kuldotha Burn", value: "Kuldotha Burn" },
-  { label: "BG Gardens", value: "BG Gardens" },
-  { label: "CAW Gates", value: "CAW Gates" },
-  { label: "Toxic Groselha", value: "Toxic Groselha" },
-  { label: "Hot Cats", value: "Hot Cats" },
-  { label: "Dimir Terror", value: "Dimir Terror" },
-];
-
-const TAGS_MOCK = [
-  { label: "Insomnia", value: "Insomnia" },
-  { label: "MTGO", value: "MTGO" },
-  { label: "Fuguete League", value: "Fuguete League" },
-  { label: "V.1.2", value: "V.1.2" },
-  { label: "Insomnia PUT", value: "Insomnia PUT" },
-];
-
 export default function HistoryScreen() {
-  const [separetedList, setSeparetedList] = React.useState([]);
-  const [matches, setMatches] = React.useState([]);
   const [toggle, setToggle] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
+
+  const [matches, setMatches] = React.useState([]);
+  const [separetedList, setSeparetedList] = React.useState([]);
+  const [tags, setTags] = React.useState([]);
+  const [yourDecks, setYourDecks] = React.useState([]);
+  const [oppDecks, setOppDecks] = React.useState([]);
 
   const getMatches = async () => {
     let userToken;
 
     try {
       userToken = "ddfb13f5887055f30c578c898d6863f44dba845f";
-      console.log("Getting matches");
-
       const response = await fetch("https://mtgtracker-api.fly.dev/api/games", {
         headers: { Authorization: `Token ${userToken}` },
       });
@@ -45,13 +29,12 @@ export default function HistoryScreen() {
       const data = await response.json();
       setIsLoading(false);
       setMatches(data);
-      console.log("Got it");
     } catch (e) {
       console.log(e);
     }
   };
 
-  function separateByDate(data) {
+  function matchesByDate(data) {
     const separatedList = [];
 
     data.sort((a, b) => {
@@ -79,9 +62,60 @@ export default function HistoryScreen() {
     return separatedList;
   }
 
+  function getTags(data) {
+    let tags = [];
+    let tags_added = [];
+
+    data.forEach((match) => {
+      match.tags.forEach((tag) => {
+        if (!tags_added.includes(tag.tag)) {
+          tags.push({ label: tag.tag, value: tag.tag });
+          tags_added.push(tag.tag);
+        }
+      });
+    });
+
+    setTags(tags);
+    console.log(tags)
+  }
+
+  function getDecks(data) {
+    let yourDecks = [];
+    let yourDecksNames = [];
+
+    data.forEach((match) => {
+      if (!yourDecksNames.includes(match.your_deck.deck_name)) {
+        yourDecks.push({
+          label: match.your_deck.deck_name,
+          value: match.your_deck.deck_name,
+        });
+        yourDecksNames.push(match.your_deck.deck_name);
+      }
+    });
+
+    setYourDecks(yourDecks);
+
+    let oppDecks = [];
+    let oppDecksNames = [];
+
+    data.forEach((match) => {
+      if (!oppDecksNames.includes(match.opp_deck.deck_name)) {
+        oppDecks.push({
+          label: match.opp_deck.deck_name,
+          value: match.opp_deck.deck_name,
+        });
+        oppDecksNames.push(match.opp_deck.deck_name);
+      }
+    });
+
+    setOppDecks(oppDecks);
+  }
+
   React.useEffect(() => {
     getMatches();
-    setSeparetedList(separateByDate(matches));
+    setSeparetedList(matchesByDate(matches));
+    getTags(matches);
+    getDecks(matches);
   }, []);
 
   return (
@@ -117,9 +151,9 @@ export default function HistoryScreen() {
               paddingBottom: 12,
             }}
           >
-            <Select placeholder="Your Deck" data={DECKS_MOCK} />
-            <Select placeholder="Opponent's Deck" data={DECKS_MOCK} />
-            <Select placeholder="Tags" data={TAGS_MOCK} />
+            <Select placeholder="Your Deck" data={yourDecks} />
+            <Select placeholder="Opponent's Deck" data={oppDecks} />
+            <Select placeholder="Tags" data={tags} />
             <View style={{ width: "100%", alignItems: "flex-end" }}>
               <Button
                 title="Filter"

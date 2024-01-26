@@ -69,8 +69,6 @@ export default function App() {
     () => ({
       login: async (data) => {
         // Login via API
-        console.log(data);
-
         dispatch({
           type: "LOGIN",
           token: "ddfb13f5887055f30c578c898d6863f44dba845f",
@@ -79,8 +77,6 @@ export default function App() {
       logout: () => dispatch({ type: "LOGOUT" }),
       register: async (data) => {
         // Register via API
-        console.log(data);
-
         dispatch({
           type: "LOGIN",
           token: "ddfb13f5887055f30c578c898d6863f44dba845f",
