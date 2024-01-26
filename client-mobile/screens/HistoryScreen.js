@@ -12,10 +12,14 @@ export default function HistoryScreen() {
   const [isLoading, setIsLoading] = React.useState(true);
 
   const [matches, setMatches] = React.useState([]);
-  const [separetedList, setSeparetedList] = React.useState([]);
+  const [datedMatches, setDatedMatches] = React.useState([]);
   const [tags, setTags] = React.useState([]);
   const [yourDecks, setYourDecks] = React.useState([]);
   const [oppDecks, setOppDecks] = React.useState([]);
+
+  const [tagsSelected, setTagsSelected] = React.useState([]);
+  const [yourDecksSelected, setYourDecksSelected] = React.useState([]);
+  const [oppDecksSelected, setOppDecksSelected] = React.useState([]);
 
   async function getMatches() {
     let userToken;
@@ -32,7 +36,7 @@ export default function HistoryScreen() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }
 
   function matchesByDate(data) {
     const separatedList = [];
@@ -60,7 +64,7 @@ export default function HistoryScreen() {
     });
 
     return separatedList;
-  };
+  }
 
   function getTags(data) {
     let tags = [];
@@ -76,7 +80,7 @@ export default function HistoryScreen() {
     });
 
     setTags(tags);
-  };
+  }
 
   function getDecks(data) {
     let yourDecks = [];
@@ -108,7 +112,45 @@ export default function HistoryScreen() {
     });
 
     setOppDecks(oppDecks);
-  };
+  }
+
+  function filterMatches() {
+    const filteredMatches = datedMatches.filter((match) => {
+      if (yourDecksSelected.length > 0) {
+        if (!yourDecksSelected.includes(match.items[0].your_deck.deck_name)) {
+          return false;
+        }
+      }
+
+      if (oppDecksSelected.length > 0) {
+        if (!oppDecksSelected.includes(match.items[0].opp_deck.deck_name)) {
+          return false;
+        }
+      }
+
+      if (tagsSelected.length > 0) {
+        let matchTags = [];
+        match.items.forEach((item) => {
+          item.tags.forEach((tag) => {
+            matchTags.push(tag.tag);
+          });
+        });
+
+        let matchTagsFiltered = matchTags.filter((tag) =>
+          tagsSelected.includes(tag)
+        );
+
+        if (matchTagsFiltered.length === 0) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+
+    console.log(filteredMatches);
+    setDatedMatches(filteredMatches);
+  }
 
   React.useEffect(() => {
     const fetchdata = async () => {
@@ -118,7 +160,7 @@ export default function HistoryScreen() {
   }, []);
 
   React.useEffect(() => {
-    setSeparetedList(matchesByDate(matches));
+    setDatedMatches(matchesByDate(matches));
     getTags(matches);
     getDecks(matches);
   }, [matches]);
@@ -156,12 +198,36 @@ export default function HistoryScreen() {
               paddingBottom: 12,
             }}
           >
-            <Select placeholder="Your Deck" data={yourDecks} />
-            <Select placeholder="Opponent's Deck" data={oppDecks} />
-            <Select placeholder="Tags" data={tags} />
+            <Select
+              placeholder="Your Deck"
+              data={yourDecks}
+              value={yourDecksSelected}
+              onChange={(item) => {
+                setYourDecksSelected(item);
+              }}
+            />
+            <Select
+              placeholder="Opponent's Deck"
+              data={oppDecks}
+              value={oppDecksSelected}
+              onChange={(item) => {
+                setOppDecksSelected(item);
+              }}
+            />
+            <Select
+              placeholder="Tags"
+              data={tags}
+              value={tagsSelected}
+              onChange={(item) => {
+                setTagsSelected(item);
+              }}
+            />
             <View style={{ width: "100%", alignItems: "flex-end" }}>
               <Button
                 title="Filter"
+                onPress={() => {
+                  filterMatches();
+                }}
                 buttonStyle={{
                   width: 120,
                   height: 40,
@@ -207,7 +273,7 @@ export default function HistoryScreen() {
         </View>
       )}
 
-      {separetedList.map((group) => (
+      {datedMatches.map((group) => (
         <MatchesGroup key={group.createdAt} matches={group.items} />
       ))}
     </ScrollView>

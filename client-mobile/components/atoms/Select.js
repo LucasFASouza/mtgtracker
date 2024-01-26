@@ -1,10 +1,7 @@
-import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Text } from "@rneui/themed";
 import { MultiSelect } from "react-native-element-dropdown";
 
 const Select = ({...props}) => {
-  const [selected, setSelected] = useState([]);
 
   return (
     <View style={styles.container}>
@@ -22,10 +19,6 @@ const Select = ({...props}) => {
         labelField="label"
         valueField="value"
         searchPlaceholder="Search..."
-        value={selected}
-        onChange={(item) => {
-          setSelected(item);
-        }}
         {...props}
       />
     </View>
