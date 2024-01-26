@@ -1,342 +1,11 @@
 import React from "react";
 
 import { ScrollView, TouchableOpacity, View } from "react-native";
-import { Text, Icon } from "@rneui/themed";
+import { Text, Icon, Skeleton, LinearGradient } from "@rneui/themed";
 
 import Button from "../components/atoms/Button";
 import MatchesGroup from "../components/MatchesGroup";
 import Select from "../components/atoms/Select";
-
-const DATA_MOCK = [
-  {
-    id: 7,
-    tags: [
-      {
-        id: 2,
-        tag: "Insomnia",
-        user: 1,
-      },
-      {
-        id: 896,
-        tag: "MTGO",
-        user: 1,
-      },
-      {
-        id: 78,
-        tag: "Fuguete League",
-        user: 1,
-      },
-    ],
-    your_deck: {
-      id: 1,
-      deck_name: "Mono U Terror",
-      user: 1,
-    },
-    opp_deck: {
-      id: 2,
-      deck_name: "Kuldotha Burn",
-      user: 1,
-    },
-    notes: "test 1",
-    created_at: "2023-12-05T19:52:26.790161Z",
-    matches: [
-      {
-        id: 4,
-        result: "L",
-        mulligans: 0,
-        started_play: false,
-        is_first_match: true,
-      },
-      {
-        id: 5,
-        result: "D",
-        mulligans: 1,
-        started_play: false,
-        is_first_match: false,
-      },
-      {
-        id: 6,
-        result: "L",
-        mulligans: 0,
-        started_play: true,
-        is_first_match: false,
-      },
-    ],
-    user: 1,
-  },
-  {
-    id: 88,
-    tags: [],
-    your_deck: {
-      id: 1,
-      deck_name: "Mono U Terror",
-      user: 1,
-    },
-    opp_deck: {
-      id: 2,
-      deck_name: "Kuldotha Burn",
-      user: 1,
-    },
-    notes: "",
-    created_at: "2023-12-05T19:52:34.442057Z",
-    matches: [
-      {
-        id: 7,
-        result: "D",
-        mulligans: 0,
-        started_play: false,
-        is_first_match: true,
-      },
-      {
-        id: 8,
-        result: "D",
-        mulligans: 1,
-        started_play: false,
-        is_first_match: false,
-      },
-      {
-        id: 9,
-        result: "L",
-        mulligans: 0,
-        started_play: true,
-        is_first_match: false,
-      },
-    ],
-    user: 1,
-  },
-  {
-    id: 9,
-    tags: [
-      {
-        id: 2,
-        tag: "Insomnia",
-        user: 1,
-      },
-    ],
-    your_deck: {
-      id: 1,
-      deck_name: "Mono U Terror",
-      user: 1,
-    },
-    opp_deck: {
-      id: 3,
-      deck_name: "BG Gardens",
-      user: 1,
-    },
-    notes: "test 3",
-    created_at: "2024-01-23T19:53:03.416702Z",
-    matches: [
-      {
-        id: 10,
-        result: "W",
-        mulligans: 0,
-        started_play: false,
-        is_first_match: true,
-      },
-      {
-        id: 11,
-        result: "W",
-        mulligans: 1,
-        started_play: false,
-        is_first_match: false,
-      },
-    ],
-    user: 1,
-  },
-  {
-    id: 10,
-    tags: [
-      {
-        id: 2,
-        tag: "Insomnia",
-        user: 1,
-      },
-    ],
-    your_deck: {
-      id: 1,
-      deck_name: "Mono U Terror",
-      user: 1,
-    },
-    opp_deck: {
-      id: 4,
-      deck_name: "CAW Gates",
-      user: 1,
-    },
-    notes: "test 3",
-    created_at: "2024-01-23T19:54:23.633210Z",
-    matches: [
-      {
-        id: 12,
-        result: "L",
-        mulligans: 0,
-        started_play: false,
-        is_first_match: true,
-      },
-      {
-        id: 13,
-        result: "W",
-        mulligans: 1,
-        started_play: false,
-        is_first_match: false,
-      },
-    ],
-    user: 1,
-  },
-  {
-    id: 11,
-    tags: [
-      {
-        id: 2,
-        tag: "Insomnia",
-        user: 1,
-      },
-    ],
-    your_deck: {
-      id: 5,
-      deck_name: "Toxic Groselha",
-      user: 1,
-    },
-    opp_deck: {
-      id: 4,
-      deck_name: "CAW Gates",
-      user: 1,
-    },
-    notes: "test 3",
-    created_at: "2024-01-24T19:55:07.531554Z",
-    matches: [
-      {
-        id: 14,
-        result: "W",
-        mulligans: 0,
-        started_play: true,
-        is_first_match: true,
-      },
-      {
-        id: 15,
-        result: "L",
-        mulligans: 1,
-        started_play: false,
-        is_first_match: false,
-      },
-      {
-        id: 16,
-        result: "W",
-        mulligans: 1,
-        started_play: false,
-        is_first_match: false,
-      },
-    ],
-    user: 1,
-  },
-  {
-    id: 12,
-    tags: [
-      {
-        id: 2,
-        tag: "Insomnia",
-        user: 1,
-      },
-    ],
-    your_deck: {
-      id: 5,
-      deck_name: "Toxic Groselha",
-      user: 1,
-    },
-    opp_deck: {
-      id: 4,
-      deck_name: "CAW Gates",
-      user: 1,
-    },
-    notes: "test 3",
-    created_at: "2024-01-24T19:55:08.278600Z",
-    matches: [
-      {
-        id: 17,
-        result: "W",
-        mulligans: 0,
-        started_play: true,
-        is_first_match: true,
-      },
-      {
-        id: 18,
-        result: "L",
-        mulligans: 1,
-        started_play: false,
-        is_first_match: false,
-      },
-      {
-        id: 19,
-        result: "W",
-        mulligans: 1,
-        started_play: false,
-        is_first_match: false,
-      },
-    ],
-    user: 1,
-  },
-  {
-    id: 14,
-    tags: [
-      {
-        id: 45456,
-        tag: "MTGO",
-        user: 1,
-      },
-      {
-        id: 4567,
-        tag: "V.1.2",
-        user: 1,
-      },
-      {
-        id: 354,
-        tag: "Fuguete League",
-        user: 41,
-      },
-      {
-        id: 3,
-        tag: "Pauper",
-        user: 1,
-      },
-    ],
-    your_deck: {
-      id: 8,
-      deck_name: "Hot Cats",
-      user: 1,
-    },
-    opp_deck: {
-      id: 7,
-      deck_name: "Dimir Terror",
-      user: 1,
-    },
-    notes:
-      "Sideboarded 3 Sheodreds before the judge catched me, so overall a good day.",
-    created_at: "2024-01-24T20:40:51.488988Z",
-    matches: [
-      {
-        id: 32,
-        result: "L",
-        mulligans: 0,
-        started_play: true,
-        is_first_match: true,
-      },
-      {
-        id: 33,
-        result: "W",
-        mulligans: 1,
-        started_play: true,
-        is_first_match: false,
-      },
-      {
-        id: 34,
-        result: "L",
-        mulligans: 1,
-        started_play: true,
-        is_first_match: false,
-      },
-    ],
-    user: 1,
-  },
-];
 
 const DECKS_MOCK = [
   { label: "Mono U Terror", value: "Mono U Terror" },
@@ -358,7 +27,29 @@ const TAGS_MOCK = [
 
 export default function HistoryScreen() {
   const [separetedList, setSeparetedList] = React.useState([]);
+  const [matches, setMatches] = React.useState([]);
   const [toggle, setToggle] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  const getMatches = async () => {
+    let userToken;
+
+    try {
+      userToken = "ddfb13f5887055f30c578c898d6863f44dba845f";
+      console.log("Getting matches");
+
+      const response = await fetch("https://mtgtracker-api.fly.dev/api/games", {
+        headers: { Authorization: `Token ${userToken}` },
+      });
+
+      const data = await response.json();
+      setIsLoading(false);
+      setMatches(data);
+      console.log("Got it");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   function separateByDate(data) {
     const separatedList = [];
@@ -389,8 +80,8 @@ export default function HistoryScreen() {
   }
 
   React.useEffect(() => {
-    setSeparetedList(separateByDate(DATA_MOCK));
-    9;
+    getMatches();
+    setSeparetedList(separateByDate(matches));
   }, []);
 
   return (
@@ -448,6 +139,34 @@ export default function HistoryScreen() {
           </View>
         )}
       </View>
+
+      {isLoading && (
+        <View
+          style={{
+            paddingVertical: 20,
+            paddingHorizontal: 16,
+          }}
+        >
+          <Skeleton
+            animation="pulse"
+            width={"100%"}
+            height={60}
+            style={{ marginVertical: 8 }}
+          />
+          <Skeleton
+            animation="pulse"
+            width={"100%"}
+            height={60}
+            style={{ marginVertical: 8 }}
+          />
+          <Skeleton
+            animation="pulse"
+            width={"100%"}
+            height={60}
+            style={{ marginVertical: 8 }}
+          />
+        </View>
+      )}
 
       {separetedList.map((group) => (
         <MatchesGroup key={group.createdAt} matches={group.items} />

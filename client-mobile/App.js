@@ -55,7 +55,7 @@ export default function App() {
 
       try {
         userToken = await SecureStore.getItemAsync("userToken");
-        userToken = "TESTE, APAGAR DEPOIS!";
+        userToken = "ddfb13f5887055f30c578c898d6863f44dba845f"
       } catch (e) {
         console.log(e);
       }
@@ -78,6 +78,7 @@ export default function App() {
       },
       logout: () => dispatch({ type: "LOGOUT" }),
       register: async (data) => {
+        // Register via API
         console.log(data);
 
         dispatch({
