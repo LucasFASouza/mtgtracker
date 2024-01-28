@@ -8,7 +8,6 @@ import MatchesGroup from "../components/MatchesGroup";
 import Select from "../components/atoms/Select";
 
 export default function HistoryScreen() {
-  const [toggle, setToggle] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const [matches, setMatches] = React.useState([]);
@@ -185,64 +184,58 @@ export default function HistoryScreen() {
           <Text style={{ fontSize: 22, fontWeight: "bold", color: "white" }}>
             Match History
           </Text>
-
-          <TouchableOpacity onPress={() => setToggle(!toggle)}>
-            <Icon name="filter" size={24} color="white" type="ionicon" />
-          </TouchableOpacity>
         </View>
+      </View>
 
-        {toggle && (
-          <View
-            style={{
-              paddingHorizontal: 22,
-              paddingBottom: 12,
-            }}
-          >
-            <Select
-              placeholder="Your Deck"
-              data={yourDecks}
-              value={yourDecksSelected}
-              onChange={(item) => {
-                setYourDecksSelected(item);
-              }}
-            />
-            <Select
-              placeholder="Opponent's Deck"
-              data={oppDecks}
-              value={oppDecksSelected}
-              onChange={(item) => {
-                setOppDecksSelected(item);
-              }}
-            />
-            <Select
-              placeholder="Tags"
-              data={tags}
-              value={tagsSelected}
-              onChange={(item) => {
-                setTagsSelected(item);
-              }}
-            />
-            <View style={{ width: "100%", alignItems: "flex-end" }}>
-              <Button
-                title="Filter"
-                onPress={() => {
-                  filterMatches();
-                }}
-                buttonStyle={{
-                  width: 120,
-                  height: 40,
-                  borderRadius: 8,
-                  marginVertical: 10,
-                }}
-                titleStyle={{
-                  color: "white",
-                  fontSize: 16,
-                  fontWeight: "bold",
-                }}
-              />
-            </View>
-          </View>
-        )}
+      <View
+        style={{
+          paddingHorizontal: 16,
+          paddingVertical: 8,
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Select
+          placeholder="Your Deck"
+          data={yourDecks}
+          value={yourDecksSelected}
+          onChange={(item) => {
+            setYourDecksSelected(item);
+          }}
+        />
+        <Select
+          placeholder="Opponent's Deck"
+          data={oppDecks}
+          value={oppDecksSelected}
+          onChange={(item) => {
+            setOppDecksSelected(item);
+          }}
+        />
+        <Select
+          placeholder="Tags"
+          data={tags}
+          value={tagsSelected}
+          onChange={(item) => {
+            setTagsSelected(item);
+          }}
+        />
+        <Button
+          title="Filter"
+          onPress={() => {
+            filterMatches();
+          }}
+          buttonStyle={{
+            width: 60,
+            height: 40,
+            borderRadius: 8,
+            marginVertical: 10,
+          }}
+          titleStyle={{
+            color: "white",
+            fontSize: 14,
+            fontWeight: "bold",
+          }}
+        />
       </View>
 
       {isLoading && (

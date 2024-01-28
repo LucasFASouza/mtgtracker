@@ -30,11 +30,12 @@ export default Select;
 const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
+    width: 90,
   },
   dropdown: {
     height: 40,
     backgroundColor: "#333",
-    borderBottomColor: "#5F5F5F",
+    borderBottomColor: "#5F[5F5F",
     borderRadius: 8,
   },
   placeholderStyle: {
