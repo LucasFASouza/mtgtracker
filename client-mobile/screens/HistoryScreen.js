@@ -190,9 +190,9 @@ export default function HistoryScreen() {
       <ScrollView
         horizontal={true}
         style={{
-          paddingHorizontal: 16,
           paddingVertical: 8,
           flexDirection: "row",
+          width: "99%",
         }}
       >
         <Select
