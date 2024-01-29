@@ -3,7 +3,7 @@ import { MultiSelect } from "react-native-element-dropdown";
 
 const Select = ({ placeholder, ...props }) => {
   const placeholderLength = placeholder.length;
-  const width = placeholderLength * 7 + 40;
+  const width = placeholderLength * 7 + 50;
 
   const styles = StyleSheet.create({
     style: {
