@@ -187,12 +187,12 @@ export default function HistoryScreen() {
         </View>
       </View>
 
-      <View
+      <ScrollView
+        horizontal={true}
         style={{
           paddingHorizontal: 16,
           paddingVertical: 8,
           flexDirection: "row",
-          justifyContent: "space-between",
         }}
       >
         <Select
@@ -212,6 +212,14 @@ export default function HistoryScreen() {
           }}
         />
         <Select
+          placeholder="Format"
+          data={tags}
+          value={tagsSelected}
+          onChange={(item) => {
+            setTagsSelected(item);
+          }}
+        />
+        <Select
           placeholder="Tags"
           data={tags}
           value={tagsSelected}
@@ -219,24 +227,25 @@ export default function HistoryScreen() {
             setTagsSelected(item);
           }}
         />
-        <Button
-          title="Filter"
-          onPress={() => {
-            filterMatches();
-          }}
-          buttonStyle={{
-            width: 60,
-            height: 40,
-            borderRadius: 8,
-            marginVertical: 10,
-          }}
-          titleStyle={{
-            color: "white",
-            fontSize: 14,
-            fontWeight: "bold",
-          }}
-        />
-      </View>
+      </ScrollView>
+
+      <Button
+        title="Filter"
+        onPress={() => {
+          filterMatches();
+        }}
+        buttonStyle={{
+          width: 60,
+          height: 40,
+          borderRadius: 8,
+          marginVertical: 10,
+        }}
+        titleStyle={{
+          color: "white",
+          fontSize: 14,
+          fontWeight: "bold",
+        }}
+      />
 
       {isLoading && (
         <View

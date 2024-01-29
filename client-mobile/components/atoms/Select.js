@@ -1,51 +1,41 @@
 import { StyleSheet, View } from "react-native";
 import { MultiSelect } from "react-native-element-dropdown";
 
-const Select = ({...props}) => {
-
+const Select = ({ ...props }) => {
   return (
-    <View style={styles.container}>
-      <MultiSelect
-        containerStyle={styles.containerStyle}
-        style={styles.dropdown}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        selectedStyle={styles.selectedStyle}
-        itemTextStyle={styles.itemTextStyle}
-        activeColor="#5F5F5F"
-        search
-        labelField="label"
-        valueField="value"
-        searchPlaceholder="Search..."
-        {...props}
-      />
-    </View>
+    <MultiSelect
+      style={styles.style}
+      placeholderStyle={styles.placeholderStyle}
+      containerStyle={styles.containerStyle}
+      inputSearchStyle={styles.inputSearchStyle}
+      selectedStyle={styles.selectedStyle}
+      itemTextStyle={styles.itemTextStyle}
+      activeColor="#5F5F5F"
+      search
+      labelField="label"
+      valueField="value"
+      searchPlaceholder="Search..."
+      {...props}
+    />
   );
 };
 
 export default Select;
 
 const styles = StyleSheet.create({
-  container: {
-    marginVertical: 8,
-    width: 90,
-  },
-  dropdown: {
+  style: {
+    margin: 8,
     height: 40,
-    backgroundColor: "#333",
-    borderBottomColor: "#5F[5F5F",
+    borderColor: "#5F5F5F",
+    borderWidth: 1,
     borderRadius: 8,
+    alignContent: "center",
+    width: 150,
   },
   placeholderStyle: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 14,
     color: "white",
     paddingLeft: 12,
-  },
-  selectedTextStyle: {
-    fontSize: 14,
   },
   inputSearchStyle: {
     height: 40,
@@ -58,29 +48,15 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
   },
-  icon: {
-    marginRight: 5,
-  },
   selectedStyle: {
-    borderRadius: 12,
-  },
-  itemContainerStyle: {
-    backgroundColor: "#333",
+    display: "none",
   },
   itemTextStyle: {
     color: "white",
-  },
-  selectedStyle: {
-    backgroundColor: "#333",
-    borderRadius: 8,
-    borderWidth: 0,
   },
   containerStyle: {
     backgroundColor: "#333",
     borderWidth: 0,
     borderRadius: 8,
   },
-  itemTextStyle: {
-    color: "white"
-  }
 });
