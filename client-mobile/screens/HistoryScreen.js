@@ -11,17 +11,20 @@ import MiniButton from "../components/atoms/MiniButton";
 export default function HistoryScreen() {
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const [decksFilterVisible, setDecksFilterVisible] = React.useState(false);
-  const [periodFilterVisible, setPeriodFilterVisible] = React.useState(false);
-  const [resultFilterVisible, setResultFilterVisible] = React.useState(false);
-  const [tagsFilterVisible, setTagsFilterVisible] = React.useState(false);
-
+  // Data
   const [matches, setMatches] = React.useState([]);
   const [datedMatches, setDatedMatches] = React.useState([]);
   const [tags, setTags] = React.useState([]);
   const [yourDecks, setYourDecks] = React.useState([]);
   const [oppDecks, setOppDecks] = React.useState([]);
 
+  // Filter dialogs visibility
+  const [decksFilterVisible, setDecksFilterVisible] = React.useState(false);
+  const [periodFilterVisible, setPeriodFilterVisible] = React.useState(false);
+  const [resultFilterVisible, setResultFilterVisible] = React.useState(false);
+  const [tagsFilterVisible, setTagsFilterVisible] = React.useState(false);
+
+  // Filters state
   const [tagsSelected, setTagsSelected] = React.useState([]);
   const [yourDecksSelected, setYourDecksSelected] = React.useState([]);
   const [oppDecksSelected, setOppDecksSelected] = React.useState([]);
@@ -188,6 +191,7 @@ export default function HistoryScreen() {
 
   return (
     <ScrollView style={{ backgroundColor: "#282828" }}>
+      {/* Header */}
       <View
         style={{
           borderColor: "#5F5F5F",
@@ -210,6 +214,7 @@ export default function HistoryScreen() {
         </View>
       </View>
 
+      {/* Filters bar */}
       <ScrollView
         horizontal={true}
         style={{
@@ -225,6 +230,7 @@ export default function HistoryScreen() {
         <MiniButton title="Tags" onPress={toggleTagsFilter} />
       </ScrollView>
 
+      {/* Filters dialogs */}
       <View>
         <Dialog
           isVisible={decksFilterVisible}
@@ -259,6 +265,7 @@ export default function HistoryScreen() {
         </Dialog>
       </View>
 
+      {/* Loading skeleton */}
       {isLoading && (
         <View
           style={{
@@ -287,6 +294,7 @@ export default function HistoryScreen() {
         </View>
       )}
 
+      {/* Matches */}
       {datedMatches.map((group) => (
         <MatchesGroup key={group.createdAt} matches={group.items} />
       ))}
