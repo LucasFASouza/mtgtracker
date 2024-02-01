@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Button as RNEButton } from "@rneui/themed";
 
-const Input = ({ ...props }) => {
+const Button = ({ ...props }) => {
   return (
     <RNEButton
       color={"#fa5075"}
@@ -13,7 +13,7 @@ const Input = ({ ...props }) => {
   );
 };
 
-export default Input;
+export default Button;
 
 const styles = StyleSheet.create({
   titleStyle: { color: "white", fontSize: 18, fontWeight: "bold" },

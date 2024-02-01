@@ -6,6 +6,7 @@ import { Text, Icon, Skeleton, LinearGradient } from "@rneui/themed";
 import Button from "../components/atoms/Button";
 import MatchesGroup from "../components/MatchesGroup";
 import Select from "../components/atoms/Select";
+import MiniButton from "../components/atoms/MiniButton";
 
 export default function HistoryScreen() {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -186,7 +187,6 @@ export default function HistoryScreen() {
           </Text>
         </View>
       </View>
-
       <ScrollView
         horizontal={true}
         style={{
@@ -195,6 +195,12 @@ export default function HistoryScreen() {
           width: "99%",
         }}
       >
+        <MiniButton title="Decks" />
+        <MiniButton title="Dates" />
+        <MiniButton title="Tags" />
+      </ScrollView>
+
+      {/* 
         <Select
           placeholder="Your Deck"
           data={yourDecks}
@@ -227,25 +233,25 @@ export default function HistoryScreen() {
             setTagsSelected(item);
           }}
         />
-      </ScrollView>
-
-      <Button
-        title="Filter"
-        onPress={() => {
-          filterMatches();
-        }}
-        buttonStyle={{
-          width: 60,
-          height: 40,
-          borderRadius: 8,
-          marginVertical: 10,
-        }}
-        titleStyle={{
-          color: "white",
-          fontSize: 14,
-          fontWeight: "bold",
-        }}
-      />
+      
+        <Button
+          title="Filter"
+          onPress={() => {
+            filterMatches();
+          }}
+          buttonStyle={{
+            width: 60,
+            height: 40,
+            borderRadius: 8,
+            marginVertical: 10,
+          }}
+          titleStyle={{
+            color: "white",
+            fontSize: 14,
+            fontWeight: "bold",
+          }}
+        />
+        */}
 
       {isLoading && (
         <View
