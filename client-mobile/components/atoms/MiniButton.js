@@ -4,16 +4,21 @@ import { Button as RNEButton } from "@rneui/themed";
 
 const MiniButton = ({ title, ...props }) => {
   const titleLength = title.length;
-  const width = titleLength * 7 + 50;
+  const width = titleLength * 7 + 45;
 
   const styles = StyleSheet.create({
-    titleStyle: { color: "white", fontSize: 14, fontWeight: "normal" , paddingHorizontal: 10},
+    titleStyle: {
+      color: "white",
+      fontSize: 14,
+      fontWeight: "normal",
+      paddingHorizontal: 6,
+    },
     buttonStyle: {
       width: width,
       height: 40,
       borderRadius: 7,
       marginBottom: 10,
-      borderWidth: 1,
+      borderWidth: 0.5,
       borderColor: "#5F5F5F",
     },
   });

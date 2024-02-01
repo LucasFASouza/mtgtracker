@@ -172,6 +172,7 @@ export default function HistoryScreen() {
           borderColor: "#5F5F5F",
           borderBottomWidth: 1,
           backgroundColor: "#282828",
+          marginBottom: 12,
         }}
       >
         <View
@@ -185,20 +186,12 @@ export default function HistoryScreen() {
           <Text style={{ fontSize: 22, fontWeight: "bold", color: "white" }}>
             Match History
           </Text>
+
+          <TouchableOpacity onPress={() => setToggle(!toggle)}>
+            <Icon name="filter" size={24} color="white" type="ionicon" />
+          </TouchableOpacity>
         </View>
       </View>
-      <ScrollView
-        horizontal={true}
-        style={{
-          paddingVertical: 8,
-          flexDirection: "row",
-          width: "99%",
-        }}
-      >
-        <MiniButton title="Decks" />
-        <MiniButton title="Dates" />
-        <MiniButton title="Tags" />
-      </ScrollView>
 
       {/* 
         <Select
