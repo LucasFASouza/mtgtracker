@@ -1,22 +1,19 @@
 import { StyleSheet, View } from "react-native";
 import { MultiSelect } from "react-native-element-dropdown";
 
-const Select = ({ placeholder, ...props }) => {
-  const placeholderLength = placeholder.length;
-  const width = placeholderLength * 7 + 50;
+const Select = ({ ...props }) => {
 
   const styles = StyleSheet.create({
     style: {
-      margin: 8,
+      marginVertical: 16,
       height: 40,
       borderColor: "#5F5F5F",
       borderWidth: 1,
       borderRadius: 8,
       alignContent: "center",
-      width: width,
     },
     placeholderStyle: {
-      fontSize: 14,
+      fontSize: 16,
       color: "white",
       paddingLeft: 12,
     },
@@ -32,7 +29,7 @@ const Select = ({ placeholder, ...props }) => {
       borderBottomWidth: 1,
     },
     selectedStyle: {
-      display: "none",
+      borderRadius: 8,
     },
     itemTextStyle: {
       color: "white",
@@ -41,7 +38,6 @@ const Select = ({ placeholder, ...props }) => {
       backgroundColor: "#333",
       borderWidth: 0,
       borderRadius: 8,
-      width: 200,
     },
   });
 
@@ -52,13 +48,13 @@ const Select = ({ placeholder, ...props }) => {
       containerStyle={styles.containerStyle}
       inputSearchStyle={styles.inputSearchStyle}
       selectedStyle={styles.selectedStyle}
+      selectedTextStyle={styles.itemTextStyle}
       itemTextStyle={styles.itemTextStyle}
       activeColor="#5F5F5F"
       search
       labelField="label"
       valueField="value"
       searchPlaceholder="Search..."
-      placeholder={placeholder}
       {...props}
     />
   );

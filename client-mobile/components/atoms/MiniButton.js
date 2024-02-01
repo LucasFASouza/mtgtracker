@@ -4,7 +4,7 @@ import { Button as RNEButton } from "@rneui/themed";
 
 const MiniButton = ({ title, ...props }) => {
   const titleLength = title.length;
-  const width = titleLength * 7 + 50;
+  const width = titleLength * 7 + 60;
 
   const styles = StyleSheet.create({
     titleStyle: {

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ScrollView, TouchableOpacity, View } from "react-native";
-import { Text, Icon, Skeleton, Dialog } from "@rneui/themed";
+import { Text, Divider, Skeleton, Dialog, Badge } from "@rneui/themed";
 
 import Button from "../components/atoms/Button";
 import MatchesGroup from "../components/MatchesGroup";
@@ -14,20 +14,25 @@ export default function HistoryScreen() {
   // Data
   const [matches, setMatches] = React.useState([]);
   const [datedMatches, setDatedMatches] = React.useState([]);
+
   const [tags, setTags] = React.useState([]);
   const [yourDecks, setYourDecks] = React.useState([]);
   const [oppDecks, setOppDecks] = React.useState([]);
 
   // Filter dialogs visibility
   const [decksFilterVisible, setDecksFilterVisible] = React.useState(false);
-  const [periodFilterVisible, setPeriodFilterVisible] = React.useState(false);
   const [resultFilterVisible, setResultFilterVisible] = React.useState(false);
   const [tagsFilterVisible, setTagsFilterVisible] = React.useState(false);
 
   // Filters state
-  const [tagsSelected, setTagsSelected] = React.useState([]);
   const [yourDecksSelected, setYourDecksSelected] = React.useState([]);
   const [oppDecksSelected, setOppDecksSelected] = React.useState([]);
+  const [tagsSelected, setTagsSelected] = React.useState([]);
+  const [resultsSelected, setResultSelected] = React.useState([]);
+
+  const [isFilteringDeck, setIsFilteringDeck] = React.useState(false);
+  const [isFilteringResult, setIsFilteringResult] = React.useState(false);
+  const [isFilteringTags, setIsFilteringTags] = React.useState(false);
 
   async function getMatches() {
     let userToken;
@@ -126,11 +131,7 @@ export default function HistoryScreen() {
     setDecksFilterVisible(!decksFilterVisible);
   }
 
-  function togglePeriodFilter() {
-    setPeriodFilterVisible(!periodFilterVisible);
-  }
-
-  function toggleResultFilter() {
+  function toggleResultsFilter() {
     setResultFilterVisible(!resultFilterVisible);
   }
 
@@ -139,41 +140,19 @@ export default function HistoryScreen() {
   }
 
   function filterMatches() {
-    const filteredMatches = datedMatches.filter((match) => {
-      if (yourDecksSelected.length > 0) {
-        if (!yourDecksSelected.includes(match.items[0].your_deck.deck_name)) {
-          return false;
-        }
-      }
+    if (oppDecksSelected.length > 0 || yourDecksSelected.length > 0) {
+      setIsFilteringDeck(true);
+    } else {
+      setIsFilteringDeck(false);
+    }
 
-      if (oppDecksSelected.length > 0) {
-        if (!oppDecksSelected.includes(match.items[0].opp_deck.deck_name)) {
-          return false;
-        }
-      }
+    if (resultsSelected.length > 0) {
+      setIsFilteringResult(true);
+    }
 
-      if (tagsSelected.length > 0) {
-        let matchTags = [];
-        match.items.forEach((item) => {
-          item.tags.forEach((tag) => {
-            matchTags.push(tag.tag);
-          });
-        });
-
-        let matchTagsFiltered = matchTags.filter((tag) =>
-          tagsSelected.includes(tag)
-        );
-
-        if (matchTagsFiltered.length === 0) {
-          return false;
-        }
-      }
-
-      return true;
-    });
-
-    console.log(filteredMatches);
-    setDatedMatches(filteredMatches);
+    if (tagsSelected.length > 0) {
+      setIsFilteringTags(true);
+    }
   }
 
   React.useEffect(() => {
@@ -225,9 +204,28 @@ export default function HistoryScreen() {
         contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 16 }}
       >
         <MiniButton title="Decks" onPress={toggleDecksFilter} />
-        <MiniButton title="Period" onPress={togglePeriodFilter} />
-        <MiniButton title="Result" onPress={toggleResultFilter} />
+        {isFilteringDeck > 0 && (
+          <Badge
+            value={oppDecksSelected.length + yourDecksSelected.length}
+            badgeStyle={{ backgroundColor: "#FA5075", borderWidth: 0 }}
+          />
+        )}
+
+        <MiniButton title="Result" onPress={toggleResultsFilter} />
+        {isFilteringResult > 0 && (
+          <Badge
+            value={resultsSelected.length}
+            badgeStyle={{ backgroundColor: "#FA5075", borderWidth: 0 }}
+          />
+        )}
+
         <MiniButton title="Tags" onPress={toggleTagsFilter} />
+        {isFilteringTags > 0 && (
+          <Badge
+            value={tagsSelected.length}
+            badgeStyle={{ backgroundColor: "#FA5075", borderWidth: 0 }}
+          />
+        )}
       </ScrollView>
 
       {/* Filters dialogs */}
@@ -235,33 +233,181 @@ export default function HistoryScreen() {
         <Dialog
           isVisible={decksFilterVisible}
           onBackdropPress={toggleDecksFilter}
+          overlayStyle={{
+            borderRadius: 16,
+            borderWidth: 1,
+            backgroundColor: "#282828",
+            borderColor: "#5F5F5F",
+            paddingHorizontal: 16,
+            minHeight: 300,
+            width: "90%",
+          }}
         >
-          <Dialog.Title title="Filter by deck" />
-          <Text>Dialog body text. Add relevant information here.</Text>
+          <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
+            Decks
+          </Text>
+
+          <Divider style={{ marginVertical: 8 }} />
+
+          <Select
+            placeholder="Your Deck"
+            data={yourDecks}
+            value={yourDecksSelected}
+            onChange={(item) => {
+              setYourDecksSelected(item);
+            }}
+          />
+          <Select
+            placeholder="Opponent's Deck"
+            data={oppDecks}
+            value={oppDecksSelected}
+            onChange={(item) => {
+              setOppDecksSelected(item);
+            }}
+          />
+
+          <View
+            style={{
+              marginTop: 20,
+              marginBottom: 10,
+              alignItems: "center",
+            }}
+          >
+            <Button
+              title="Filter"
+              onPress={() => {
+                filterMatches();
+                toggleDecksFilter();
+              }}
+              buttonStyle={{
+                width: 120,
+                height: 40,
+                borderRadius: 8,
+                marginVertical: 10,
+              }}
+              titleStyle={{
+                color: "white",
+                fontSize: 14,
+                fontWeight: "bold",
+              }}
+            />
+          </View>
         </Dialog>
 
         <Dialog
-          isVisible={periodFilterVisible}
-          onBackdropPress={togglePeriodFilter}
+          isVisible={resultFilterVisible}
+          onBackdropPress={toggleResultsFilter}
+          overlayStyle={{
+            borderRadius: 16,
+            borderWidth: 1,
+            backgroundColor: "#282828",
+            borderColor: "#5F5F5F",
+            paddingHorizontal: 16,
+            minHeight: 300,
+            width: "90%",
+          }}
         >
-          <Dialog.Title title="Filter by period" />
-          <Text>Dialog body text. Add relevant information here.</Text>
+          <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
+            Results
+          </Text>
+
+          <Divider style={{ marginVertical: 8 }} />
+
+          <Select
+            placeholder="Choose one or more results"
+            data={[
+              { label: "Win", value: "Win" },
+              { label: "Loss", value: "Loss" },
+              { label: "Draw", value: "Draw" },
+            ]}
+            value={resultsSelected}
+            onChange={(item) => {
+              setResultSelected(item);
+            }}
+          />
+
+          <View
+            style={{
+              marginTop: 20,
+              marginBottom: 10,
+              alignItems: "center",
+            }}
+          >
+            <Button
+              title="Filter"
+              onPress={() => {
+                filterMatches();
+                toggleResultsFilter();
+              }}
+              buttonStyle={{
+                width: 120,
+                height: 40,
+                borderRadius: 8,
+                marginVertical: 10,
+              }}
+              titleStyle={{
+                color: "white",
+                fontSize: 14,
+                fontWeight: "bold",
+              }}
+            />
+          </View>
         </Dialog>
 
         <Dialog
           isVisible={tagsFilterVisible}
           onBackdropPress={toggleTagsFilter}
+          overlayStyle={{
+            borderRadius: 16,
+            borderWidth: 1,
+            backgroundColor: "#282828",
+            borderColor: "#5F5F5F",
+            paddingHorizontal: 16,
+            minHeight: 200,
+            width: "90%",
+          }}
         >
-          <Dialog.Title title="Filter by tags" />
-          <Text>Dialog body text. Add relevant information here.</Text>
-        </Dialog>
+          <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
+            Tags
+          </Text>
 
-        <Dialog
-          isVisible={resultFilterVisible}
-          onBackdropPress={toggleResultFilter}
-        >
-          <Dialog.Title title="Filter by results" />
-          <Text>Dialog body text. Add relevant information here.</Text>
+          <Divider style={{ marginVertical: 8 }} />
+
+          <Select
+            placeholder="Choose your tags"
+            data={tags}
+            value={tagsSelected}
+            onChange={(item) => {
+              setTagsSelected(item);
+            }}
+          />
+
+          <View
+            style={{
+              marginTop: 20,
+              marginBottom: 10,
+              alignItems: "center",
+            }}
+          >
+            <Button
+              title="Filter"
+              onPress={() => {
+                filterMatches();
+                toggleTagsFilter();
+              }}
+              buttonStyle={{
+                width: 120,
+                height: 40,
+                borderRadius: 8,
+                marginVertical: 10,
+              }}
+              titleStyle={{
+                color: "white",
+                fontSize: 14,
+                fontWeight: "bold",
+              }}
+            />
+          </View>
         </Dialog>
       </View>
 
@@ -303,54 +449,39 @@ export default function HistoryScreen() {
 }
 
 /*
-<Select
-          placeholder="Your Deck"
-          data={yourDecks}
-          value={yourDecksSelected}
-          onChange={(item) => {
-            setYourDecksSelected(item);
-          }}
-        />
-        <Select
-          placeholder="Opponent's Deck"
-          data={oppDecks}
-          value={oppDecksSelected}
-          onChange={(item) => {
-            setOppDecksSelected(item);
-          }}
-        />
-        <Select
-          placeholder="Format"
-          data={tags}
-          value={tagsSelected}
-          onChange={(item) => {
-            setTagsSelected(item);
-          }}
-        />
-        <Select
-          placeholder="Tags"
-          data={tags}
-          value={tagsSelected}
-          onChange={(item) => {
-            setTagsSelected(item);
-          }}
-        />
 
-        <Button
-          title="Filter"
-          onPress={() => {
-            filterMatches();
-          }}
-          buttonStyle={{
-            width: 60,
-            height: 40,
-            borderRadius: 8,
-            marginVertical: 10,
-          }}
-          titleStyle={{
-            color: "white",
-            fontSize: 14,
-            fontWeight: "bold",
-          }}
-        />
-        */
+<Select
+  placeholder="Format"
+  data={tags}
+  value={tagsSelected}
+  onChange={(item) => {
+    setTagsSelected(item);
+  }}
+/>
+<Select
+  placeholder="Tags"
+  data={tags}
+  value={tagsSelected}
+  onChange={(item) => {
+    setTagsSelected(item);
+  }}
+/>
+
+<Button
+  title="Filter"
+  onPress={() => {
+    filterMatches();
+  }}
+  buttonStyle={{
+    width: 60,
+    height: 40,
+    borderRadius: 8,
+    marginVertical: 10,
+  }}
+  titleStyle={{
+    color: "white",
+    fontSize: 14,
+    fontWeight: "bold",
+  }}
+/>
+*/
