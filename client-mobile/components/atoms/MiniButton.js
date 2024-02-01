@@ -4,7 +4,7 @@ import { Button as RNEButton } from "@rneui/themed";
 
 const MiniButton = ({ title, ...props }) => {
   const titleLength = title.length;
-  const width = titleLength * 7 + 45;
+  const width = titleLength * 7 + 50;
 
   const styles = StyleSheet.create({
     titleStyle: {
@@ -21,6 +21,9 @@ const MiniButton = ({ title, ...props }) => {
       borderWidth: 0.5,
       borderColor: "#5F5F5F",
     },
+    containerStyle: {
+      marginHorizontal: 5,
+    },
   });
 
   return (
@@ -28,6 +31,7 @@ const MiniButton = ({ title, ...props }) => {
       color={"#282828"}
       buttonStyle={styles.buttonStyle}
       titleStyle={styles.titleStyle}
+      containerStyle={styles.containerStyle}
       title={title}
       icon={{
         name: "chevron-down",

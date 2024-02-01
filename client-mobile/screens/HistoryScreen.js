@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ScrollView, TouchableOpacity, View } from "react-native";
-import { Text, Icon, Skeleton, LinearGradient } from "@rneui/themed";
+import { Text, Icon, Skeleton, Dialog } from "@rneui/themed";
 
 import Button from "../components/atoms/Button";
 import MatchesGroup from "../components/MatchesGroup";
@@ -10,6 +10,11 @@ import MiniButton from "../components/atoms/MiniButton";
 
 export default function HistoryScreen() {
   const [isLoading, setIsLoading] = React.useState(true);
+
+  const [decksFilterVisible, setDecksFilterVisible] = React.useState(false);
+  const [periodFilterVisible, setPeriodFilterVisible] = React.useState(false);
+  const [resultFilterVisible, setResultFilterVisible] = React.useState(false);
+  const [tagsFilterVisible, setTagsFilterVisible] = React.useState(false);
 
   const [matches, setMatches] = React.useState([]);
   const [datedMatches, setDatedMatches] = React.useState([]);
@@ -114,6 +119,22 @@ export default function HistoryScreen() {
     setOppDecks(oppDecks);
   }
 
+  function toggleDecksFilter() {
+    setDecksFilterVisible(!decksFilterVisible);
+  }
+
+  function togglePeriodFilter() {
+    setPeriodFilterVisible(!periodFilterVisible);
+  }
+
+  function toggleResultFilter() {
+    setResultFilterVisible(!resultFilterVisible);
+  }
+
+  function toggleTagsFilter() {
+    setTagsFilterVisible(!tagsFilterVisible);
+  }
+
   function filterMatches() {
     const filteredMatches = datedMatches.filter((match) => {
       if (yourDecksSelected.length > 0) {
@@ -186,65 +207,57 @@ export default function HistoryScreen() {
           <Text style={{ fontSize: 22, fontWeight: "bold", color: "white" }}>
             Match History
           </Text>
-
-          <TouchableOpacity onPress={() => setToggle(!toggle)}>
-            <Icon name="filter" size={24} color="white" type="ionicon" />
-          </TouchableOpacity>
         </View>
       </View>
 
-      {/* 
-        <Select
-          placeholder="Your Deck"
-          data={yourDecks}
-          value={yourDecksSelected}
-          onChange={(item) => {
-            setYourDecksSelected(item);
-          }}
-        />
-        <Select
-          placeholder="Opponent's Deck"
-          data={oppDecks}
-          value={oppDecksSelected}
-          onChange={(item) => {
-            setOppDecksSelected(item);
-          }}
-        />
-        <Select
-          placeholder="Format"
-          data={tags}
-          value={tagsSelected}
-          onChange={(item) => {
-            setTagsSelected(item);
-          }}
-        />
-        <Select
-          placeholder="Tags"
-          data={tags}
-          value={tagsSelected}
-          onChange={(item) => {
-            setTagsSelected(item);
-          }}
-        />
-      
-        <Button
-          title="Filter"
-          onPress={() => {
-            filterMatches();
-          }}
-          buttonStyle={{
-            width: 60,
-            height: 40,
-            borderRadius: 8,
-            marginVertical: 10,
-          }}
-          titleStyle={{
-            color: "white",
-            fontSize: 14,
-            fontWeight: "bold",
-          }}
-        />
-        */}
+      <ScrollView
+        horizontal={true}
+        style={{
+          paddingVertical: 8,
+
+          flexDirection: "row",
+        }}
+        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 16 }}
+      >
+        <MiniButton title="Decks" onPress={toggleDecksFilter} />
+        <MiniButton title="Period" onPress={togglePeriodFilter} />
+        <MiniButton title="Result" onPress={toggleResultFilter} />
+        <MiniButton title="Tags" onPress={toggleTagsFilter} />
+      </ScrollView>
+
+      <View>
+        <Dialog
+          isVisible={decksFilterVisible}
+          onBackdropPress={toggleDecksFilter}
+        >
+          <Dialog.Title title="Filter by deck" />
+          <Text>Dialog body text. Add relevant information here.</Text>
+        </Dialog>
+
+        <Dialog
+          isVisible={periodFilterVisible}
+          onBackdropPress={togglePeriodFilter}
+        >
+          <Dialog.Title title="Filter by period" />
+          <Text>Dialog body text. Add relevant information here.</Text>
+        </Dialog>
+
+        <Dialog
+          isVisible={tagsFilterVisible}
+          onBackdropPress={toggleTagsFilter}
+        >
+          <Dialog.Title title="Filter by tags" />
+          <Text>Dialog body text. Add relevant information here.</Text>
+        </Dialog>
+
+        <Dialog
+          isVisible={resultFilterVisible}
+          onBackdropPress={toggleResultFilter}
+        >
+          <Dialog.Title title="Filter by results" />
+          <Text>Dialog body text. Add relevant information here.</Text>
+        </Dialog>
+      </View>
 
       {isLoading && (
         <View
@@ -280,3 +293,56 @@ export default function HistoryScreen() {
     </ScrollView>
   );
 }
+
+/*
+<Select
+          placeholder="Your Deck"
+          data={yourDecks}
+          value={yourDecksSelected}
+          onChange={(item) => {
+            setYourDecksSelected(item);
+          }}
+        />
+        <Select
+          placeholder="Opponent's Deck"
+          data={oppDecks}
+          value={oppDecksSelected}
+          onChange={(item) => {
+            setOppDecksSelected(item);
+          }}
+        />
+        <Select
+          placeholder="Format"
+          data={tags}
+          value={tagsSelected}
+          onChange={(item) => {
+            setTagsSelected(item);
+          }}
+        />
+        <Select
+          placeholder="Tags"
+          data={tags}
+          value={tagsSelected}
+          onChange={(item) => {
+            setTagsSelected(item);
+          }}
+        />
+
+        <Button
+          title="Filter"
+          onPress={() => {
+            filterMatches();
+          }}
+          buttonStyle={{
+            width: 60,
+            height: 40,
+            borderRadius: 8,
+            marginVertical: 10,
+          }}
+          titleStyle={{
+            color: "white",
+            fontSize: 14,
+            fontWeight: "bold",
+          }}
+        />
+        */
