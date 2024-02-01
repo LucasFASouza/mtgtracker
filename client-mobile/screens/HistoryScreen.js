@@ -9,8 +9,6 @@ import Select from "../components/atoms/Select";
 import MiniButton from "../components/atoms/MiniButton";
 
 export default function HistoryScreen() {
-  const [isLoading, setIsLoading] = React.useState(true);
-
   // Data
   const [matches, setMatches] = React.useState([]);
   const [datedMatches, setDatedMatches] = React.useState([]);
@@ -44,7 +42,6 @@ export default function HistoryScreen() {
       });
 
       const data = await response.json();
-      setIsLoading(false);
       setMatches(data);
     } catch (e) {
       console.log(e);
@@ -198,7 +195,6 @@ export default function HistoryScreen() {
         horizontal={true}
         style={{
           paddingVertical: 8,
-
           flexDirection: "row",
         }}
         contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 16 }}
@@ -411,35 +407,6 @@ export default function HistoryScreen() {
         </Dialog>
       </View>
 
-      {/* Loading skeleton */}
-      {isLoading && (
-        <View
-          style={{
-            paddingVertical: 20,
-            paddingHorizontal: 16,
-          }}
-        >
-          <Skeleton
-            animation="pulse"
-            width={"100%"}
-            height={60}
-            style={{ marginVertical: 8 }}
-          />
-          <Skeleton
-            animation="pulse"
-            width={"100%"}
-            height={60}
-            style={{ marginVertical: 8 }}
-          />
-          <Skeleton
-            animation="pulse"
-            width={"100%"}
-            height={60}
-            style={{ marginVertical: 8 }}
-          />
-        </View>
-      )}
-
       {/* Matches */}
       {datedMatches.map((group) => (
         <MatchesGroup key={group.createdAt} matches={group.items} />
@@ -447,41 +414,3 @@ export default function HistoryScreen() {
     </ScrollView>
   );
 }
-
-/*
-
-<Select
-  placeholder="Format"
-  data={tags}
-  value={tagsSelected}
-  onChange={(item) => {
-    setTagsSelected(item);
-  }}
-/>
-<Select
-  placeholder="Tags"
-  data={tags}
-  value={tagsSelected}
-  onChange={(item) => {
-    setTagsSelected(item);
-  }}
-/>
-
-<Button
-  title="Filter"
-  onPress={() => {
-    filterMatches();
-  }}
-  buttonStyle={{
-    width: 60,
-    height: 40,
-    borderRadius: 8,
-    marginVertical: 10,
-  }}
-  titleStyle={{
-    color: "white",
-    fontSize: 14,
-    fontWeight: "bold",
-  }}
-/>
-*/
