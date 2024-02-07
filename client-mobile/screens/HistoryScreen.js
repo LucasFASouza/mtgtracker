@@ -6,7 +6,6 @@ import { Text, Divider, Icon, Dialog, Badge } from "@rneui/themed";
 import Button from "../components/atoms/Button";
 import MatchesGroup from "../components/MatchesGroup";
 import Select from "../components/atoms/Select";
-import MiniButton from "../components/atoms/MiniButton";
 
 export default function HistoryScreen() {
   // Data

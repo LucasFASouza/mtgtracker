@@ -1,7 +1,7 @@
 import React from "react";
 
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { Text, Icon } from "@rneui/themed";
+import { Text, Icon, Dialog } from "@rneui/themed";
 
 const Match = (matchData) => {
   const [result, setResult] = React.useState("");
@@ -58,7 +58,12 @@ const Match = (matchData) => {
       </TouchableOpacity>
 
       {status === "open" && (
-        <View style={styles.detailsContainer}>
+        <Dialog style={styles.detailsContainer}>
+          <View style={styles.TopContainer}>
+            <Text style={styles.deckName}>{match.your_deck.deck_name}</Text>
+            <Text style={styles.result}>{result}</Text>
+            <Text style={styles.deckName}>{match.opp_deck.deck_name}</Text>
+          </View>
           <View style={styles.TopContainer}>
             <View style={styles.itemContainer}>
               <Text style={styles.itemLabel}>PLAY/DRAW</Text>
@@ -109,7 +114,7 @@ const Match = (matchData) => {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+        </Dialog>
       )}
     </View>
   );
