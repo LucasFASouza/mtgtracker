@@ -1,13 +1,13 @@
 import React from "react";
 
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { Text, Icon, Dialog } from "@rneui/themed";
+import { Text, Icon, Dialog, Divider } from "@rneui/themed";
 
 const Match = (matchData) => {
   const [result, setResult] = React.useState("");
   const [color, setColor] = React.useState("");
 
-  const [status, setStatus] = React.useState("closed");
+  const [toggle, setToggle] = React.useState(false);
 
   const match = matchData.match;
 
@@ -31,91 +31,48 @@ const Match = (matchData) => {
   }, []);
 
   function toggleMatch() {
-    if (status == "closed") {
-      setStatus("open");
-    } else {
-      setStatus("closed");
-    }
+    console.log("toggling");
+    setToggle(!toggle);
   }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.matchContainer} onPress={toggleMatch}>
-        <View style={styles.iconContainer}>
+      <TouchableOpacity style={styles.touchable} onPress={toggleMatch}>
+        <View style={styles.touchableIcon}>
           <Icon type="ionicon" name="ellipse" size={8} color={color} />
         </View>
-        <Text style={styles.deckName}>{match.your_deck.deck_name}</Text>
-        <Text style={styles.result}>{result}</Text>
-        <Text style={styles.deckName}>{match.opp_deck.deck_name}</Text>
-        <View style={styles.iconContainer}>
-          <Icon
-            type="ionicon"
-            name={status == "closed" ? "chevron-down" : "chevron-up"}
-            size={18}
-            color="#5F5F5F"
-          />
+        <Text style={styles.touchableDeck}>{match.your_deck.deck_name}</Text>
+        <Text style={styles.touchableResult}>{result}</Text>
+        <Text style={styles.touchableDeck}>{match.opp_deck.deck_name}</Text>
+        <View style={styles.touchableIcon}>
+          <Icon type="ionicon" name="chevron-down" size={18} color="#5F5F5F" />
         </View>
       </TouchableOpacity>
 
-      {status === "open" && (
-        <Dialog style={styles.detailsContainer}>
-          <View style={styles.TopContainer}>
-            <Text style={styles.deckName}>{match.your_deck.deck_name}</Text>
-            <Text style={styles.result}>{result}</Text>
-            <Text style={styles.deckName}>{match.opp_deck.deck_name}</Text>
-          </View>
-          <View style={styles.TopContainer}>
-            <View style={styles.itemContainer}>
-              <Text style={styles.itemLabel}>PLAY/DRAW</Text>
-              <Text style={styles.itemValue}>
-                {match.matches[0].started_play ? "Play" : "Draw"}
-              </Text>
-            </View>
-
-            {match.notes && match.notes.length > 0 && (
-              <View style={styles.itemContainer}>
-                <Text style={styles.itemLabel}>NOTES</Text>
-                <Text style={styles.itemValue}>{match.notes}</Text>
-              </View>
-            )}
-
-            <View style={styles.itemContainer}>
-              <Text style={styles.itemLabel}>TAGS</Text>
-
-              <View style={styles.tagsWrapper}>
-                {match.tags.map((tag) => (
-                  <Text style={styles.tagItem} key={tag.id}>
-                    {tag.tag}
-                  </Text>
-                ))}
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.actionsContainer}>
-            <Text style={styles.itemLabel}>ACTIONS</Text>
-
-            <View>
-              <TouchableOpacity style={styles.actionButton}>
-                <Icon
-                  type="ionicon"
-                  name="create-outline"
-                  size={42}
-                  color="#5F5F5F"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.actionButton}>
-                <Icon
-                  type="ionicon"
-                  name="trash-outline"
-                  size={42}
-                  color="#5F5F5F"
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Dialog>
-      )}
+      <Dialog
+        isVisible={toggle}
+        onBackdropPress={() => toggleMatch(!toggle)}
+        overlayStyle={{
+          borderRadius: 16,
+          borderWidth: 1,
+          backgroundColor: "#282828",
+          borderColor: "#5F5F5F",
+          paddingHorizontal: 16,
+          minHeight: 200,
+          width: "90%",
+        }}
+      >
+        <View>
+          <Icon
+            type="ionicon"
+            name="close-outline"
+            size={24}
+            color="white"
+            style={{ alignSelf: "flex-end" }}
+            onPress={toggleMatch}
+          />
+        </View>
+      </Dialog>
     </View>
   );
 };
@@ -127,70 +84,25 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderTopWidth: 1,
   },
-  matchContainer: {
+  touchable: {
     flexDirection: "row",
     alignItems: "center",
   },
-  iconContainer: {
+  touchableIcon: {
     width: "8%",
   },
-  deckName: {
+  touchableDeck: {
     color: "white",
     width: "32%",
     fontWeight: "bold",
     textAlign: "center",
   },
-  result: {
+  touchableResult: {
     color: "white",
     width: "20%",
     fontWeight: "bold",
     fontSize: 22,
     textAlign: "center",
-  },
-  detailsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 6,
-    marginHorizontal: 12,
-  },
-  TopContainer: {
-    width: "80%",
-  },
-  itemContainer: {
-    marginTop: 16,
-  },
-  itemLabel: {
-    color: "#5F5F5F",
-    fontWeight: "bold",
-  },
-  itemValue: {
-    color: "white",
-  },
-  itemContainer: {
-    marginTop: 16,
-  },
-  itemContainer: {
-    marginTop: 16,
-  },
-  tagsWrapper: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  tagItem: {
-    color: "white",
-    backgroundColor: "#5F5F5F",
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    borderRadius: 4,
-    fontSize: 14,
-    margin: 2,
-  },
-  actionsContainer: {
-    marginTop: 16,
-    alignContent: "flex-end",
-  },
-  actionButton: {
-    marginVertical: 12,
   },
 });
 
