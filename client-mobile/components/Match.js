@@ -17,6 +17,8 @@ const Match = (matchData) => {
 
   const [toggle, setToggle] = React.useState(false);
 
+  const [toggleDelete, setToggleDelete] = React.useState(false);
+
   const match = matchData.match;
   const date = matchData.date;
 
@@ -43,6 +45,11 @@ const Match = (matchData) => {
     setToggle(!toggle);
   }
 
+  function deleteMatch() {
+    console.log("Delete match");
+    setToggleDelete(true);
+  }
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.touchable} onPress={toggleMatch}>
@@ -60,7 +67,7 @@ const Match = (matchData) => {
       {/* Details Dialog */}
       <Dialog
         isVisible={toggle}
-        onBackdropPress={() => toggleMatch(!toggle)}
+        onBackdropPress={toggleMatch}
         overlayStyle={styles.dialog}
       >
         <View>
@@ -168,9 +175,7 @@ const Match = (matchData) => {
         <View style={styles.dialogRow}>
           <Button
             title="Delete"
-            onPress={() => {
-              console.log("Delete match");
-            }}
+            onPress={deleteMatch}
             buttonStyle={{
               width: 140,
               height: 40,
@@ -200,6 +205,59 @@ const Match = (matchData) => {
               fontWeight: "bold",
             }}
             color={"#5F5F5F"}
+          />
+        </View>
+      </Dialog>
+
+      {/* Delete Dialog */}
+      <Dialog
+        isVisible={toggleDelete}
+        onBackdropPress={() => setToggleDelete(false)}
+        overlayStyle={[styles.dialog, { height: 190, minHeight: 100, width: "80%"}]}
+      >
+        <View style={{alignItems: "center", width: "100%", paddingVertical: 14}}>
+          <Text style={[styles.dialogValue, {textAlign: "center"}]}>
+            Are you sure you want to delete this match?
+          </Text>
+        </View>
+
+        <View style={styles.dialogRow}>
+          <Button
+            title="Cancel"
+            onPress={() => {
+              console.log("No");
+              setToggleDelete(false);
+            }}
+            buttonStyle={{
+              width: 120,
+              height: 40,
+              borderRadius: 8,
+              marginVertical: 10,
+            }}
+            titleStyle={{
+              color: "white",
+              fontSize: 17,
+              fontWeight: "bold",
+            }}
+            color={"#5F5F5F"}
+          />
+          <Button
+            title="Yes, Delete"
+            onPress={() => {
+              console.log("Yes");
+              setToggleDelete(false);
+            }}
+            buttonStyle={{
+              width: 120,
+              height: 40,
+              borderRadius: 8,
+              marginVertical: 10,
+            }}
+            titleStyle={{
+              color: "white",
+              fontSize: 17,
+              fontWeight: "bold",
+            }}
           />
         </View>
       </Dialog>
