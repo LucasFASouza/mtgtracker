@@ -10,6 +10,7 @@ import Select from "../components/atoms/Select";
 export default function HistoryScreen() {
   // Data
   const [matches, setMatches] = React.useState([]);
+  const [filteredMatches, setFilteredMatches] = React.useState([]);
   const [datedMatches, setDatedMatches] = React.useState([]);
 
   const [tags, setTags] = React.useState([]);
@@ -34,6 +35,7 @@ export default function HistoryScreen() {
 
       const data = await response.json();
       setMatches(data);
+      setFilteredMatches(data);
     } catch (e) {
       console.log(e);
     }
@@ -116,25 +118,49 @@ export default function HistoryScreen() {
   }
 
   function filterMatches() {
-    let filteredMatches = matches;
+    let filteringMatches = matches;
 
-    if (resultsSelected.length > 0) {
-      filteredMatches = matches.filter((match) => {
+    if (yourDecksSelected.length > 0) {
+      filteringMatches = filteringMatches.filter((match) => {
         return yourDecksSelected.includes(match.your_deck.deck_name);
       });
-    } else {
-      filteredMatches = matches;
     }
 
     if (oppDecksSelected.length > 0) {
-      filteredMatches = filteredMatches.filter((match) => {
+      filteringMatches = filteringMatches.filter((match) => {
         return oppDecksSelected.includes(match.opp_deck.deck_name);
+      });
+    }
+
+    if (resultsSelected.length > 0) {
+      filteringMatches = filteringMatches.filter((match) => {
+        let wins = 0;
+        let losses = 0;
+        let matchResult = "";
+
+        match.matches.forEach((game) => {
+          if (game.result === "W") {
+            wins += 1;
+          } else if (game.result === "L") {
+            losses += 1;
+          }
+        })
+
+        if (wins > losses) {
+          matchResult = "Win";
+        } else if (wins < losses) {
+          matchResult = "Loss";
+        } else {
+          matchResult = "Draw";
+        }
+
+        return resultsSelected.includes(matchResult);
       });
     }
 
     setToggle(false);
 
-    setMatches(filteredMatches);
+    setFilteredMatches(filteringMatches);
   }
 
   React.useEffect(() => {
@@ -145,10 +171,13 @@ export default function HistoryScreen() {
   }, []);
 
   React.useEffect(() => {
-    setDatedMatches(matchesByDate(matches));
     getTags(matches);
     getDecks(matches);
   }, [matches]);
+
+  React.useEffect(() => {
+    setDatedMatches(matchesByDate(filteredMatches));
+  }, [filteredMatches]);
 
   return (
     <ScrollView style={{ backgroundColor: "#282828" }}>
