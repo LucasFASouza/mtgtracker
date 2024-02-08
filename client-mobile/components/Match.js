@@ -46,8 +46,13 @@ const Match = (matchData) => {
   }
 
   function deleteMatch() {
-    console.log("Delete match");
     setToggleDelete(true);
+  }
+
+  async function confirmDelete() {
+    console.log("Delete match");
+    setToggleDelete(false);
+    setToggle(false);
   }
 
   return (
@@ -172,39 +177,21 @@ const Match = (matchData) => {
         </View>
 
         {/* Buttons */}
-        <View style={styles.dialogRow}>
+        <View style={{ alignItems: "center" }}>
           <Button
             title="Delete"
             onPress={deleteMatch}
             buttonStyle={{
-              width: 140,
+              width: 130,
               height: 40,
               borderRadius: 8,
-              marginVertical: 10,
+              marginVertical: 16,
             }}
             titleStyle={{
               color: "white",
               fontSize: 17,
               fontWeight: "bold",
             }}
-          />
-          <Button
-            title="Edit"
-            onPress={() => {
-              console.log("Edit match");
-            }}
-            buttonStyle={{
-              width: 140,
-              height: 40,
-              borderRadius: 8,
-              marginVertical: 10,
-            }}
-            titleStyle={{
-              color: "white",
-              fontSize: 17,
-              fontWeight: "bold",
-            }}
-            color={"#5F5F5F"}
           />
         </View>
       </Dialog>
@@ -213,10 +200,15 @@ const Match = (matchData) => {
       <Dialog
         isVisible={toggleDelete}
         onBackdropPress={() => setToggleDelete(false)}
-        overlayStyle={[styles.dialog, { height: 190, minHeight: 100, width: "80%"}]}
+        overlayStyle={[
+          styles.dialog,
+          { height: 190, minHeight: 100, width: "80%", paddingHorizontal: 8 },
+        ]}
       >
-        <View style={{alignItems: "center", width: "100%", paddingVertical: 14}}>
-          <Text style={[styles.dialogValue, {textAlign: "center"}]}>
+        <View
+          style={{ alignItems: "center", width: "100%", paddingVertical: 14 }}
+        >
+          <Text style={[styles.dialogValue, { textAlign: "center" }]}>
             Are you sure you want to delete this match?
           </Text>
         </View>
@@ -225,11 +217,10 @@ const Match = (matchData) => {
           <Button
             title="Cancel"
             onPress={() => {
-              console.log("No");
               setToggleDelete(false);
             }}
             buttonStyle={{
-              width: 120,
+              width: 130,
               height: 40,
               borderRadius: 8,
               marginVertical: 10,
@@ -243,12 +234,9 @@ const Match = (matchData) => {
           />
           <Button
             title="Yes, Delete"
-            onPress={() => {
-              console.log("Yes");
-              setToggleDelete(false);
-            }}
+            onPress={confirmDelete}
             buttonStyle={{
-              width: 120,
+              width: 130,
               height: 40,
               borderRadius: 8,
               marginVertical: 10,
