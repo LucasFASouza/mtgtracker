@@ -168,7 +168,7 @@ export default function HistoryScreen() {
           onBackdropPress={() => setToggle(!toggle)}
           overlayStyle={{
             borderRadius: 16,
-            borderWidth: 1,
+            borderWidth: 0,
             backgroundColor: "#282828",
             borderColor: "#5F5F5F",
             paddingHorizontal: 16,

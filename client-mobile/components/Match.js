@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   dialogDivider: {
-    marginVertical: 6,
+    marginTop: 6,
   },
   dialogMatchSection: {
     width: "33%",
