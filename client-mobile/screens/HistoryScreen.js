@@ -158,6 +158,13 @@ export default function HistoryScreen() {
       });
     }
 
+    if (tagsSelected.length > 0) {
+      filteringMatches = filteringMatches.filter((match) => {
+        let matchTags = match.tags.map((tag) => tag.tag);
+        return tagsSelected.every((tag) => matchTags.includes(tag));
+      });
+    }
+
     setToggle(false);
 
     setFilteredMatches(filteringMatches);
