@@ -13,10 +13,9 @@ const RESULT_DICT = {
 
 const Match = (matchData) => {
   const [result, setResult] = React.useState("");
-  const [color, setColor] = React.useState("");
+  const [hasNotes, setHasNotes] = React.useState(false);
 
   const [toggle, setToggle] = React.useState(false);
-
   const [toggleDelete, setToggleDelete] = React.useState(false);
 
   const match = matchData.match;
@@ -38,7 +37,10 @@ const Match = (matchData) => {
     });
 
     setResult(wins + "-" + losses);
-    setColor(wins > losses ? "#50FAA8" : wins < losses ? "#FA5075" : "#5F5F5F");
+
+    if (match.notes !== "") {
+      setHasNotes(true);
+    }
   }, []);
 
   function toggleMatch() {
@@ -59,7 +61,14 @@ const Match = (matchData) => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.touchable} onPress={toggleMatch}>
         <View style={styles.touchableIcon}>
-          <Icon type="ionicon" name="ellipse" size={8} color={color} />
+          {hasNotes && (
+            <Icon
+              type="ionicon"
+              name="chatbox-ellipses-outline"
+              size={18}
+              color="#5F5F5F"
+            />
+          )}
         </View>
         <Text style={styles.touchableDeck}>{match.your_deck.deck_name}</Text>
         <Text style={styles.touchableResult}>{result}</Text>
@@ -154,27 +163,31 @@ const Match = (matchData) => {
         </View>
 
         {/* Match notes and tags */}
-        <View style={styles.dialogRow}>
-          <View style={styles.dialogDivider}>
-            <Text style={styles.dialogTitle}>NOTES</Text>
-            <Text style={styles.dialogNotes}>{match.notes}</Text>
-          </View>
-        </View>
-
-        <View style={styles.dialogRow}>
-          <View style={styles.dialogDivider}>
-            <Text style={styles.dialogTitle}>TAGS</Text>
-            <View style={styles.dialogTags}>
-              {match.tags.map((tag, index) => {
-                return (
-                  <Text key={index} style={styles.dialogTag}>
-                    {tag.tag}
-                  </Text>
-                );
-              }, [])}
+        {hasNotes && (
+          <View style={styles.dialogRow}>
+            <View style={styles.dialogDivider}>
+              <Text style={styles.dialogTitle}>NOTES</Text>
+              <Text style={styles.dialogNotes}>{match.notes}</Text>
             </View>
           </View>
-        </View>
+        )}
+
+        {match.tags.length > 0 && (
+          <View style={styles.dialogRow}>
+            <View style={styles.dialogDivider}>
+              <Text style={styles.dialogTitle}>TAGS</Text>
+              <View style={styles.dialogTags}>
+                {match.tags.map((tag, index) => {
+                  return (
+                    <Text key={index} style={styles.dialogTag}>
+                      {tag.tag}
+                    </Text>
+                  );
+                }, [])}
+              </View>
+            </View>
+          </View>
+        )}
 
         {/* Buttons */}
         <View style={{ alignItems: "center" }}>

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { View } from "react-native";
-import { Text } from "@rneui/themed";
+import { Text, Button, Icon } from "@rneui/themed";
 
 export default function AddGameScreen() {
   return (
@@ -18,6 +18,13 @@ export default function AddGameScreen() {
       >
         <Text style={{ fontSize: 22, fontWeight: "bold", color: "white" }}>
           Add Match
+        </Text>
+      </View>
+
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Icon name="hammer" size={48} color="white" type="ionicon" />
+        <Text style={{ fontSize: 18, color: "white", marginTop: 16 }}>
+          Page under construction
         </Text>
       </View>
     </View>

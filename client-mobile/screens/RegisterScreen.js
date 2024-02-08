@@ -7,7 +7,6 @@ import { Text } from "@rneui/themed";
 import Input from "../components/atoms/Input";
 import Button from "../components/atoms/Button";
 
-
 export default function RegisterScreen({ navigation }) {
   const { register } = React.useContext(AuthContext);
 
@@ -120,7 +119,7 @@ export default function RegisterScreen({ navigation }) {
       <Image
         source={require("../assets/icon.png")}
         style={{ width: 110, height: 100, marginVertical: 30 }}
-      /> 
+      />
 
       <View style={{ width: "100%", paddingBottom: 30, paddingHorizontal: 8 }}>
         <Text style={{ color: "white", fontSize: 24, fontWeight: "bold" }}>

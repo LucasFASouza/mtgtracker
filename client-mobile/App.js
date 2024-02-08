@@ -55,7 +55,7 @@ export default function App() {
 
       try {
         userToken = await SecureStore.getItemAsync("userToken");
-        userToken = "ddfb13f5887055f30c578c898d6863f44dba845f"
+        userToken = "ddfb13f5887055f30c578c898d6863f44dba845f";
       } catch (e) {
         console.log(e);
       }

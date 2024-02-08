@@ -22,6 +22,13 @@ export default function AnalyticsScreen() {
 
         <Icon name="filter" size={24} color="white" type="ionicon" />
       </View>
+
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Icon name="build" size={48} color="white" type="ionicon" />
+        <Text style={{ fontSize: 18, color: "white", marginTop: 16 }}>
+          Page under construction
+        </Text>
+      </View>
     </View>
   );
 }

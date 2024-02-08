@@ -144,7 +144,7 @@ export default function HistoryScreen() {
           } else if (game.result === "L") {
             losses += 1;
           }
-        })
+        });
 
         if (wins > losses) {
           matchResult = "Win";

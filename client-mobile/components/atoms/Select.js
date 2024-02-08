@@ -2,7 +2,6 @@ import { StyleSheet, View } from "react-native";
 import { MultiSelect } from "react-native-element-dropdown";
 
 const Select = ({ ...props }) => {
-
   const styles = StyleSheet.create({
     style: {
       marginVertical: 16,
