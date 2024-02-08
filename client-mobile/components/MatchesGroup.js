@@ -44,7 +44,7 @@ const MatchesGroup = (matches) => {
       <Text style={styles.dateText}>{date}</Text>
       <View style={styles.matchesContainer}>
         {matchesList.map((match) => {
-          return <Match key={match.id} match={match} />;
+          return <Match key={match.id} match={match} date={date} />;
         })}
       </View>
     </View>
