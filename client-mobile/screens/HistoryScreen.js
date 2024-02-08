@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ScrollView, TouchableOpacity, View } from "react-native";
-import { Text, Divider, Icon, Dialog, Badge } from "@rneui/themed";
+import { Text, Divider, Icon, Dialog } from "@rneui/themed";
 
 import Button from "../components/atoms/Button";
 import MatchesGroup from "../components/MatchesGroup";
@@ -116,7 +116,25 @@ export default function HistoryScreen() {
   }
 
   function filterMatches() {
-    setToggle(!toggle);
+    let filteredMatches = matches;
+
+    if (resultsSelected.length > 0) {
+      filteredMatches = matches.filter((match) => {
+        return yourDecksSelected.includes(match.your_deck.deck_name);
+      });
+    } else {
+      filteredMatches = matches;
+    }
+
+    if (oppDecksSelected.length > 0) {
+      filteredMatches = filteredMatches.filter((match) => {
+        return oppDecksSelected.includes(match.opp_deck.deck_name);
+      });
+    }
+
+    setToggle(false);
+
+    setMatches(filteredMatches);
   }
 
   React.useEffect(() => {
