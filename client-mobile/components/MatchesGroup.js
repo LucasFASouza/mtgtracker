@@ -6,6 +6,7 @@ import Match from "./Match";
 const MatchesGroup = (matches) => {
   const [date, setDate] = React.useState("");
   const matchesList = matches.matches;
+  const onDelete = matches.onDelete;
 
   function getDate() {
     let date = new Date(matchesList[0].created_at);
@@ -44,7 +45,7 @@ const MatchesGroup = (matches) => {
       <Text style={styles.dateText}>{date}</Text>
       <View style={styles.matchesContainer}>
         {matchesList.map((match) => {
-          return <Match key={match.id} match={match} date={date} />;
+          return <Match key={match.id} match={match} date={date} onDelete={onDelete} />;
         })}
       </View>
     </View>

@@ -6,6 +6,7 @@ import { Text, Divider, Icon, Dialog } from "@rneui/themed";
 import Button from "../components/atoms/Button";
 import MatchesGroup from "../components/MatchesGroup";
 import Select from "../components/atoms/Select";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export default function HistoryScreen() {
   // Data
@@ -24,11 +25,10 @@ export default function HistoryScreen() {
   const [tagsSelected, setTagsSelected] = React.useState([]);
   const [resultsSelected, setResultSelected] = React.useState([]);
 
-  async function getMatches() {
-    let userToken;
+  const userToken = "ddfb13f5887055f30c578c898d6863f44dba845f";
 
+  async function getMatches() {
     try {
-      userToken = "ddfb13f5887055f30c578c898d6863f44dba845f";
       const response = await fetch("https://mtgtracker-api.fly.dev/api/games", {
         headers: { Authorization: `Token ${userToken}` },
       });
@@ -170,6 +170,18 @@ export default function HistoryScreen() {
     setFilteredMatches(filteringMatches);
   }
 
+  async function deleteMatch(id) {
+    const response = await fetch(
+      "https://mtgtracker-api.fly.dev/api/games/" + id,
+      {
+        headers: { Authorization: `Token ${userToken}` },
+        method: "DELETE",
+      }
+    ).catch(() => console.log("e"));
+
+    getMatches();
+  }
+
   React.useEffect(() => {
     const fetchdata = async () => {
       await getMatches();
@@ -306,8 +318,25 @@ export default function HistoryScreen() {
 
       {/* Matches */}
       {datedMatches.map((group) => (
-        <MatchesGroup key={group.createdAt} matches={group.items} />
+        <MatchesGroup
+          key={group.createdAt}
+          matches={group.items}
+          onDelete={deleteMatch}
+        />
       ))}
+
+      {/* Empty */}
+      {datedMatches.length === 0 && (
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            height: 300,
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 16 }}>No matches found</Text>
+        </View>
+      )}
     </ScrollView>
   );
 }

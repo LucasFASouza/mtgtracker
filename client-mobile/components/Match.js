@@ -21,6 +21,8 @@ const Match = (matchData) => {
   const match = matchData.match;
   const date = matchData.date;
 
+  const onDelete = matchData.onDelete;
+
   React.useEffect(() => {
     let games = match.matches;
     let results = games.map((game) => game.result);
@@ -51,10 +53,11 @@ const Match = (matchData) => {
     setToggleDelete(true);
   }
 
-  async function confirmDelete() {
-    console.log("Delete match");
+  function confirmDelete() {
     setToggleDelete(false);
     setToggle(false);
+
+    onDelete(match.id);
   }
 
   return (
