@@ -5,8 +5,7 @@ import { Text, Divider, Icon, Dialog } from "@rneui/themed";
 
 import Button from "../components/atoms/Button";
 import MatchesGroup from "../components/MatchesGroup";
-import Select from "../components/atoms/Select";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import MultiSelect from "../components/atoms/MultiSelect";
 
 export default function HistoryScreen() {
   // Data
@@ -248,7 +247,7 @@ export default function HistoryScreen() {
 
           <Divider style={{ marginVertical: 8 }} />
 
-          <Select
+          <MultiSelect
             placeholder="Your Decks"
             data={yourDecks}
             value={yourDecksSelected}
@@ -257,7 +256,7 @@ export default function HistoryScreen() {
             }}
           />
 
-          <Select
+          <MultiSelect
             placeholder="Opponent's Decks"
             data={oppDecks}
             value={oppDecksSelected}
@@ -266,7 +265,7 @@ export default function HistoryScreen() {
             }}
           />
 
-          <Select
+          <MultiSelect
             placeholder="Tags"
             data={tags}
             value={tagsSelected}
@@ -275,7 +274,7 @@ export default function HistoryScreen() {
             }}
           />
 
-          <Select
+          <MultiSelect
             placeholder="Results"
             data={[
               { label: "Win", value: "Win" },
@@ -299,12 +298,6 @@ export default function HistoryScreen() {
               title="Filter"
               onPress={() => {
                 filterMatches();
-              }}
-              buttonStyle={{
-                width: 120,
-                height: 40,
-                borderRadius: 8,
-                marginVertical: 10,
               }}
               titleStyle={{
                 color: "white",

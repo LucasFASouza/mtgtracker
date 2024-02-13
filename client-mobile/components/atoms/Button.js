@@ -16,11 +16,11 @@ const Button = ({ ...props }) => {
 export default Button;
 
 const styles = StyleSheet.create({
-  titleStyle: { color: "white", fontSize: 18, fontWeight: "bold" },
+  titleStyle: { color: "white", fontSize: 17, fontWeight: "bold" },
   buttonStyle: {
-    width: 180,
-    height: 50,
-    borderRadius: 7,
+    width: 130,
+    height: 40,
+    borderRadius: 8,
     marginBottom: 10,
   },
 });

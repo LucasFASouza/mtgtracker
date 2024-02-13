@@ -197,17 +197,6 @@ const Match = (matchData) => {
           <Button
             title="Delete"
             onPress={deleteMatch}
-            buttonStyle={{
-              width: 130,
-              height: 40,
-              borderRadius: 8,
-              marginVertical: 16,
-            }}
-            titleStyle={{
-              color: "white",
-              fontSize: 17,
-              fontWeight: "bold",
-            }}
           />
         </View>
       </Dialog>
@@ -235,33 +224,11 @@ const Match = (matchData) => {
             onPress={() => {
               setToggleDelete(false);
             }}
-            buttonStyle={{
-              width: 130,
-              height: 40,
-              borderRadius: 8,
-              marginVertical: 10,
-            }}
-            titleStyle={{
-              color: "white",
-              fontSize: 17,
-              fontWeight: "bold",
-            }}
             color={"#5F5F5F"}
           />
           <Button
             title="Yes, Delete"
             onPress={confirmDelete}
-            buttonStyle={{
-              width: 130,
-              height: 40,
-              borderRadius: 8,
-              marginVertical: 10,
-            }}
-            titleStyle={{
-              color: "white",
-              fontSize: 17,
-              fontWeight: "bold",
-            }}
           />
         </View>
       </Dialog>

@@ -1,7 +1,7 @@
-import { StyleSheet, View } from "react-native";
-import { RNESelect } from "react-native-element-dropdown";
+import { StyleSheet } from "react-native";
+import { RNEMultiSelect } from "react-native-element-dropdown";
 
-const Select = ({ ...props }) => {
+const MultiSelect = ({ ...props }) => {
   const styles = StyleSheet.create({
     style: {
       marginVertical: 16,
@@ -41,7 +41,7 @@ const Select = ({ ...props }) => {
   });
 
   return (
-    <RNESelect
+    <RNEMultiSelect
       style={styles.style}
       placeholderStyle={styles.placeholderStyle}
       containerStyle={styles.containerStyle}
@@ -59,4 +59,4 @@ const Select = ({ ...props }) => {
   );
 };
 
-export default Select;
+export default MultiSelect;
