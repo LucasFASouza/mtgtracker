@@ -1,7 +1,11 @@
-import { integer, text, boolean, pgTable } from "drizzle-orm/pg-core";
+import { integer, text, boolean, pgTable, pgEnum } from "drizzle-orm/pg-core";
 
-export const todo = pgTable("todo", {
+export const matchResultEnum = pgEnum("match_result", ["W", "D", "L"]);
+
+export const match = pgTable("match", {
   id: integer("id").primaryKey(),
-  text: text("text").notNull(),
-  done: boolean("done").default(false).notNull(),
+  result: matchResultEnum("result"),
+  your_deck: text("your_deck"),
+  opp_deck: text("opponent_deck"),
+  notes: text("notes"),
 });
