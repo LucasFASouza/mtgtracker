@@ -1,36 +1,36 @@
-# mtgtracker
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Overview
+## Getting Started
 
-MTGTracker is a mobile application designed for competitive Magic: The Gathering (MTG) players to keep track of their matches, maintain a detailed history, and analyze performance statistics. The app aims to provide valuable insights, such as win rates, mulligan frequencies, and information on decks that pose challenges, empowering players to make informed decisions and improve their skills.
+First, run the development server:
 
-## Features
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-- **Match Logging:** Record details of each MTG match, including decks played and outcomes.
-- **Historical Data:** View and analyze a comprehensive history of past matches to identify patterns and trends.
-- **Performance Metrics:** Gain insights into win rates, average mulligans, and other performance indicators.
-- **Deck Analysis:** Identify specific decks that present challenges or are consistently defeated.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Technology Stack
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-The MTGTracker application leverages the power of Django for its backend, a high-level Python web framework known for its efficiency and scalability in developing robust web applications. With Django, we can seamlessly integrate a RESTful API and ensure secure user authentication.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-On the frontend, MTGTracker utilizes React Native, a JavaScript framework that allows for the development of native mobile applications with a single codebase. React Native enables a smooth and responsive user experience, with features like React Navigation for intuitive app navigation.
+## Learn More
 
-This technology stack not only streamlines the development process but also ensures a high level of performance, making MTGTracker an ideal tool for competitive Magic: The Gathering players seeking to enhance their gameplay through comprehensive match tracking and insightful analytics.
+To learn more about Next.js, take a look at the following resources:
 
-## Contribution Guidelines
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-We welcome contributions to MTGTracker to enhance its functionality and address any issues. If you encounter bugs or have suggestions for new features, please feel free to open an issue on the GitHub repository. Additionally, we encourage the community to contribute by submitting pull requests for bug fixes, corrections, or the implementation of new features. Your feedback and involvement are crucial in making MTGTracker a valuable tool for Magic: The Gathering players. Thank you for your contributions!
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## License
+## Deploy on Vercel
 
-This project is licensed under the [MIT License]().
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## Acknowledgments
-
-Thank you for using MTGTracker! Your feedback and contributions are highly appreciated. If you encounter any issues or have suggestions, please open an issue or submit a pull request. Happy tracking!
-
-**Disclaimer:** Magic: The Gathering is a trademark of Wizards of the Coast LLC, a subsidiary of Hasbro, Inc. MTGTracker is not affiliated with or endorsed by Wizards of the Coast.
-
-![icon](https://github.com/LucasFASouza/mtgtracker/blob/main/client-mobile/assets/icon-test.png?raw=true)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
