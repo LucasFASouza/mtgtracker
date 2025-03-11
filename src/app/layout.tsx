@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MTG Tracker",
+  title: "mtgtracker",
   description: "A Magic: the Gathering winrate tracker",
 };
 

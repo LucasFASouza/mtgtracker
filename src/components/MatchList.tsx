@@ -39,6 +39,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { PlusIcon } from "lucide-react";
 
 export default function MatchList() {
   const [matches, setMatches] = useState<
@@ -136,105 +137,103 @@ export default function MatchList() {
   }
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">MTG Match Tracker</h1>
-        <p className="text-muted-foreground mt-1">
-          Track your Magic: The Gathering match results
-        </p>
-      </div>
-
-      <div className="flex justify-end">
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>Add New Match</Button>
-          </DialogTrigger>
-
-          <DialogContent className="sm:max-w-[525px]">
-            <DialogHeader>
-              <DialogTitle>Add New Match</DialogTitle>
-              <DialogDescription>
-                Record the details of your latest match
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="result">Result</Label>
-                <Select
-                  value={newMatch.result}
-                  onValueChange={handleSelectChange}
-                >
-                  <SelectTrigger id="result">
-                    <SelectValue placeholder="Select result" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="W">Win</SelectItem>
-                    <SelectItem value="D">Draw</SelectItem>
-                    <SelectItem value="L">Loss</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="your_deck">Your Deck</Label>
-                  <Input
-                    id="your_deck"
-                    name="your_deck"
-                    value={newMatch.your_deck}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="opp_deck">Opponent's Deck</Label>
-                  <Input
-                    id="opp_deck"
-                    name="opp_deck"
-                    value={newMatch.opp_deck}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="notes">Notes</Label>
-                <Textarea
-                  id="notes"
-                  name="notes"
-                  value={newMatch.notes}
-                  onChange={handleInputChange}
-                  placeholder="Any additional notes about the match..."
-                  rows={3}
-                />
-              </div>
-
-              <Button type="submit" className="w-full md:w-auto">
-                Add Match
-              </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
-
+    <div className="container mt-4">
       <div className="space-y-4">
-        <h2 className="text-2xl font-semibold">Match History</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-semibold">Match History</h2>
+
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="icon">
+                <PlusIcon size={48} />
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add New Match</DialogTitle>
+                <DialogDescription>
+                  Record the details of your latest match
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="result">Result</Label>
+                  <Select
+                    value={newMatch.result}
+                    onValueChange={handleSelectChange}
+                  >
+                    <SelectTrigger id="result">
+                      <SelectValue placeholder="Select result" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="W">Win</SelectItem>
+                      <SelectItem value="D">Draw</SelectItem>
+                      <SelectItem value="L">Loss</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="your_deck">Your Deck</Label>
+                    <Input
+                      id="your_deck"
+                      name="your_deck"
+                      value={newMatch.your_deck}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="opp_deck">Opponent's Deck</Label>
+                    <Input
+                      id="opp_deck"
+                      name="opp_deck"
+                      value={newMatch.opp_deck}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="notes">Notes</Label>
+                  <Textarea
+                    id="notes"
+                    name="notes"
+                    value={newMatch.notes}
+                    onChange={handleInputChange}
+                    placeholder="Any additional notes about the match..."
+                    rows={3}
+                  />
+                </div>
+
+                <Button type="submit" className="w-full md:w-auto">
+                  Add Match
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
+
         {matches.length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center">
-              <p className="text-muted-foreground">No matches recorded yet.</p>
+              <p className="text-muted-foreground">
+                Register a match to see it here :)
+              </p>
             </CardContent>
           </Card>
         ) : (
-          <Card>
-            <CardContent className="p-0">
+          <Card className="py-2">
+            <CardContent className="px-2">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Result</TableHead>
                     <TableHead>Your Deck</TableHead>
+                    <TableHead>Result</TableHead>
                     <TableHead>Opponent's Deck</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -246,12 +245,12 @@ export default function MatchList() {
                       onClick={() => handleRowClick(match)}
                       className="cursor-pointer hover:bg-muted"
                     >
+                      <TableCell>{match.your_deck}</TableCell>
                       <TableCell>
                         <Badge variant={getResultBadgeVariant(match.result)}>
                           {getResultText(match.result)}
                         </Badge>
                       </TableCell>
-                      <TableCell>{match.your_deck}</TableCell>
                       <TableCell>{match.opp_deck}</TableCell>
                     </TableRow>
                   ))}
@@ -264,7 +263,7 @@ export default function MatchList() {
 
       {/* Match Detail Dialog */}
       <Dialog open={detailDialogOpen} onOpenChange={setDetailDialogOpen}>
-        <DialogContent className="sm:max-w-[525px]">
+        <DialogContent className="">
           <DialogTitle>
             {selectedMatch?.your_deck}
             <span className="font-light text-muted-foreground"> vs </span>
