@@ -10,14 +10,12 @@ export const getData = async () => {
 };
 
 export const addMatch = async (
-  id: number,
   result: "W" | "D" | "L",
   your_deck: string,
   opp_deck: string,
   notes: string
 ) => {
   await db.insert(match).values({
-    id: id,
     result: result,
     your_deck: your_deck,
     opp_deck: opp_deck,
@@ -25,7 +23,7 @@ export const addMatch = async (
   });
 };
 
-export const deleteMatch = async (id: number) => {
+export const deleteMatch = async (id: string) => {
   await db.delete(match).where(eq(match.id, id));
 
   revalidatePath("/");

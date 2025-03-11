@@ -1,7 +1,7 @@
 "use client";
 import { getData, addMatch } from "@/actions/matchAction";
 import Match from "@/components/Match";
-import { match } from "@/db/schema";
+import { match as matchSchema } from "@/db/schema";
 import { InferSelectModel } from "drizzle-orm";
 import React, { useEffect, useState } from "react";
 import {
@@ -30,13 +30,27 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 
 export default function MatchList() {
-  const [matches, setMatches] = useState<InferSelectModel<typeof match>[]>([]);
+  const [matches, setMatches] = useState<
+    InferSelectModel<typeof matchSchema>[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedMatch, setSelectedMatch] = useState<InferSelectModel<
+    typeof matchSchema
+  > | null>(null);
+  const [detailDialogOpen, setDetailDialogOpen] = useState(false);
   const [newMatch, setNewMatch] = useState({
-    id: 0,
     result: "W" as "W" | "D" | "L",
     your_deck: "",
     opp_deck: "",
@@ -61,7 +75,6 @@ export default function MatchList() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await addMatch(
-      newMatch.id,
       newMatch.result,
       newMatch.your_deck,
       newMatch.opp_deck,
@@ -74,7 +87,6 @@ export default function MatchList() {
 
     // Reset form
     setNewMatch({
-      id: 0,
       result: "W",
       your_deck: "",
       opp_deck: "",
@@ -102,6 +114,19 @@ export default function MatchList() {
     }));
   };
 
+  const handleRowClick = (match: InferSelectModel<typeof matchSchema>) => {
+    setSelectedMatch(match);
+    setDetailDialogOpen(true);
+  };
+
+  const getResultBadgeVariant = (result: string | null) => {
+    return result === "W" ? "default" : result === "L" ? "sad" : "secondary";
+  };
+
+  const getResultText = (result: string | null) => {
+    return result === "W" ? "Win" : result === "L" ? "Loss" : "Draw";
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -124,7 +149,7 @@ export default function MatchList() {
           <DialogTrigger asChild>
             <Button>Add New Match</Button>
           </DialogTrigger>
-          
+
           <DialogContent className="sm:max-w-[525px]">
             <DialogHeader>
               <DialogTitle>Add New Match</DialogTitle>
@@ -133,35 +158,21 @@ export default function MatchList() {
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="id">Match ID</Label>
-                  <Input
-                    id="id"
-                    name="id"
-                    type="number"
-                    value={newMatch.id}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="result">Result</Label>
-                  <Select
-                    value={newMatch.result}
-                    onValueChange={handleSelectChange}
-                  >
-                    <SelectTrigger id="result">
-                      <SelectValue placeholder="Select result" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="W">Win</SelectItem>
-                      <SelectItem value="D">Draw</SelectItem>
-                      <SelectItem value="L">Loss</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="result">Result</Label>
+                <Select
+                  value={newMatch.result}
+                  onValueChange={handleSelectChange}
+                >
+                  <SelectTrigger id="result">
+                    <SelectValue placeholder="Select result" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="W">Win</SelectItem>
+                    <SelectItem value="D">Draw</SelectItem>
+                    <SelectItem value="L">Loss</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -217,13 +228,51 @@ export default function MatchList() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {matches.map((match) => (
-              <Match key={match.id} match={match} />
-            ))}
-          </div>
+          <Card>
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Result</TableHead>
+                    <TableHead>Your Deck</TableHead>
+                    <TableHead>Opponent's Deck</TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  {matches.map((match) => (
+                    <TableRow
+                      key={match.id}
+                      onClick={() => handleRowClick(match)}
+                      className="cursor-pointer hover:bg-muted"
+                    >
+                      <TableCell>
+                        <Badge variant={getResultBadgeVariant(match.result)}>
+                          {getResultText(match.result)}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{match.your_deck}</TableCell>
+                      <TableCell>{match.opp_deck}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         )}
       </div>
+
+      {/* Match Detail Dialog */}
+      <Dialog open={detailDialogOpen} onOpenChange={setDetailDialogOpen}>
+        <DialogContent className="sm:max-w-[525px]">
+          <DialogTitle>
+            {selectedMatch?.your_deck}
+            <span className="font-light text-muted-foreground"> vs </span>
+            {selectedMatch?.opp_deck}
+          </DialogTitle>
+          {selectedMatch && <Match match={selectedMatch} />}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
