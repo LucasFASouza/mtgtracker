@@ -1,7 +1,7 @@
 "use client";
 import { getMatches } from "@/actions/matchAction";
 import Match from "@/components/history/Match";
-import { match as matchSchema } from "@/db/schema";
+import { match as matchSchema, game as gameSchema } from "@/db/schema";
 import { InferSelectModel } from "drizzle-orm";
 import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,14 +18,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Funnel } from "@phosphor-icons/react/dist/ssr";
 
+type ExtendedMatch = InferSelectModel<typeof matchSchema> & {
+  games?: InferSelectModel<typeof gameSchema>[];
+};
+
 export default function MatchList() {
-  const [matches, setMatches] = useState<
-    InferSelectModel<typeof matchSchema>[]
-  >([]);
+  const [matches, setMatches] = useState<ExtendedMatch[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedMatch, setSelectedMatch] = useState<InferSelectModel<
-    typeof matchSchema
-  > | null>(null);
+  const [selectedMatch, setSelectedMatch] = useState<ExtendedMatch | null>(
+    null
+  );
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export default function MatchList() {
     fetchMatches();
   }, []);
 
-  const handleRowClick = (match: InferSelectModel<typeof matchSchema>) => {
+  const handleRowClick = (match: ExtendedMatch) => {
     setSelectedMatch(match);
     setDetailDialogOpen(true);
   };
@@ -90,8 +92,10 @@ export default function MatchList() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Result</TableHead>
+                    <TableHead>Score</TableHead>
                     <TableHead>Your Deck</TableHead>
                     <TableHead>Opponent's Deck</TableHead>
+                    <TableHead>Format</TableHead>
                   </TableRow>
                 </TableHeader>
 
@@ -103,12 +107,19 @@ export default function MatchList() {
                       className="cursor-pointer hover:bg-muted"
                     >
                       <TableCell>
-                        <Badge variant={getResultBadgeVariant(match.result)} className="w-full">
+                        <Badge
+                          variant={getResultBadgeVariant(match.result)}
+                          className="w-full"
+                        >
                           {getResultText(match.result)}
                         </Badge>
                       </TableCell>
+                      <TableCell>
+                        {match.your_points} - {match.opp_points}
+                      </TableCell>
                       <TableCell>{match.your_deck}</TableCell>
                       <TableCell>{match.opp_deck}</TableCell>
+                      <TableCell>{match.format || "-"}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -121,9 +132,7 @@ export default function MatchList() {
       {/* Match Detail Dialog */}
       <Dialog open={detailDialogOpen} onOpenChange={setDetailDialogOpen}>
         <DialogContent>
-          <DialogTitle>
-            Match details
-          </DialogTitle>
+          <DialogTitle>Match details</DialogTitle>
           {selectedMatch && <Match match={selectedMatch} />}
         </DialogContent>
       </Dialog>

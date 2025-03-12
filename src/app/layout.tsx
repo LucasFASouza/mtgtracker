@@ -34,7 +34,7 @@ export default function RootLayout({
             <h1 className="text-3xl font-bold text-primary">mtgtracker</h1>
           </div>
 
-          <main className="px-6 flex-grow">{children}</main>
+          <main className="px-6 pb-24 flex-grow">{children}</main>
           <Navbar />
         </div>
       </body>
