@@ -86,46 +86,38 @@ export default function MatchList() {
             </CardContent>
           </Card>
         ) : (
-          <Card className="py-2">
-            <CardContent className="px-2">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Result</TableHead>
-                    <TableHead>Score</TableHead>
-                    <TableHead>Your Deck</TableHead>
-                    <TableHead>Opponent's Deck</TableHead>
-                    <TableHead>Format</TableHead>
-                  </TableRow>
-                </TableHeader>
-
-                <TableBody>
-                  {matches.map((match) => (
-                    <TableRow
-                      key={match.id}
-                      onClick={() => handleRowClick(match)}
-                      className="cursor-pointer hover:bg-muted"
+          <Table className="table-fixed">
+            <TableBody>
+              {matches.map((match) => (
+                <TableRow
+                  key={match.id}
+                  onClick={() => handleRowClick(match)}
+                  className="cursor-pointer hover:bg-muted"
+                >
+                  <TableCell className="w-[16%]">
+                    <Badge
+                      variant={getResultBadgeVariant(match.result)}
+                      className="w-full"
                     >
-                      <TableCell>
-                        <Badge
-                          variant={getResultBadgeVariant(match.result)}
-                          className="w-full"
-                        >
-                          {getResultText(match.result)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        {match.your_points} - {match.opp_points}
-                      </TableCell>
-                      <TableCell>{match.your_deck}</TableCell>
-                      <TableCell>{match.opp_deck}</TableCell>
-                      <TableCell>{match.format || "-"}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+                      {getResultText(match.result)}
+                    </Badge>
+                  </TableCell>
+
+                  <TableCell className="w-[35%] truncate text-center">
+                    {match.your_deck}
+                  </TableCell>
+
+                  <TableCell className="w-[14%] text-muted-foreground text-center font-bold">
+                    {match.your_points} - {match.opp_points}
+                  </TableCell>
+
+                  <TableCell className="w-[35%] truncate text-center">
+                    {match.opp_deck}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         )}
       </div>
 
