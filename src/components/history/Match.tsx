@@ -2,7 +2,6 @@ import { deleteMatch } from "@/actions/matchAction";
 import { match } from "@/db/schema";
 import { InferSelectModel } from "drizzle-orm";
 import React from "react";
-import { CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -15,13 +14,18 @@ interface MatchProps {
 export default function Match({ match }: MatchProps) {
   const handleDelete = async () => {
     await deleteMatch(match.id);
-    // Close dialog will be handled by parent component
-    window.location.reload(); // Refresh the page after deletion
+    window.location.reload();
   };
 
   return (
     <div>
       <div className="flex flex-col items-center justify-between pb-4">
+        <h3 className="text-lg font-medium">
+          {match?.your_deck}
+          <span className="font-light text-muted-foreground"> vs </span>
+          {match?.opp_deck}
+        </h3>
+        
         <div className="flex items-center mt-2">
           <span className="text-sm text-muted-foreground mr-2">Result:</span>
           <Badge
