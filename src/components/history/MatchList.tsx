@@ -68,7 +68,7 @@ export default function MatchList() {
     <div className="container">
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-semibold">Match History</h2>
+          <h2 className="text-xl font-semibold">Match History</h2>
 
           <Button variant="outline" size="icon">
             <Funnel size={48} />
