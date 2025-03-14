@@ -18,7 +18,7 @@ export default function Navbar() {
       <Link
         href="/"
         className={`flex-1 flex flex-col items-center text-xs px-2 py-1 ${
-          pathname === "/" ? "text-foreground" : "text-muted-foreground"
+          pathname === "/" ? "text-primary" : "text-muted-foreground"
         }`}
       >
         <TabIcon icon={ListDashes} isActive={pathname === "/"} />
@@ -28,7 +28,7 @@ export default function Navbar() {
       <Link
         href="/register"
         className={`flex-1 flex flex-col items-center text-xs px-2 py-1 ${
-          pathname === "/register" ? "text-foreground" : "text-muted-foreground"
+          pathname === "/register" ? "text-primary" : "text-muted-foreground"
         }`}
       >
         <TabIcon icon={PlusSquare} isActive={pathname === "/register"} />
@@ -38,9 +38,7 @@ export default function Navbar() {
       <Link
         href="/analytics"
         className={`flex-1 flex flex-col items-center font-medium text-xs px-2 py-1 ${
-          pathname === "/analytics"
-            ? "text-foreground"
-            : "text-muted-foreground"
+          pathname === "/analytics" ? "text-primary" : "text-muted-foreground"
         }`}
       >
         <TabIcon icon={ChartLine} isActive={pathname === "/analytics"} />

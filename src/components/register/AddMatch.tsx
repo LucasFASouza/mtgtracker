@@ -13,7 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import MatchReview from "@/components/MatchReview";
 
 type GameDataInternal = {
   game_number: number;
@@ -323,7 +324,12 @@ export default function AddMatch() {
                 Back
               </Button>
 
-              <Button onClick={addAnotherGame}>Next</Button>
+              <Button
+                onClick={addAnotherGame}
+                disabled={currentGameIndex === 0 && game.won_game === null}
+              >
+                Next
+              </Button>
             </div>
           </div>
         </div>
@@ -336,53 +342,19 @@ export default function AddMatch() {
       const playedGames = games.filter((game) => game.won_game !== null);
 
       return (
-        <div className="space-y-6 pt-24">
+        <div className="space-y-6 pt-10">
           <h2 className="text-xl font-semibold">Review and Notes</h2>
 
-          <Card className="mb-4">
-            <CardHeader>
-              <CardTitle>Match Summary</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div>
-                  <span className="font-bold text-muted-foreground">
-                    Format:{" "}
-                  </span>
-                  {newMatch.format}
-                </div>
-                <div>
-                  <span className="font-bold text-muted-foreground">
-                    Your Deck:{" "}
-                  </span>
-                  {newMatch.your_deck}
-                </div>
-                <div>
-                  <span className="font-bold text-muted-foreground">
-                    Opponent's Deck:{" "}
-                  </span>
-                  {newMatch.opp_deck}
-                </div>
+          <div className="border p-3 rounded-md">
+            <MatchReview
+              yourDeck={newMatch.your_deck}
+              oppDeck={newMatch.opp_deck}
+              format={newMatch.format}
+              games={games}
+            />
+          </div>
 
-                {playedGames.map((game, index) => (
-                  <div key={index} className="pl-4">
-                    <span className="font-bold text-muted-foreground">
-                      Game {game.game_number}:{" "}
-                    </span>
-                    {game.won_game ? "Won" : "Lost"}
-                    
-                    {game.started_play === null
-                      ? ""
-                      : game.started_play
-                      ? ", on the play"
-                      : ", on the draw"}
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="space-y-2">
+          <div className="space-y-2 mt-4">
             <Label htmlFor="notes">Additional Notes</Label>
             <Textarea
               id="notes"

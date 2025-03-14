@@ -50,13 +50,17 @@ export default function MatchList() {
     setDetailDialogOpen(true);
   };
 
-  const getResultBadgeVariant = (result: string | null) => {
-    return result === "W" ? "default" : result === "L" ? "sad" : "secondary";
+  const getResultClass = (result: string | null) => {
+    return result === "W"
+      ? "bg-emerald-700"
+      : result === "L"
+      ? "bg-red-700"
+      : "bg-neutral-700";
   };
 
   const getResultText = (result: string | null) => {
     return result === "W" ? "Win" : result === "L" ? "Loss" : "Draw";
-  };
+  }
 
   if (loading) {
     return (
@@ -95,12 +99,16 @@ export default function MatchList() {
                   className="cursor-pointer hover:bg-muted"
                 >
                   <TableCell className="w-[16%]">
-                    <Badge
-                      variant={getResultBadgeVariant(match.result)}
-                      className="w-full"
-                    >
+                    <Badge className={`w-full ${getResultClass(match.result)}`}>
                       {getResultText(match.result)}
                     </Badge>
+
+                    {/* <div
+                      className={`w-2 h-5 rounded-xs ${getResultClass(
+                        match.result
+                      )}
+                      }`}
+                    /> */}
                   </TableCell>
 
                   <TableCell className="w-[35%] truncate text-center">
@@ -124,7 +132,7 @@ export default function MatchList() {
       {/* Match Detail Dialog */}
       <Dialog open={detailDialogOpen} onOpenChange={setDetailDialogOpen}>
         <DialogContent>
-          <DialogTitle>Match details</DialogTitle>
+          <DialogTitle className="mb-4">Match details</DialogTitle>
           {selectedMatch && <Match match={selectedMatch} />}
         </DialogContent>
       </Dialog>

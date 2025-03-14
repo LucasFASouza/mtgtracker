@@ -12,7 +12,7 @@ interface TabIconProps {
 export default function TabIcon({
   icon: Icon,
   isActive,
-  size = 28,
+  size = 20,
   className = "mb-1",
 }: TabIconProps) {
   return (

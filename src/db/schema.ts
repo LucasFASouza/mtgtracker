@@ -14,7 +14,7 @@ export const matchResultEnum = pgEnum("match_result", ["W", "D", "L"]);
 export const match = pgTable("match", {
   id: uuid("id").defaultRandom().primaryKey(),
   created_at: timestamp("created_at").notNull().defaultNow(),
-  your_deck: text("your_deck"),
+  your_deck: text("your_deck").notNull(),
   opp_deck: text("opponent_deck"),
   result: matchResultEnum("result").notNull(),
   your_points: integer("your_points").default(0),
@@ -26,7 +26,7 @@ export const match = pgTable("match", {
 export const game = pgTable("game", {
   id: uuid("id").defaultRandom().primaryKey(),
   match_id: uuid("match_id").references(() => match.id),
-  game_number: integer("game_number"),
+  game_number: integer("game_number").notNull(),
   started_play: boolean("started_play"),
   won_game: boolean("won_game"),
 });
