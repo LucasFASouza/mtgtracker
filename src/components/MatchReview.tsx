@@ -1,6 +1,4 @@
 import React from "react";
-import { InferSelectModel } from "drizzle-orm";
-import { game as gameSchema } from "@/db/schema";
 
 interface MatchReviewProps {
   yourDeck: string;
@@ -39,7 +37,7 @@ export default function MatchReview({
 
         <div>
           <p className="text-xs uppercase text-muted-foreground font-medium mb-1">
-            Opponent's Deck
+            Opponent’s Deck
           </p>
           <p className="font-medium">{oppDeck || "Unknown"}</p>
         </div>
