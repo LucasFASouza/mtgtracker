@@ -45,7 +45,6 @@ export default function AddMatch() {
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  // Use a ref to store the deck placeholder so it doesn't change on re-renders
   const deckPlaceholderRef = useRef<string>("");
 
   if (!deckPlaceholderRef.current) {
@@ -226,7 +225,7 @@ export default function AddMatch() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="opp_deck">Opponent's Deck</Label>
+            <Label htmlFor="opp_deck">Opponent’s Deck</Label>
             <Input
               id="opp_deck"
               name="opp_deck"
@@ -281,7 +280,7 @@ export default function AddMatch() {
               <SelectContent>
                 <SelectItem value="win">Won</SelectItem>
                 <SelectItem value="loss">Lost</SelectItem>
-                <SelectItem value="skip">Didn't play</SelectItem>
+                <SelectItem value="skip">Didn’t play</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -338,9 +337,6 @@ export default function AddMatch() {
 
     // Final Step: Review and Notes
     if (isReviewStep) {
-      // Filter out games that weren't played for display
-      const playedGames = games.filter((game) => game.won_game !== null);
-
       return (
         <div className="space-y-6 pt-10">
           <h2 className="text-xl font-semibold">Review and Notes</h2>

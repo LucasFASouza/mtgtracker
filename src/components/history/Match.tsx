@@ -1,7 +1,7 @@
 import { deleteMatch } from "@/actions/matchAction";
 import { match, game } from "@/db/schema";
 import { InferSelectModel } from "drizzle-orm";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import MatchReview from "@/components/MatchReview";
 import {
