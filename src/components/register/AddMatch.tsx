@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { addMatch } from "@/actions/matchAction";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -13,13 +14,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-type GameData = {
+type GameDataInternal = {
   game_number: number;
-  started_play: boolean;
-  won_game: boolean;
+  started_play: boolean | null;
+  won_game: boolean | null;
 };
 
 interface MatchFormData {
@@ -30,6 +29,8 @@ interface MatchFormData {
 }
 
 export default function AddMatch() {
+  const router = useRouter();
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const [newMatch, setNewMatch] = useState<MatchFormData>({
     your_deck: "",
     opp_deck: "",
@@ -37,55 +38,38 @@ export default function AddMatch() {
     notes: "",
   });
 
-  const [numberOfGames, setNumberOfGames] = useState<number>(2);
-
-  const [games, setGames] = useState<GameData[]>([
-    { game_number: 1, started_play: false, won_game: false },
-    { game_number: 2, started_play: false, won_game: false },
-    { game_number: 3, started_play: false, won_game: false },
+  const [games, setGames] = useState<GameDataInternal[]>([
+    { game_number: 1, started_play: null, won_game: null },
   ]);
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  // Use a ref to store the deck placeholder so it doesn't change on re-renders
+  const deckPlaceholderRef = useRef<string>("");
 
-    try {
-      const activeGames = games.slice(0, numberOfGames);
+  if (!deckPlaceholderRef.current) {
+    const decks = [
+      "A commander that I cutted 40 lands from",
+      "A draft deck that I added 20 lands to",
+      "4c Bad Stuff",
+      "Mono-tonous Control",
+      "3 bombs in a trenchcoat",
+      "Something borrowed",
+      "Something blue",
+      "Something old",
+      "Something new",
+      "60 goblins and a dream",
+      "The first result in my netdecking",
+    ];
 
-      await addMatch(
-        newMatch.your_deck,
-        newMatch.opp_deck,
-        newMatch.format,
-        newMatch.notes,
-        activeGames
-      );
+    deckPlaceholderRef.current =
+      decks[Math.floor(Math.random() * decks.length)];
+  }
 
-      setNewMatch({
-        your_deck: "",
-        opp_deck: "",
-        format: "",
-        notes: "",
-      });
-
-      setGames([
-        { game_number: 1, started_play: false, won_game: false },
-        { game_number: 2, started_play: false, won_game: false },
-        { game_number: 3, started_play: false, won_game: false },
-      ]);
-
-      setNumberOfGames(2);
-
-      setSubmitSuccess(true);
-      setTimeout(() => setSubmitSuccess(false), 3000);
-    } catch (error) {
-      console.error("Error adding match:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  // Get current game index (for steps 2, 3, 4 which represent games 0, 1, 2)
+  const currentGameIndex = currentStep - 2;
+  const isGameStep = currentStep > 1 && currentStep < 5;
+  const isReviewStep = currentStep === 5;
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -97,31 +81,145 @@ export default function AddMatch() {
     }));
   };
 
-  const handleGameChange = (
-    index: number,
-    field: keyof GameData,
-    value: boolean
-  ) => {
-    setGames((prevGames: GameData[]) =>
-      prevGames.map((game, i) =>
-        i === index ? { ...game, [field]: value } : game
+  const handleGamePlayDrawChange = (gameIndex: number, playChoice: string) => {
+    setGames((prevGames) =>
+      prevGames.map((game, idx) =>
+        idx === gameIndex
+          ? {
+              ...game,
+              started_play:
+                playChoice === "skip" ? null : playChoice === "play",
+            }
+          : game
       )
     );
   };
 
-  return (
-    <div className="container">
-      <h2 className="text-xl font-semibold mb-4">Register a New Match</h2>
+  const handleGameWinLossChange = (gameIndex: number, result: string) => {
+    setGames((prevGames) =>
+      prevGames.map((game, idx) =>
+        idx === gameIndex
+          ? {
+              ...game,
+              won_game: result === "skip" ? null : result === "win",
+              started_play: result === "skip" ? null : game.started_play,
+            }
+          : game
+      )
+    );
+  };
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  const addAnotherGame = () => {
+    if (currentGameIndex >= 0 && currentGameIndex < games.length) {
+      const currentGame = games[currentGameIndex];
+
+      if (currentGame.won_game === null) {
+        skipToReview();
+        return;
+      }
+
+      if (currentGameIndex === 1) {
+        if (
+          games[0].won_game === games[1].won_game &&
+          games[0].won_game !== null
+        ) {
+          skipToReview();
+          return;
+        }
+      }
+    }
+
+    if (games.length < 3 && games.length < currentGameIndex + 2) {
+      let defaultOnPlay = null;
+
+      if (games.length > 0 && games[games.length - 1].won_game !== null) {
+        defaultOnPlay = games[games.length - 1].won_game === false;
+      }
+
+      setGames([
+        ...games,
+        {
+          game_number: games.length + 1,
+          started_play: defaultOnPlay,
+          won_game: null,
+        },
+      ]);
+    }
+    setCurrentStep(currentStep + 1);
+  };
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+
+    try {
+      const playedGames = games
+        .filter((game) => game.won_game !== null)
+        .map((game) => ({
+          game_number: game.game_number,
+          started_play: game.started_play,
+          won_game: game.won_game === true,
+        }));
+
+      await addMatch(
+        newMatch.your_deck,
+        newMatch.opp_deck || "Unknown",
+        newMatch.format,
+        newMatch.notes,
+        playedGames
+      );
+
+      router.push("/");
+    } catch (error) {
+      console.error("Error adding match:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const nextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+
+  const prevStep = () => {
+    if (currentStep === 5) {
+      setCurrentStep(1 + games.length);
+    } else {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const skipToReview = () => {
+    setGames(games.slice(0, currentGameIndex + 1));
+    setCurrentStep(5);
+  };
+
+  const renderStepContent = () => {
+    // Step 1: Match Details
+    if (currentStep === 1) {
+      return (
+        <div className="space-y-6 pt-24">
+          <h2 className="text-xl font-semibold">Match Details</h2>
           <div className="space-y-2">
-            <Label htmlFor="your_deck">Your Deck</Label>
+            <Label htmlFor="format">Format</Label>
+            <Input
+              id="format"
+              name="format"
+              value={newMatch.format}
+              onChange={handleInputChange}
+              placeholder="Standard, Modern, Pauper, etc."
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="your_deck" required>
+              Your Deck
+            </Label>
             <Input
               id="your_deck"
               name="your_deck"
               value={newMatch.your_deck}
               onChange={handleInputChange}
+              placeholder={deckPlaceholderRef.current}
               required
             />
           </div>
@@ -131,112 +229,216 @@ export default function AddMatch() {
             <Input
               id="opp_deck"
               name="opp_deck"
+              placeholder="Unknown"
               value={newMatch.opp_deck}
               onChange={handleInputChange}
-              required
             />
           </div>
-        </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="format">Format</Label>
-          <Input
-            id="format"
-            name="format"
-            value={newMatch.format}
-            onChange={handleInputChange}
-            placeholder="Standard, Modern, Commander, etc."
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label>Number of Games</Label>
-          <RadioGroup
-            value={numberOfGames.toString()}
-            onValueChange={(value: string) => setNumberOfGames(parseInt(value))}
-            className="flex space-x-4"
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="1" id="games-1" />
-              <Label htmlFor="games-1">1 Game</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="2" id="games-2" />
-              <Label htmlFor="games-2">2 Games</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="3" id="games-3" />
-              <Label htmlFor="games-3">3 Games</Label>
-            </div>
-          </RadioGroup>
-        </div>
-
-        <div className="space-y-3 border rounded-lg p-4">
-          <h3 className="font-medium">Game Details</h3>
-
-          {Array.from({ length: numberOfGames }).map((_, index) => (
-            <Card key={index} className="mb-3">
-              <CardHeader className="py-3">
-                <CardTitle className="text-sm font-medium">
-                  Game {index + 1}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="py-2">
-                <div className="flex flex-col space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`started-play-${index}`}
-                      checked={games[index].started_play}
-                      onCheckedChange={(checked: boolean | "indeterminate") =>
-                        handleGameChange(
-                          index,
-                          "started_play",
-                          checked === true
-                        )
-                      }
-                    />
-                    <Label htmlFor={`started-play-${index}`}>
-                      I played first
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`won-game-${index}`}
-                      checked={games[index].won_game}
-                      onCheckedChange={(checked: boolean | "indeterminate") =>
-                        handleGameChange(index, "won_game", checked === true)
-                      }
-                    />
-                    <Label htmlFor={`won-game-${index}`}>I won this game</Label>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="notes">Notes</Label>
-          <Textarea
-            id="notes"
-            name="notes"
-            value={newMatch.notes}
-            onChange={handleInputChange}
-            placeholder="Any additional notes about the match..."
-            rows={3}
-          />
-        </div>
-
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? "Saving..." : "Register Match"}
-        </Button>
-
-        {submitSuccess && (
-          <div className="p-3 bg-green-100 text-green-800 rounded-md">
-            Match registered successfully!
+          <div className="w-full flex justify-end mt-4">
+            <Button onClick={nextStep} disabled={!newMatch.your_deck}>
+              Next
+            </Button>
           </div>
-        )}
-      </form>
+        </div>
+      );
+    }
+
+    // Steps 2-4: Game Details (one game per step)
+    if (
+      isGameStep &&
+      currentGameIndex >= 0 &&
+      currentGameIndex < games.length
+    ) {
+      const game = games[currentGameIndex];
+
+      return (
+        <div className="space-y-6 pt-24">
+          <h2 className="text-xl font-semibold">
+            About game {game.game_number}...
+          </h2>
+
+          <div className="space-y-2">
+            <Label htmlFor={`win-loss-${currentGameIndex}`} required>
+              Game result
+            </Label>
+
+            <Select
+              value={
+                game.won_game === null ? "skip" : game.won_game ? "win" : "loss"
+              }
+              onValueChange={(value) =>
+                handleGameWinLossChange(currentGameIndex, value)
+              }
+            >
+              <SelectTrigger
+                id={`win-loss-${currentGameIndex}`}
+                className="w-full"
+              >
+                <SelectValue placeholder="Select outcome" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="win">Won</SelectItem>
+                <SelectItem value="loss">Lost</SelectItem>
+                <SelectItem value="skip">Didn't play</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor={`play-draw-${currentGameIndex}`}>
+              Did you started on the play or draw?
+            </Label>
+
+            <Select
+              value={
+                game.started_play === null
+                  ? "skip"
+                  : game.started_play
+                  ? "play"
+                  : "draw"
+              }
+              onValueChange={(value) =>
+                handleGamePlayDrawChange(currentGameIndex, value)
+              }
+              disabled={game.won_game === null}
+            >
+              <SelectTrigger
+                id={`play-draw-${currentGameIndex}`}
+                className="w-full"
+              >
+                <SelectValue placeholder="Select option" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="play">On the play</SelectItem>
+                <SelectItem value="draw">On the draw</SelectItem>
+                <SelectItem value="skip">-</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="mt-8 space-y-8">
+            <div className="w-full flex justify-between">
+              <Button variant="secondary" onClick={prevStep}>
+                Back
+              </Button>
+
+              <Button onClick={addAnotherGame}>Next</Button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Final Step: Review and Notes
+    if (isReviewStep) {
+      // Filter out games that weren't played for display
+      const playedGames = games.filter((game) => game.won_game !== null);
+
+      return (
+        <div className="space-y-6 pt-24">
+          <h2 className="text-xl font-semibold">Review and Notes</h2>
+
+          <Card className="mb-4">
+            <CardHeader>
+              <CardTitle>Match Summary</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div>
+                  <span className="font-bold text-muted-foreground">
+                    Format:{" "}
+                  </span>
+                  {newMatch.format}
+                </div>
+                <div>
+                  <span className="font-bold text-muted-foreground">
+                    Your Deck:{" "}
+                  </span>
+                  {newMatch.your_deck}
+                </div>
+                <div>
+                  <span className="font-bold text-muted-foreground">
+                    Opponent's Deck:{" "}
+                  </span>
+                  {newMatch.opp_deck}
+                </div>
+
+                {playedGames.map((game, index) => (
+                  <div key={index} className="pl-4">
+                    <span className="font-bold text-muted-foreground">
+                      Game {game.game_number}:{" "}
+                    </span>
+                    {game.won_game ? "Won" : "Lost"}
+                    
+                    {game.started_play === null
+                      ? ""
+                      : game.started_play
+                      ? ", on the play"
+                      : ", on the draw"}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="space-y-2">
+            <Label htmlFor="notes">Additional Notes</Label>
+            <Textarea
+              id="notes"
+              name="notes"
+              value={newMatch.notes}
+              onChange={handleInputChange}
+              placeholder="Any additional notes about the match..."
+              rows={3}
+            />
+          </div>
+
+          <div className="flex gap-2 mt-4">
+            <Button variant="outline" onClick={prevStep}>
+              Back
+            </Button>
+            <Button
+              className="ml-auto"
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit Match"}
+            </Button>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <div className="container h-full">
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <h1 className="text-xl font-semibold">Register Match</h1>
+          <div className="text-sm text-muted-foreground">
+            Step {currentStep} of {5}
+          </div>
+        </div>
+        <div className="w-full bg-muted h-2 rounded-full overflow-hidden">
+          <div
+            className="bg-primary h-full rounded-full transition-all duration-300 ease-in-out"
+            style={{ width: `${(currentStep / 5) * 100}%` }}
+          />
+        </div>
+
+        {/* {currentStep > 1 && (
+          <div className="mt-2 flex justify-start">
+            <Button variant="outline" size="icon" onClick={prevStep}>
+              <ArrowBendUpLeft />
+            </Button>
+          </div>
+        )} */}
+      </div>
+
+      {renderStepContent()}
     </div>
   );
 }

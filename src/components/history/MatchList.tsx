@@ -73,7 +73,7 @@ export default function MatchList() {
           <h2 className="text-xl font-semibold">Match History</h2>
 
           <Button variant="outline" size="icon">
-            <Funnel size={48} />
+            <Funnel />
           </Button>
         </div>
 
