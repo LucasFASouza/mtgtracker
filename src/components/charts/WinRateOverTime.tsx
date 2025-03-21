@@ -28,11 +28,11 @@ interface Match {
   created_at: Date;
 }
 
-interface WinRateAreaChartProps {
+interface WinRateOverTimeProps {
   matches: Match[];
 }
 
-export function WinRateAreaChart({ matches }: WinRateAreaChartProps) {
+export function WinRateOverTime({ matches }: WinRateOverTimeProps) {
   if (matches.length === 0) {
     return (
       <div className="flex h-80 items-center justify-center text-muted-foreground">

@@ -29,7 +29,7 @@ interface WinRateRadialChartProps {
   drawCount: number;
 }
 
-export function WinRateRadialChart({
+export function CurrentWinRate({
   winCount,
   lossCount,
   drawCount,
