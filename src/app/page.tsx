@@ -1,5 +1,3 @@
-"use client";
-
 import MatchList from "@/components/history/MatchList";
 
 export default function Home() {
