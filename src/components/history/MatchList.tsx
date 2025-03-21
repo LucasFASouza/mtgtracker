@@ -149,13 +149,9 @@ export default function MatchList() {
           <DrawerHeader>
             <DrawerTitle>Filters</DrawerTitle>
           </DrawerHeader>
-          <DrawerDescription>
-            <div className="px-6 pt-6 pb-24 flex items-center justify-center">
-              <div className="text-muted-foreground text-center">
-                Coming in the next update :P
-              </div>
-            </div>
-          </DrawerDescription>
+          <div className="px-6 pt-6 pb-24 text-muted-foreground text-center">
+            <DrawerDescription>Coming in the next update :P</DrawerDescription>
+          </div>
         </DrawerContent>
       </Drawer>
     </div>
