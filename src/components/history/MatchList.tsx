@@ -6,15 +6,18 @@ import { InferSelectModel } from "drizzle-orm";
 import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Funnel } from "@phosphor-icons/react/dist/ssr";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerClose,
+  DrawerDescription,
+} from "@/components/ui/drawer";
 
 type ExtendedMatch = InferSelectModel<typeof matchSchema> & {
   games?: InferSelectModel<typeof gameSchema>[];
@@ -27,6 +30,7 @@ export default function MatchList() {
     null
   );
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -58,7 +62,7 @@ export default function MatchList() {
 
   const getResultText = (result: string | null) => {
     return result === "W" ? "Win" : result === "L" ? "Loss" : "Draw";
-  }
+  };
 
   if (loading) {
     return (
@@ -74,7 +78,11 @@ export default function MatchList() {
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-semibold">Match History</h2>
 
-          <Button variant="outline" size="icon">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setFilterDrawerOpen(true)}
+          >
             <Funnel />
           </Button>
         </div>
@@ -134,6 +142,22 @@ export default function MatchList() {
           {selectedMatch && <Match match={selectedMatch} />}
         </DialogContent>
       </Dialog>
+
+      {/* Filter Drawer */}
+      <Drawer open={filterDrawerOpen} onOpenChange={setFilterDrawerOpen}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Filters</DrawerTitle>
+          </DrawerHeader>
+          <DrawerDescription>
+            <div className="px-6 pt-6 pb-24 flex items-center justify-center">
+              <div className="text-muted-foreground text-center">
+                Coming in the next update :P
+              </div>
+            </div>
+          </DrawerDescription>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 }

@@ -31,8 +31,11 @@ export default function RootLayout({
     >
       <body>
         <div className="flex flex-col h-screen">
-          <div className="px-6 py-4">
-            <h1 className="text-3xl font-bold text-primary">mtgtracker</h1>
+          <div className="px-6 py-4 flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold text-primary">mtgtracker</h1>
+              <p className="text-sm  font-bold text-muted-foreground uppercase">Beta version</p>
+            </div>
             <SignIn />
           </div>
 
