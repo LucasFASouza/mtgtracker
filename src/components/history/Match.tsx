@@ -52,7 +52,7 @@ export default function Match({ match }: MatchProps) {
       <div className="flex justify-end mt-4">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="outline" size="sm">
+            <Button variant="destructive" size="sm">
               Delete
             </Button>
           </AlertDialogTrigger>
@@ -60,7 +60,8 @@ export default function Match({ match }: MatchProps) {
             <AlertDialogHeader>
               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone.
+                This action cannot be undone. This match will be permanently
+                deleted.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/Navbar";
+import SignIn from "@/components/SignIn";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
         <div className="flex flex-col h-screen">
           <div className="px-6 py-4">
             <h1 className="text-3xl font-bold text-primary">mtgtracker</h1>
+            <SignIn />
           </div>
 
           <main className="px-6 pb-24 flex-grow">{children}</main>
