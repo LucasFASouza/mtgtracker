@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/Navbar";
-import SignIn from "@/components/SignIn";
+import { ProfileBadge } from "@/components/ProfileBadge";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,9 +36,13 @@ export default function RootLayout({
           <div className="px-6 py-4 flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold text-primary">mtgtracker</h1>
-              <p className="text-xs font-bold text-muted-foreground uppercase">Beta version</p>
+              <p className="text-xs font-bold text-muted-foreground uppercase">
+                Beta version
+              </p>
             </div>
-            <SignIn />
+            <Suspense fallback={<Skeleton className="size-8 rounded-full" />}>
+              <ProfileBadge />
+            </Suspense>
           </div>
 
           <main className="px-6 pb-24 flex-grow">{children}</main>
