@@ -1,15 +1,12 @@
-import { signOut } from "@/auth";
+"use client";
+
+import { signOutAction } from "@/actions/authActions";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { SignOut as SignOutIcon } from "@phosphor-icons/react/dist/ssr";
 
 export function SignOut() {
   return (
-    <form
-      action={async () => {
-        "use server";
-        await signOut();
-      }}
-    >
+    <form action={signOutAction}>
       <DropdownMenuItem asChild>
         <button
           type="submit"

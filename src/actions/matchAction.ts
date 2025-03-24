@@ -8,6 +8,11 @@ import { redirect } from "next/navigation";
 
 const getCurrentUser = async () => {
   const session = await auth();
+  return session?.user || null;
+};
+
+const requireAuth = async () => {
+  const session = await auth();
   if (!session || !session.user?.id) {
     redirect("/login");
   }
@@ -15,7 +20,11 @@ const getCurrentUser = async () => {
 };
 
 export const getMatches = async () => {
-  const user = await getCurrentUser();
+  const user = await requireAuth();
+
+  if (!user || !user.id) {
+    return [];
+  }
 
   const data = await db.query.match.findMany({
     where: eq(match.user_id, user.id),
@@ -43,7 +52,7 @@ export const addMatch = async (
   played_at: Date,
   games: GameData[]
 ) => {
-  const user = await getCurrentUser();
+  const user = await requireAuth();
 
   const your_points = games.filter((g) => g.won_game).length;
   const opp_points = games.filter((g) => !g.won_game).length;
@@ -87,7 +96,7 @@ export const addMatch = async (
 };
 
 export const deleteMatch = async (id: string) => {
-  const user = await getCurrentUser();
+  const user = await requireAuth();
 
   const matchToDelete = await db.query.match.findFirst({
     where: and(eq(match.id, id), eq(match.user_id, user.id)),
