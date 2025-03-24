@@ -107,11 +107,11 @@ function determineMatchPattern(): string {
 
   // Most matches end 2-0 or 2-1
   if (rand < 35) return "2-1"; // You win 2-1
-  if (rand < 70) return "1-2"; // Opponent wins 2-1
-  if (rand < 72) return "2-0"; // You win 2-0
-  if (rand < 80) return "0-2"; // Opponent wins 2-0
-  if (rand < 97) return "1-1"; // Draw (time)
-  if (rand < 98.5) return "1-0"; // Rare single game win
+  if (rand < 65) return "1-2"; // Opponent wins 2-1
+  if (rand < 80) return "2-0"; // You win 2-0
+  if (rand < 90) return "0-2"; // Opponent wins 2-0
+  if (rand < 95) return "1-1"; // Draw (time)
+  if (rand < 97.5) return "1-0"; // Rare single game win
   return "0-1"; // Rare single game loss
 }
 
@@ -275,7 +275,7 @@ async function seedMatches(userId: string, count: number) {
       }
 
       console.log(
-        `Added match: ${matchData.your_deck} vs ${matchData.opp_deck} (${result}, ${your_points}-${opp_points})`
+        `Added match of ${matchData.format}: ${matchData.your_deck} vs ${matchData.opp_deck} (${result}, ${your_points}-${opp_points})`
       );
     }
 

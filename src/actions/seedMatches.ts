@@ -18,7 +18,10 @@ type MatchSeedData = {
   games: GameSeedData[];
 };
 
-const generateSampleMatches = (userId: string, count: number = 15): MatchSeedData[] => {
+const generateSampleMatches = (
+  userId: string,
+  count: number = 15
+): MatchSeedData[] => {
   const deckTypes = [
     "Golgari Reanimator",
     "Boros Burn",
@@ -32,7 +35,18 @@ const generateSampleMatches = (userId: string, count: number = 15): MatchSeedDat
     "Izzet Spellslinger",
   ];
 
-  const formats = ["Standard", "Modern", "Pioneer", "Pauper", "Draft", "Sealed"];
+  const yourDecks = [
+    "Golgari Reanimator",
+    "Dimir Tempo",
+    "Orzhov Lifegain",
+    "Izzet Spellslinger",
+  ];
+
+  const formats = [
+    "Standard",
+    "Pauper",
+    "Draft",
+  ];
 
   const matches: MatchSeedData[] = [];
   const today = new Date();
@@ -42,17 +56,13 @@ const generateSampleMatches = (userId: string, count: number = 15): MatchSeedDat
     const matchDate = new Date(today);
     matchDate.setDate(today.getDate() - daysAgo);
 
-    const yourDeckIndex = Math.floor(Math.random() * deckTypes.length);
-    let oppDeckIndex = Math.floor(Math.random() * deckTypes.length);
-    while (oppDeckIndex === yourDeckIndex) {
-      oppDeckIndex = Math.floor(Math.random() * deckTypes.length);
-    }
-    
+    const yourDeckIndex = Math.floor(Math.random() * yourDecks.length);
+    const oppDeckIndex = Math.floor(Math.random() * deckTypes.length);
     const formatIndex = Math.floor(Math.random() * formats.length);
-    
+
     const numGames = Math.floor(Math.random() * 3) + 1;
     const games: GameSeedData[] = [];
-    
+
     let yourWins = 0;
 
     for (let g = 0; g < numGames; g++) {
@@ -63,18 +73,18 @@ const generateSampleMatches = (userId: string, count: number = 15): MatchSeedDat
         const previousGameWon = games[g - 1].won_game;
         onPlay = !previousGameWon;
       }
-      
+
       const wonGame = onPlay ? Math.random() < 0.55 : Math.random() < 0.45;
-      
+
       if (wonGame) yourWins++;
-      
+
       games.push({
         game_number: g + 1,
         started_play: onPlay,
         won_game: wonGame,
       });
     }
-    
+
     let note = "";
     if (yourWins > numGames / 2) {
       note = `Good matchup against ${deckTypes[oppDeckIndex]}. Sideboard plan worked well.`;
@@ -98,11 +108,11 @@ const generateSampleMatches = (userId: string, count: number = 15): MatchSeedDat
 export const seedMatches = async (userId: string, count: number = 15) => {
   try {
     const matchesData = generateSampleMatches(userId, count);
-    
+
     for (const matchData of matchesData) {
-      const your_points = matchData.games.filter(g => g.won_game).length;
-      const opp_points = matchData.games.filter(g => !g.won_game).length;
-      
+      const your_points = matchData.games.filter((g) => g.won_game).length;
+      const opp_points = matchData.games.filter((g) => !g.won_game).length;
+
       let result: "W" | "D" | "L";
       if (your_points > opp_points) {
         result = "W";
@@ -111,7 +121,7 @@ export const seedMatches = async (userId: string, count: number = 15) => {
       } else {
         result = "D";
       }
-      
+
       const [newMatch] = await db
         .insert(match)
         .values({
@@ -126,7 +136,7 @@ export const seedMatches = async (userId: string, count: number = 15) => {
           opp_points,
         })
         .returning({ id: match.id });
-        
+
       if (matchData.games.length > 0) {
         await db.insert(game).values(
           matchData.games.map((g) => ({
@@ -138,12 +148,19 @@ export const seedMatches = async (userId: string, count: number = 15) => {
         );
       }
     }
-    
+
     revalidatePath("/");
-    return { success: true, message: `Successfully seeded ${matchesData.length} matches for user ${userId}` };
-    
+    return {
+      success: true,
+      message: `Successfully seeded ${matchesData.length} matches for user ${userId}`,
+    };
   } catch (error) {
     console.error("Error seeding matches:", error);
-    return { success: false, message: `Error seeding matches: ${error instanceof Error ? error.message : String(error)}` };
+    return {
+      success: false,
+      message: `Error seeding matches: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    };
   }
 };
