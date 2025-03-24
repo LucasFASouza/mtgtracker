@@ -14,6 +14,7 @@ import {
   Tooltip,
   Cell,
   ReferenceLine,
+  TooltipProps as RechartsTooltipProps,
 } from "recharts";
 
 interface WinRateByFormatProps {
@@ -37,8 +38,16 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// Custom tooltip component to include match count
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface CustomTooltipProps
+  extends Omit<RechartsTooltipProps<number, string>, "payload"> {
+  payload?: Array<{
+    value: number;
+    payload: FormatWinRate;
+    dataKey: string;
+  }>;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload as FormatWinRate;
     return (
@@ -66,7 +75,6 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
     );
   }
 
-  // Process data to calculate win rates by format
   const formatData: Record<string, { wins: number; total: number }> = {};
   matches.forEach((match) => {
     const format = match.format || "Unknown";
@@ -81,15 +89,14 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
     }
   });
 
-  // Prepare data for chart
   const chartData: FormatWinRate[] = Object.entries(formatData)
     .map(([format, data]) => ({
       name: format,
       winRate: (data.wins / data.total) * 100,
       matchCount: data.total,
     }))
-    .filter((item) => item.matchCount >= 3) // Require at least 3 matches for meaningful data
-    .sort((a, b) => b.winRate - a.winRate); // Sort by highest win rate
+    .filter((item) => item.matchCount >= 3)
+    .sort((a, b) => b.winRate - a.winRate);
 
   const maxWinRate = Math.max(
     ...chartData.map((item) => Math.ceil(item.winRate / 10) * 10),
