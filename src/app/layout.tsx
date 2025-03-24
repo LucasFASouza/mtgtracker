@@ -45,6 +45,14 @@ export default function RootLayout({
             </Suspense>
           </div>
 
+          {/* Desktop-only banner */}
+          <div className="hidden md:block bg-accent/20 border border-accent text-accent-foreground p-3 text-center mx-6 mb-4 rounded-md">
+            <p className="font-medium">
+              ⚠️ This site is optimized for mobile devices. Desktop version
+              coming soon! :P
+            </p>
+          </div>
+
           <main className="px-6 pb-24 flex-grow">{children}</main>
           <Navbar />
         </div>
