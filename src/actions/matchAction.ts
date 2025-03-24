@@ -1,11 +1,24 @@
 "use server";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "@/db/drizzle";
 import { match, game } from "@/db/schema";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
+const getCurrentUser = async () => {
+  const session = await auth();
+  if (!session || !session.user?.id) {
+    redirect("/api/auth/signin");
+  }
+  return session.user;
+};
 
 export const getMatches = async () => {
+  const user = await getCurrentUser();
+
   const data = await db.query.match.findMany({
+    where: eq(match.user_id, user.id),
     orderBy: (match, { desc }) => [desc(match.played_at)],
     with: {
       games: {
@@ -30,6 +43,8 @@ export const addMatch = async (
   played_at: Date,
   games: GameData[]
 ) => {
+  const user = await getCurrentUser();
+
   const your_points = games.filter((g) => g.won_game).length;
   const opp_points = games.filter((g) => !g.won_game).length;
 
@@ -45,6 +60,7 @@ export const addMatch = async (
   const [newMatch] = await db
     .insert(match)
     .values({
+      user_id: user.id,
       your_deck,
       opp_deck,
       format,
@@ -71,6 +87,18 @@ export const addMatch = async (
 };
 
 export const deleteMatch = async (id: string) => {
+  const user = await getCurrentUser();
+
+  const matchToDelete = await db.query.match.findFirst({
+    where: and(eq(match.id, id), eq(match.user_id, user.id)),
+  });
+
+  if (!matchToDelete) {
+    throw new Error(
+      "Match not found or you don't have permission to delete it"
+    );
+  }
+
   await db.delete(game).where(eq(game.match_id, id));
   await db.delete(match).where(eq(match.id, id));
 

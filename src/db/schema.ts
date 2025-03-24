@@ -15,6 +15,9 @@ export const matchResultEnum = pgEnum("match_result", ["W", "D", "L"]);
 
 export const match = pgTable("match", {
   id: uuid("id").defaultRandom().primaryKey(),
+  user_id: text("user_id")
+    .notNull()
+    .references(() => users.id),
   played_at: timestamp("played_at").notNull().defaultNow(),
   your_deck: text("your_deck").notNull(),
   opp_deck: text("opponent_deck"),
@@ -33,8 +36,12 @@ export const game = pgTable("game", {
   won_game: boolean("won_game"),
 });
 
-export const matchRelations = relations(match, ({ many }) => ({
+export const matchRelations = relations(match, ({ many, one }) => ({
   games: many(game),
+  user: one(users, {
+    fields: [match.user_id],
+    references: [users.id],
+  }),
 }));
 
 export const gameRelations = relations(game, ({ one }) => ({
@@ -53,6 +60,10 @@ export const users = pgTable("user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
 });
+
+export const userRelations = relations(users, ({ many }) => ({
+  matches: many(match),
+}));
 
 export const accounts = pgTable(
   "account",
