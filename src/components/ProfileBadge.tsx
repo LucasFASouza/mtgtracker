@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import SignIn from "@/components/SignIn";
 import { SignOut } from "@/components/SignOut";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -8,10 +7,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { AvatarFallback } from "@radix-ui/react-avatar";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const ProfileBadge = async () => {
   const session = await auth();
-  if (!session?.user) return <SignIn />;
+
+  if (!session?.user) {
+    return (
+      <Button asChild size="sm">
+        <Link href="/login">Sign In</Link>
+      </Button>
+    );
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>

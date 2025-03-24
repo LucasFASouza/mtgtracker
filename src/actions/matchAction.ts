@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 const getCurrentUser = async () => {
   const session = await auth();
   if (!session || !session.user?.id) {
-    redirect("/api/auth/signin");
+    redirect("/login");
   }
   return session.user;
 };
