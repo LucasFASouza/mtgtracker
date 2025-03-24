@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { TermsOfServiceDialog } from "@/components/TermsOfServiceDialog";
 
 export default async function LoginPage() {
   const session = await auth();
@@ -27,6 +28,7 @@ export default async function LoginPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <SignIn />
+          <TermsOfServiceDialog />
         </CardContent>
       </Card>
     </div>
