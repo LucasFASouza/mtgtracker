@@ -76,7 +76,7 @@ export default function AddMatch() {
       decks[Math.floor(Math.random() * decks.length)];
   }
 
-  // Get current game index (for steps 2, 3, 4 which represent games 0, 1, 2)
+  // Steps 2, 3, 4 = Games 0, 1, 2
   const currentGameIndex = currentStep - 2;
   const isGameStep = currentStep > 1 && currentStep < 5;
   const isReviewStep = currentStep === 5;
@@ -175,15 +175,12 @@ export default function AddMatch() {
   const handleHourChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    // Allow typing by checking if input is empty or a valid number
     if (value === "") {
-      // Allow empty input temporarily while typing
       setTimeInputs((prev) => ({ ...prev, hours: value }));
     } else if (/^\d+$/.test(value)) {
       const hourValue = parseInt(value);
 
       if (hourValue >= 0 && hourValue <= 23) {
-        // Valid hour - update both display and actual time
         setTimeInputs((prev) => ({ ...prev, hours: value }));
 
         const newDate = new Date(newMatch.played_at);
@@ -192,9 +189,6 @@ export default function AddMatch() {
           ...prev,
           played_at: newDate,
         }));
-      } else {
-        // Invalid hour - don't update the input
-        // Keep the previous valid value
       }
     }
   };
@@ -203,13 +197,11 @@ export default function AddMatch() {
     const value = e.target.value;
 
     if (value === "") {
-      // Allow empty input temporarily while typing
       setTimeInputs((prev) => ({ ...prev, minutes: value }));
     } else if (/^\d+$/.test(value)) {
       const minuteValue = parseInt(value);
 
       if (minuteValue >= 0 && minuteValue <= 59) {
-        // Valid minute - update both display and actual time
         setTimeInputs((prev) => ({ ...prev, minutes: value }));
 
         const newDate = new Date(newMatch.played_at);
@@ -218,16 +210,11 @@ export default function AddMatch() {
           ...prev,
           played_at: newDate,
         }));
-      } else {
-        // Invalid minute - don't update the input
-        // Keep the previous valid value
       }
     }
   };
 
-  // Handle time input blur to ensure valid values
   const handleTimeBlur = () => {
-    // Ensure hours has a valid value between 0-23
     if (timeInputs.hours === "" || parseInt(timeInputs.hours) > 23) {
       const currentHours = newMatch.played_at.getHours();
       setTimeInputs((prev) => ({
@@ -236,7 +223,6 @@ export default function AddMatch() {
       }));
     }
 
-    // Ensure minutes has a valid value between 0-59
     if (timeInputs.minutes === "" || parseInt(timeInputs.minutes) > 59) {
       const currentMinutes = newMatch.played_at.getMinutes();
       setTimeInputs((prev) => ({
@@ -298,7 +284,7 @@ export default function AddMatch() {
     // Step 1: Match Details
     if (currentStep === 1) {
       return (
-        <div className="space-y-6 pt-24">
+        <div className="space-y-6 pt-12">
           <h2 className="text-xl font-semibold">Match Details</h2>
 
           <div className="space-y-2">
