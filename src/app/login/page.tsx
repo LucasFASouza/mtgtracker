@@ -20,7 +20,7 @@ export default async function LoginPage() {
     <div className="flex justify-center items-center min-h-[80vh]">
       <Card className="w-full max-w-sm">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
+          <CardTitle className="text-2xl font-bold">Welcome :)</CardTitle>
           <CardDescription>
             Sign in to your account to track your MTG matches
           </CardDescription>

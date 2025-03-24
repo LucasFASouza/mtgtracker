@@ -13,9 +13,17 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+interface Session {
+  user?: {
+    id?: string;
+    name?: string;
+    image?: string;
+  };
+}
+
 export const ProfileBadge = () => {
   const pathname = usePathname();
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

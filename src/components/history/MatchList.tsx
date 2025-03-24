@@ -63,6 +63,29 @@ export default function MatchList() {
     return result === "W" ? "Win" : result === "L" ? "Loss" : "Draw";
   };
 
+  // Group matches by date
+  const groupMatchesByDate = (matches: ExtendedMatch[]) => {
+    const groups: Record<string, ExtendedMatch[]> = {};
+
+    matches.forEach((match) => {
+      // Format date as YYYY-MM-DD
+      const dateStr = new Date(match.played_at).toISOString().split("T")[0];
+
+      if (!groups[dateStr]) {
+        groups[dateStr] = [];
+      }
+
+      groups[dateStr].push(match);
+    });
+
+    return Object.entries(groups)
+      .sort(([dateA], [dateB]) => dateB.localeCompare(dateA)) // Sort dates descending
+      .map(([date, matches]) => ({
+        date,
+        matches,
+      }));
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -95,37 +118,49 @@ export default function MatchList() {
             </CardContent>
           </Card>
         ) : (
-          <Table className="table-fixed">
-            <TableBody>
-              {matches.map((match) => (
-                <TableRow
-                  key={match.id}
-                  onClick={() => handleRowClick(match)}
-                  className="cursor-pointer hover:bg-muted"
-                >
-                  <TableCell className="w-[16%]">
-                    <Badge
-                      className={`w-full ${getResultClass(match.result)}`}
+          groupMatchesByDate(matches).map(({ date, matches }) => (
+            <div key={date} className="mb-6">
+              <h3 className="text-sm text-muted-foreground font-medium mb-2">
+                {new Date(date).toLocaleString("en-US", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </h3>
+              <Table className="table-fixed">
+                <TableBody>
+                  {matches.map((match) => (
+                    <TableRow
+                      key={match.id}
+                      onClick={() => handleRowClick(match)}
+                      className="cursor-pointer hover:bg-muted"
                     >
-                      {getResultText(match.result)}
-                    </Badge>
-                  </TableCell>
+                      <TableCell className="w-[16%]">
+                        <Badge
+                          className={`w-full ${getResultClass(match.result)}`}
+                        >
+                          {getResultText(match.result)}
+                        </Badge>
+                      </TableCell>
 
-                  <TableCell className="w-[35%] truncate text-center">
-                    {match.your_deck}
-                  </TableCell>
+                      <TableCell className="w-[35%] truncate text-center">
+                        {match.your_deck}
+                      </TableCell>
 
-                  <TableCell className="w-[14%] text-muted-foreground text-center font-bold">
-                    {match.your_points} - {match.opp_points}
-                  </TableCell>
+                      <TableCell className="w-[14%] text-muted-foreground text-center font-bold">
+                        {match.your_points} - {match.opp_points}
+                      </TableCell>
 
-                  <TableCell className="w-[35%] truncate text-center">
-                    {match.opp_deck}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                      <TableCell className="w-[35%] truncate text-center">
+                        {match.opp_deck}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          ))
         )}
       </div>
 

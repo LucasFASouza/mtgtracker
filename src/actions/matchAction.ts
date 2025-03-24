@@ -6,10 +6,10 @@ import { match, game } from "@/db/schema";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-const getCurrentUser = async () => {
-  const session = await auth();
-  return session?.user || null;
-};
+// const getCurrentUser = async () => {
+//   const session = await auth();
+//   return session?.user || null;
+// };
 
 const requireAuth = async () => {
   const session = await auth();
