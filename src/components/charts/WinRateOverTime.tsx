@@ -25,7 +25,7 @@ const chartConfig = {
 interface Match {
   id: string;
   result: "W" | "L" | "D";
-  created_at: Date;
+  played_at: Date;
 }
 
 interface WinRateOverTimeProps {
@@ -42,7 +42,7 @@ export function WinRateOverTime({ matches }: WinRateOverTimeProps) {
   }
 
   const sortedMatches = [...matches].sort(
-    (a, b) => a.created_at.getTime() - b.created_at.getTime()
+    (a, b) => a.played_at.getTime() - b.played_at.getTime()
   );
 
   let totalMatches = 0;
@@ -55,7 +55,7 @@ export function WinRateOverTime({ matches }: WinRateOverTimeProps) {
     if (match.result === "W") totalWins++;
 
     const winRate = (totalWins / totalMatches) * 100;
-    const date = match.created_at.toISOString().split("T")[0];
+    const date = match.played_at.toISOString().split("T")[0];
 
     dateMap.set(date, {
       date,

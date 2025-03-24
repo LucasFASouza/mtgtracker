@@ -30,7 +30,6 @@ export default function Match({ match }: MatchProps) {
     window.location.reload();
   };
 
-  // Map the database games to the format expected by MatchReview
   const mappedGames =
     match.games?.map((game) => ({
       game_number: game.game_number,
@@ -44,7 +43,7 @@ export default function Match({ match }: MatchProps) {
         yourDeck={match.your_deck}
         oppDeck={match.opp_deck || "Unknown"}
         format={match.format || ""}
-        date={new Date(match.created_at)}
+        date={new Date(match.played_at)}
         games={mappedGames}
         notes={match.notes || ""}
       />

@@ -30,16 +30,18 @@ export default function MatchReview({
       <div className="grid grid-cols-2 gap-4">
         <div>
           <p className="text-xs uppercase text-muted-foreground font-medium mb-1">
-            Your Deck
+            Played on
           </p>
-          <p className="font-medium">{yourDeck}</p>
-        </div>
-
-        <div>
-          <p className="text-xs uppercase text-muted-foreground font-medium mb-1">
-            Opponent’s Deck
+          <p className="font-medium">
+            {date.toLocaleString("en-US", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+            })}
           </p>
-          <p className="font-medium">{oppDeck || "Unknown"}</p>
         </div>
 
         <div>
@@ -51,15 +53,16 @@ export default function MatchReview({
 
         <div>
           <p className="text-xs uppercase text-muted-foreground font-medium mb-1">
-            Date
+            Your Deck
           </p>
-          <p className="font-medium">
-            {date.toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+          <p className="font-medium">{yourDeck}</p>
+        </div>
+
+        <div>
+          <p className="text-xs uppercase text-muted-foreground font-medium mb-1">
+            Opponent’s Deck
           </p>
+          <p className="font-medium">{oppDeck || "Unknown"}</p>
         </div>
       </div>
 

@@ -15,7 +15,7 @@ export const matchResultEnum = pgEnum("match_result", ["W", "D", "L"]);
 
 export const match = pgTable("match", {
   id: uuid("id").defaultRandom().primaryKey(),
-  created_at: timestamp("created_at").notNull().defaultNow(),
+  played_at: timestamp("played_at").notNull().defaultNow(),
   your_deck: text("your_deck").notNull(),
   opp_deck: text("opponent_deck"),
   result: matchResultEnum("result").notNull(),

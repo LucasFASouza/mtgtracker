@@ -10,7 +10,7 @@ export default async function AnalyticsPage() {
   const drawCount = matches.filter((match) => match.result === "D").length;
 
   return (
-    <div className="container py-4">
+    <div className="container">
       <h2 className="text-xl font-semibold mb-6">Analytics</h2>
       <div className="grid gap-6 md:grid-cols-2">
         <div>

@@ -6,7 +6,7 @@ import { match, game } from "@/db/schema";
 
 export const getMatches = async () => {
   const data = await db.query.match.findMany({
-    orderBy: (match, { desc }) => [desc(match.created_at)],
+    orderBy: (match, { desc }) => [desc(match.played_at)],
     with: {
       games: {
         orderBy: (game, { asc }) => [asc(game.game_number)],
@@ -27,6 +27,7 @@ export const addMatch = async (
   opp_deck: string,
   format: string,
   notes: string,
+  played_at: Date,
   games: GameData[]
 ) => {
   const your_points = games.filter((g) => g.won_game).length;
@@ -48,6 +49,7 @@ export const addMatch = async (
       opp_deck,
       format,
       notes,
+      played_at,
       result,
       your_points,
       opp_points,

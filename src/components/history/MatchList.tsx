@@ -104,16 +104,11 @@ export default function MatchList() {
                   className="cursor-pointer hover:bg-muted"
                 >
                   <TableCell className="w-[16%]">
-                    <Badge className={`w-full ${getResultClass(match.result)}`}>
+                    <Badge
+                      className={`w-full ${getResultClass(match.result)}`}
+                    >
                       {getResultText(match.result)}
                     </Badge>
-
-                    {/* <div
-                      className={`w-2 h-5 rounded-xs ${getResultClass(
-                        match.result
-                      )}
-                      }`}
-                    /> */}
                   </TableCell>
 
                   <TableCell className="w-[35%] truncate text-center">
