@@ -30,7 +30,6 @@ export default async function AnalyticsPage() {
         </div>
 
         <div>
-          <h3 className="text-lg font-medium mb-2">Win Rate Over Time</h3>
           <WinRateOverTime matches={matches} />
         </div>
 

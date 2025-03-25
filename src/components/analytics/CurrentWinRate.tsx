@@ -49,7 +49,7 @@ export function CurrentWinRate({
   return (
     <ChartContainer
       config={chartConfig}
-      className="mx-auto aspect-square w-full max-w-[160px]"
+      className="mx-auto aspect-square w-full max-w-[162px]"
     >
       <RadialBarChart
         data={chartData}

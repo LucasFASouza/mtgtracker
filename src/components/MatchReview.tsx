@@ -30,9 +30,16 @@ export default function MatchReview({
       <div className="grid grid-cols-2 gap-4">
         <div>
           <p className="text-xs uppercase text-muted-foreground font-medium mb-1">
+            Format
+          </p>
+          <p className="font-medium">{format || "Not specified"}</p>
+        </div>
+
+        <div>
+          <p className="text-xs uppercase text-muted-foreground font-medium mb-1">
             Played on
           </p>
-          <p className="font-medium">
+          <p className=" text-sm">
             {date.toLocaleString("en-US", {
               weekday: "long",
               year: "numeric",
@@ -42,13 +49,6 @@ export default function MatchReview({
               minute: "2-digit",
             })}
           </p>
-        </div>
-
-        <div>
-          <p className="text-xs uppercase text-muted-foreground font-medium mb-1">
-            Format
-          </p>
-          <p className="font-medium">{format || "Not specified"}</p>
         </div>
 
         <div>
