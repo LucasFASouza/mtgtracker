@@ -40,7 +40,7 @@ export function TermsOfServiceDialog() {
             <div className="space-y-2">
               <h3 className="font-medium">2. Description of Service</h3>
               <p className="text-muted-foreground font-light">
-                i don’t know man. just don’t try to break anything and i'll try
+                i don’t know man. just don’t try to break anything and i’ll try
                 not to leak your data.
                 <br />
                 also you should probably play more lands.
