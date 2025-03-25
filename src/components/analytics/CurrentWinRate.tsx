@@ -19,7 +19,7 @@ const chartConfig = {
   },
   losses: {
     label: "Losses",
-    color: "hsl(var(--chart-5))",
+    color: "hsl(var(--accent))",
   },
 } satisfies ChartConfig;
 
@@ -47,39 +47,45 @@ export function CurrentWinRate({
   ];
 
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer
+      config={chartConfig}
+      className="mx-auto aspect-square w-full max-w-[160px]"
+    >
       <RadialBarChart
         data={chartData}
-        startAngle={180}
-        endAngle={0}
-        innerRadius={80}
-        outerRadius={130}
-        barSize={30}
+        startAngle={0}
+        endAngle={360}
+        innerRadius={70}
+        outerRadius={115}
       >
         <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
           <Label
             content={({ viewBox }) => {
               if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                 return (
-                  <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                  <text
+                    x={viewBox.cx}
+                    y={viewBox.cy}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                  >
                     <tspan
                       x={viewBox.cx}
-                      y={(viewBox.cy || 0) - 16}
+                      y={viewBox.cy}
                       className="fill-foreground text-2xl font-bold"
                     >
                       {winPercentage.toFixed(1)}%
                     </tspan>
                     <tspan
                       x={viewBox.cx}
-                      y={(viewBox.cy || 0) + 4}
-                      className="fill-muted-foreground"
+                      y={(viewBox.cy || 0) + 20}
+                      className="fill-muted-foreground text-sm"
                     >
-                      Win Rate
+                      Winrate
                     </tspan>
                   </text>
                 );
               }
-              return null;
             }}
           />
         </PolarRadiusAxis>
@@ -87,23 +93,20 @@ export function CurrentWinRate({
         <RadialBar
           dataKey="wins"
           stackId="a"
-          cornerRadius={5}
           fill="var(--color-wins)"
-          className="stroke-transparent stroke-2"
+          className="stroke-transparent stroke-1"
         />
         <RadialBar
           dataKey="draws"
           fill="var(--color-draws)"
           stackId="a"
-          cornerRadius={5}
-          className="stroke-transparent stroke-2"
+          className="stroke-transparent stroke-1"
         />
         <RadialBar
           dataKey="losses"
           fill="var(--color-losses)"
           stackId="a"
-          cornerRadius={5}
-          className="stroke-transparent stroke-2"
+          className="stroke-transparent stroke-1"
         />
 
         <ChartTooltip

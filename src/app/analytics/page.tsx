@@ -3,6 +3,7 @@ import { CurrentWinRate } from "@/components/analytics/CurrentWinRate";
 import { WinRateOverTime } from "@/components/analytics/WinRateOverTime";
 import { MostPlayedFormats } from "@/components/analytics/MostPlayedFormats";
 import { WinRateByFormat } from "@/components/analytics/WinRateByFormat";
+import { getWinrateGreeting } from "@/lib/greetings";
 
 export default async function AnalyticsPage() {
   const matches = await getMatches();
@@ -11,12 +12,16 @@ export default async function AnalyticsPage() {
   const lossCount = matches.filter((match) => match.result === "L").length;
   const drawCount = matches.filter((match) => match.result === "D").length;
 
+  const greeting = getWinrateGreeting(matches.length, winCount);
+
   return (
     <div className="container">
       <h2 className="text-xl font-semibold mb-6">Analytics</h2>
       <div className="grid gap-6 md:grid-cols-2">
-        <div>
-          <h3 className="text-lg font-medium mb-2">Overall Win Rate</h3>
+        <div className="flex gap-6">
+          <div className="flex-1 flex flex-col justify-around">
+            <p className="text-sm text-muted-foreground pt-8">{greeting}</p>
+          </div>
           <CurrentWinRate
             winCount={winCount}
             lossCount={lossCount}
