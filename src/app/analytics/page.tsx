@@ -222,7 +222,7 @@ export default function AnalyticsPage() {
 // IDK - Win rate by opponent deck (BarChart - Horizontal)
 
 // Deck-specific charts
-// DONE - Win rate by matchup (BarChart - Horizontal)
+// DRAFTED - Win rate by matchup (BarChart - Horizontal)
 // IDK - Most played matchups (PieChart - Donut)
 // TO DO - Win rate on the play/draw (BarChart - Vertical maybe? Just text? Just show the difference? Punitiveness of starting on the draw)
 // TO DO - Win rate game 1 vs game 2 and 3 (BarChart - Vertical maybe? Just text? Just show the difference? Effectiveness of sideboarding)

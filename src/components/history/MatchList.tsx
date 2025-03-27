@@ -10,31 +10,52 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Funnel } from "@phosphor-icons/react/dist/ssr";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-} from "@/components/ui/drawer";
+import { FilterDrawer } from "@/components/analytics/FilterDrawer";
 
 type ExtendedMatch = InferSelectModel<typeof matchSchema> & {
   games?: InferSelectModel<typeof gameSchema>[];
 };
 
+interface FilterOptions {
+  format: string | null;
+  deck: string | null;
+  startDate: Date | null;
+  endDate: Date | null;
+}
+
 export default function MatchList() {
   const [matches, setMatches] = useState<ExtendedMatch[]>([]);
+  const [allMatches, setAllMatches] = useState<ExtendedMatch[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedMatch, setSelectedMatch] = useState<ExtendedMatch | null>(
     null
   );
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
-  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<FilterOptions>({
+    format: null,
+    deck: null,
+    startDate: null,
+    endDate: null,
+  });
+
+  useEffect(() => {
+    const fetchAllMatches = async () => {
+      try {
+        const data = await getMatches();
+        setAllMatches(data);
+      } catch (error) {
+        console.error("Error fetching all matches:", error);
+      }
+    };
+
+    fetchAllMatches();
+  }, []);
 
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const data = await getMatches();
+        setLoading(true);
+        const data = await getMatches(activeFilters);
         setMatches(data);
       } catch (error) {
         console.error("Error fetching matches:", error);
@@ -44,7 +65,7 @@ export default function MatchList() {
     };
 
     fetchMatches();
-  }, []);
+  }, [activeFilters]);
 
   const handleRowClick = (match: ExtendedMatch) => {
     setSelectedMatch(match);
@@ -61,6 +82,10 @@ export default function MatchList() {
 
   const getResultText = (result: string | null) => {
     return result === "W" ? "Win" : result === "L" ? "Loss" : "Draw";
+  };
+
+  const handleFiltersChange = (filters: FilterOptions) => {
+    setActiveFilters(filters);
   };
 
   // Group matches by date
@@ -100,21 +125,24 @@ export default function MatchList() {
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-semibold">Match History</h2>
 
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setFilterDrawerOpen(true)}
-          >
-            <Funnel />
-          </Button>
+          <FilterDrawer
+            matches={allMatches.length > 0 ? allMatches : matches}
+            onFiltersChange={handleFiltersChange}
+            currentFilters={activeFilters}
+          />
         </div>
 
         {matches.length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center">
-              <p className="text-muted-foreground">
-                Register a match to see it here :)
-              </p>
+              {loading ? (
+                <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full" />
+              ) : (
+                <p className="text-lg font-semibold text-muted-foreground mb-2">
+                  No matches found with current filters. Try changing your
+                  filters or register a match to see it here :)
+                </p>
+              )}
             </CardContent>
           </Card>
         ) : (
@@ -171,18 +199,6 @@ export default function MatchList() {
           {selectedMatch && <Match match={selectedMatch} />}
         </DialogContent>
       </Dialog>
-
-      {/* Filter Drawer */}
-      <Drawer open={filterDrawerOpen} onOpenChange={setFilterDrawerOpen}>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>Filters</DrawerTitle>
-          </DrawerHeader>
-          <div className="px-6 pt-6 pb-24 text-muted-foreground text-center">
-            <DrawerDescription>Coming in the next update :P</DrawerDescription>
-          </div>
-        </DrawerContent>
-      </Drawer>
     </div>
   );
 }
