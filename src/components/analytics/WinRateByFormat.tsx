@@ -3,6 +3,7 @@
 import {
   ChartConfig,
   ChartContainer,
+  ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import {
@@ -95,7 +96,6 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
     }
   });
 
-  // Calculate overall win rate
   const overallWinRate =
     totalMatches > 0 ? (totalWins / totalMatches) * 100 : 50;
 
@@ -121,7 +121,7 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
         className="w-full"
         data={chartData}
         layout="vertical"
-        margin={{ top: 5, right: 5, left: 40, bottom: 5 }}
+        margin={{ top: 5, right: 5, left: 30, bottom: 5 }}
         barCategoryGap={8}
       >
         <CartesianGrid
@@ -145,23 +145,22 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
           className="fill-muted-foreground text-xs"
           tickLine={false}
           axisLine={false}
-          tick={({ x, y, payload }) => (
-            <text
-              x={x}
-              y={y}
-              dy={3}
-              textAnchor="end"
-              fill="currentColor"
-              fontSize="10px"
-              className="fill-muted-foreground"
-            >
-              {payload.value}
-            </text>
-          )}
-        />
-        <Tooltip
-          cursor={{ fill: "var(--muted)" }}
-          content={<CustomTooltip />}
+          interval={0}
+          tick={({ x, y, payload }) => {
+            return (
+              <text
+                x={x}
+                y={y}
+                dy={3}
+                textAnchor="end"
+                fill="currentColor"
+                fontSize="10px"
+                className="fill-muted-foreground"
+              >
+                {payload.value}
+              </text>
+            );
+          }}
         />
         <ReferenceLine
           x={overallWinRate}
@@ -183,6 +182,17 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
             />
           ))}
         </Bar>
+
+        <ChartTooltip
+          cursor={false}
+          content={
+            <ChartTooltipContent
+              formatter={(value, name) => {
+                return `${(value as number).toFixed(1)}%`;
+              }}
+            />
+          }
+        />
       </BarChart>
     </ChartContainer>
   );

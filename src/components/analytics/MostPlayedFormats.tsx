@@ -117,12 +117,12 @@ export function MostPlayedFormats({ matches }: MostPlayedFormatsProps) {
         <Tooltip
           content={
             <ChartTooltipContent
-              formatter={(value) => {
+              formatter={(value, name) => {
                 const percentage = (
                   ((value as number) / totalMatches) *
                   100
                 ).toFixed(1);
-                return `${value} matches (${percentage}%)`;
+                return `${name}: ${value} matches (${percentage}%)`;
               }}
             />
           }

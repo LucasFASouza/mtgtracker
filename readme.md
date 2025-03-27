@@ -135,4 +135,9 @@ Please ensure your code follows the project's style guidelines and includes appr
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
+## 🫂 Special Thanks
+- To [Wilson Cazarré](https://github.com/WilsonCazarre), for the auth system implementation.
+
+---
+
 Built with ❤️ for the Magic: The Gathering community
