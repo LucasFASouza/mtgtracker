@@ -69,13 +69,16 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 export function WinRateByFormat({ matches }: WinRateByFormatProps) {
   if (matches.length === 0) {
     return (
-      <div className="flex h-80 items-center justify-center text-muted-foreground">
+      <div className="flex h-[250px] items-center justify-center text-muted-foreground">
         No match data available
       </div>
     );
   }
 
   const formatData: Record<string, { wins: number; total: number }> = {};
+  let totalWins = 0;
+  let totalMatches = 0;
+
   matches.forEach((match) => {
     const format = match.format || "Unknown";
 
@@ -84,10 +87,17 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
     }
 
     formatData[format].total += 1;
+    totalMatches += 1;
+
     if (match.result === "W") {
       formatData[format].wins += 1;
+      totalWins += 1;
     }
   });
+
+  // Calculate overall win rate
+  const overallWinRate =
+    totalMatches > 0 ? (totalWins / totalMatches) * 100 : 50;
 
   const chartData: FormatWinRate[] = Object.entries(formatData)
     .map(([format, data]) => ({
@@ -106,9 +116,12 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
   return (
     <ChartContainer config={chartConfig}>
       <BarChart
+        width={300}
+        height={250}
+        className="w-full"
         data={chartData}
         layout="vertical"
-        margin={{ top: 10, right: 30, left: 70, bottom: 10 }}
+        margin={{ top: 5, right: 5, left: 40, bottom: 5 }}
         barCategoryGap={8}
       >
         <CartesianGrid
@@ -128,29 +141,44 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
         <YAxis
           type="category"
           dataKey="name"
-          width={60}
+          width={35}
           className="fill-muted-foreground text-xs"
           tickLine={false}
           axisLine={false}
+          tick={({ x, y, payload }) => (
+            <text
+              x={x}
+              y={y}
+              dy={3}
+              textAnchor="end"
+              fill="currentColor"
+              fontSize="10px"
+              className="fill-muted-foreground"
+            >
+              {payload.value}
+            </text>
+          )}
         />
         <Tooltip
           cursor={{ fill: "var(--muted)" }}
           content={<CustomTooltip />}
         />
         <ReferenceLine
-          x={50}
-          stroke="rgba(255,255,255,0.2)"
+          x={overallWinRate}
+          stroke="rgba(255,255,255,0.5)"
           strokeDasharray="3 3"
+          label={{
+            position: "top",
+            value: "Overall",
+            fill: "rgba(255,255,255,0.5)",
+            fontSize: 12,
+          }}
         />
-        <Bar dataKey="winRate">
+        <Bar dataKey="winRate" barSize={10}>
           {chartData.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
-              fill={
-                entry.winRate >= 50
-                  ? "hsl(var(--chart-1))"
-                  : "hsl(var(--chart-5))"
-              }
+              fill={`hsl(var(--chart-${(index % 5) + 1}))`}
               radius={4}
             />
           ))}

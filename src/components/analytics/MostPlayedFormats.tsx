@@ -30,20 +30,20 @@ const chartConfig = {
 export function MostPlayedFormats({ matches }: MostPlayedFormatsProps) {
   if (matches.length === 0) {
     return (
-      <div className="flex h-80 items-center justify-center text-muted-foreground">
+      <div className="flex h-[250px] items-center justify-center text-muted-foreground">
         No match data available
       </div>
     );
   }
 
-  // Process data to count formats
   const formatCounts: Record<string, number> = {};
   matches.forEach((match) => {
     const format = match.format || "Unknown";
     formatCounts[format] = (formatCounts[format] || 0) + 1;
   });
 
-  // Colors from CSS variables
+  const totalMatches = matches.length;
+
   const colorPalette = [
     "hsl(var(--chart-1))",
     "hsl(var(--chart-2))",
@@ -52,31 +52,63 @@ export function MostPlayedFormats({ matches }: MostPlayedFormatsProps) {
     "hsl(var(--chart-5))",
   ];
 
-  // Prepare data for chart
-  const chartData: Format[] = Object.entries(formatCounts)
-    .map(([name, value], index) => ({
-      name,
-      value,
+  const sortedFormats = Object.entries(formatCounts)
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value);
+
+  let chartData: Format[] = [];
+
+  if (sortedFormats.length > 5) {
+    const topFormats = sortedFormats.slice(0, 4);
+
+    const othersValue = sortedFormats
+      .slice(4)
+      .reduce((sum, format) => sum + format.value, 0);
+
+    chartData = [
+      ...topFormats.map((format, index) => ({
+        name: format.name,
+        value: format.value,
+        color: colorPalette[index],
+      })),
+      {
+        name: "Others",
+        value: othersValue,
+        color: colorPalette[4],
+      },
+    ];
+  } else {
+    chartData = sortedFormats.map((format, index) => ({
+      name: format.name,
+      value: format.value,
       color: colorPalette[index % colorPalette.length],
-    }))
-    .sort((a, b) => b.value - a.value); // Sort by most played
+    }));
+  }
+
+  chartData = chartData.map((item) => ({
+    ...item,
+    percentage: ((item.value / totalMatches) * 100).toFixed(1),
+  }));
 
   return (
     <ChartContainer config={chartConfig}>
-      <PieChart margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+      <PieChart
+        width={300}
+        height={250}
+        className="w-full"
+        margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+      >
         <Pie
           data={chartData}
           cx="50%"
           cy="50%"
-          innerRadius={60}
-          outerRadius={90}
+          innerRadius={50}
+          outerRadius={70}
           paddingAngle={2}
           dataKey="value"
           nameKey="name"
-          label={({ name, percent }) =>
-            `${name} (${(percent * 100).toFixed(0)}%)`
-          }
-          labelLine={false}
+          label={({ percentage }) => `${percentage}%`}
+          labelLine={true}
         >
           {chartData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
@@ -84,14 +116,24 @@ export function MostPlayedFormats({ matches }: MostPlayedFormatsProps) {
         </Pie>
         <Tooltip
           content={
-            <ChartTooltipContent formatter={(value) => `${value} matches`} />
+            <ChartTooltipContent
+              formatter={(value) => {
+                const percentage = (
+                  ((value as number) / totalMatches) *
+                  100
+                ).toFixed(1);
+                return `${value} matches (${percentage}%)`;
+              }}
+            />
           }
         />
         <Legend
           layout="vertical"
           align="right"
           verticalAlign="middle"
-          formatter={(value) => <span className="text-sm">{value}</span>}
+          formatter={(value, entry, index) => (
+            <span className="text-xs text-muted-foreground">{value}</span>
+          )}
         />
       </PieChart>
     </ChartContainer>

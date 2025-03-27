@@ -4,6 +4,9 @@ import { WinRateOverTime } from "@/components/analytics/WinRateOverTime";
 import { MostPlayedFormats } from "@/components/analytics/MostPlayedFormats";
 import { WinRateByFormat } from "@/components/analytics/WinRateByFormat";
 import { getWinrateGreeting } from "@/lib/greetings";
+import { Button } from "@/components/ui/button";
+import { Funnel } from "@phosphor-icons/react/dist/ssr";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
 export default async function AnalyticsPage() {
   const matches = await getMatches();
@@ -16,7 +19,14 @@ export default async function AnalyticsPage() {
 
   return (
     <div className="container">
-      <h2 className="text-xl font-semibold mb-6">Analytics</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-semibold">Match History</h2>
+
+        <Button variant="outline" size="icon">
+          <Funnel />
+        </Button>
+      </div>
+
       <div className="grid gap-6 md:grid-cols-2">
         <div className="flex gap-6">
           <div className="flex-1 flex flex-col justify-around">
@@ -33,14 +43,26 @@ export default async function AnalyticsPage() {
           <WinRateOverTime matches={matches} />
         </div>
 
-        <div>
-          <h3 className="text-lg font-medium mb-2">Most Played Formats</h3>
-          <MostPlayedFormats matches={matches} />
-        </div>
-
-        <div>
-          <h3 className="text-lg font-medium mb-2">Win Rate by Format</h3>
-          <WinRateByFormat matches={matches} />
+        <div className="md:col-span-2">
+          <Card className="pb-2">
+            <CardTitle className="pl-5">Format Analytics</CardTitle>
+            <CardContent className="p-0">
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="p-2">
+                  <h3 className="text-sm font-medium text-center mb-2">
+                    Most Played Formats
+                  </h3>
+                  <MostPlayedFormats matches={matches} />
+                </div>
+                <div className="p-2">
+                  <h3 className="text-sm font-medium text-center mb-2">
+                    Win Rate by Format
+                  </h3>
+                  <WinRateByFormat matches={matches} />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
