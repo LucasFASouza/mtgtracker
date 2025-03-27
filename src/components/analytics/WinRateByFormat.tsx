@@ -105,7 +105,6 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
       winRate: (data.wins / data.total) * 100,
       matchCount: data.total,
     }))
-    .filter((item) => item.matchCount >= 3)
     .sort((a, b) => b.winRate - a.winRate);
 
   const maxWinRate = Math.max(

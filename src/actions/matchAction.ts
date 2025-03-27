@@ -1,15 +1,10 @@
 "use server";
-import { eq, and } from "drizzle-orm";
+import { eq, and, gte, lte } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "@/db/drizzle";
 import { match, game } from "@/db/schema";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-
-// const getCurrentUser = async () => {
-//   const session = await auth();
-//   return session?.user || null;
-// };
 
 const requireAuth = async () => {
   const session = await auth();
@@ -19,15 +14,46 @@ const requireAuth = async () => {
   return session.user;
 };
 
-export const getMatches = async () => {
+interface MatchFilters {
+  format?: string | null;
+  deck?: string | null;
+  startDate?: Date | null;
+  endDate?: Date | null;
+}
+
+export const getMatches = async (filters?: MatchFilters) => {
   const user = await requireAuth();
 
   if (!user || !user.id) {
     return [];
   }
 
+  let whereConditions = [eq(match.user_id, user.id)];
+
+  if (filters?.format) {
+    whereConditions.push(eq(match.format, filters.format));
+  }
+
+  if (filters?.deck) {
+    whereConditions.push(eq(match.your_deck, filters.deck));
+  }
+
+  if (filters?.startDate) {
+    const startDateStr = filters.startDate.toISOString().split("T")[0];
+    whereConditions.push(
+      gte(match.played_at, new Date(`${startDateStr}T00:00:00.000Z`))
+    );
+  }
+
+  if (filters?.endDate) {
+    const endDateStr = filters.endDate.toISOString().split("T")[0];
+    whereConditions.push(
+      lte(match.played_at, new Date(`${endDateStr}T23:59:59.999Z`))
+    );
+  }
+
   const data = await db.query.match.findMany({
-    where: eq(match.user_id, user.id),
+    where: and(...whereConditions),
     orderBy: (match, { desc }) => [desc(match.played_at)],
     with: {
       games: {
@@ -35,6 +61,7 @@ export const getMatches = async () => {
       },
     },
   });
+
   return data;
 };
 
