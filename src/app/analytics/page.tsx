@@ -7,7 +7,7 @@ import { WinRateOverTime } from "@/components/analytics/WinRateOverTime";
 import { MostPlayedFormats } from "@/components/analytics/MostPlayedFormats";
 import { WinRateByFormat } from "@/components/analytics/WinRateByFormat";
 import { getWinrateGreeting } from "@/lib/greetings";
-import { FilterDrawer } from "@/components/analytics/FilterDrawer";
+import { FilterDrawer } from "@/components/FilterDrawer";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { match as matchSchema, game as gameSchema } from "@/db/schema";
 import { InferSelectModel } from "drizzle-orm";

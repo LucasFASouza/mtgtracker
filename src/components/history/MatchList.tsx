@@ -8,9 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Funnel } from "@phosphor-icons/react/dist/ssr";
-import { FilterDrawer } from "@/components/analytics/FilterDrawer";
+import { FilterDrawer } from "@/components/FilterDrawer";
 
 type ExtendedMatch = InferSelectModel<typeof matchSchema> & {
   games?: InferSelectModel<typeof gameSchema>[];
