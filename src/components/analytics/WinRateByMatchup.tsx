@@ -12,12 +12,10 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Cell,
   ReferenceLine,
   TooltipProps as RechartsTooltipProps,
 } from "recharts";
-import { CardDescription } from "@/components/ui/card";
 
 interface Match {
   id: string;
@@ -83,8 +81,6 @@ export function WinRateByMatchup({ matches }: WinRateByMatchupProps) {
   }
 
   const matchupData: Record<string, { wins: number; total: number }> = {};
-  let totalWins = 0;
-  let totalMatches = 0;
 
   matches.forEach((match) => {
     const oppDeck = match.opp_deck || "Unknown";
@@ -94,16 +90,11 @@ export function WinRateByMatchup({ matches }: WinRateByMatchupProps) {
     }
 
     matchupData[oppDeck].total += 1;
-    totalMatches += 1;
     
     if (match.result === "W") {
       matchupData[oppDeck].wins += 1;
-      totalWins += 1;
     }
   });
-
-  const overallWinRate =
-    totalMatches > 0 ? (totalWins / totalMatches) * 100 : 50;
 
   const chartData = Object.entries(matchupData)
     .map(([oppDeck, data]) => ({
