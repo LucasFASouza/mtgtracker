@@ -120,7 +120,7 @@ export function WinRateByDeck({ matches }: WinRateByDeckProps) {
         className="w-full"
         data={chartData}
         layout="vertical"
-        margin={{ top: 0, right: 5, left: 30, bottom: 5 }}
+        margin={{ top: 0, right: 5, left: 50, bottom: 5 }}
         barCategoryGap={8}
       >
         <CartesianGrid

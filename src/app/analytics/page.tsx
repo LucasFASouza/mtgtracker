@@ -101,16 +101,16 @@ export default function AnalyticsPage() {
           <div className="flex-1 flex flex-col justify-center gap-2">
             <p className="text-sm font-bold">{greeting}</p>
             <p className="text-xs text-muted-foreground">
-              Seeing analytic for {activeFilters.format || "all"} matches
-              {activeFilters.deck && `,\n playing with ${activeFilters.deck}`}
+              Seeing analytics for {activeFilters.format || "all"} matches
+              {activeFilters.deck && `, played with ${activeFilters.deck}`}
               {activeFilters.startDate &&
-                `,\n since ${activeFilters.startDate.toLocaleString("en-US", {
+                `, since ${activeFilters.startDate.toLocaleString("en-US", {
                   year: "numeric",
                   month: "numeric",
                   day: "numeric",
                 })}`}
               {activeFilters.endDate &&
-                `,\n up until ${activeFilters.endDate.toLocaleString("en-US", {
+                `, up until ${activeFilters.endDate.toLocaleString("en-US", {
                   year: "numeric",
                   month: "numeric",
                   day: "numeric",
@@ -133,7 +133,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        {/* Formats Analytics */}
+        {/* Overall Analytics */}
         {!activeFilters.format && (
           <div>
             <Card className="pb-2">
@@ -158,11 +158,11 @@ export default function AnalyticsPage() {
           </div>
         )}
 
-        {/* Decks Analytics */}
+        {/* Format Analytics */}
         {activeFilters.format && !activeFilters.deck && (
           <div>
             <Card className="pb-2">
-              <CardTitle className="pl-5">Your Decks Analytics</CardTitle>
+              <CardTitle className="pl-5">Your {activeFilters.format} Decks</CardTitle>
               <CardContent className="p-0">
                 <div>
                   <div className="p-2">
@@ -182,6 +182,8 @@ export default function AnalyticsPage() {
             </Card>
           </div>
         )}
+
+        {/* Deck-specific */}
       </div>
     </div>
   );
@@ -194,14 +196,14 @@ export default function AnalyticsPage() {
 // DRAFTED - Win rate by format (BarChart - Horizontal)
 
 // Format-specific charts
-// TO DO - Most played decks (PieChart - Donut)
-// TO DO - Win rate by deck (BarChart - Horizontal)
-// TO DO - Most played opponents decks (PieChart - Donut)
+// DRAFTED - Most played decks (PieChart - Donut)
+// DRAFTED - Win rate by deck (BarChart - Horizontal)
+// IDK - Most played opponents decks (PieChart - Donut)
 // IDK - Win rate by opponent deck (BarChart - Horizontal)
 
 // Deck-specific charts
 // TO DO - Win rate by matchup (BarChart - Horizontal)
-// TO DO - Most played matchups (PieChart - Donut)
+// IDK - Most played matchups (PieChart - Donut)
 // TO DO - Win rate on the play/draw (BarChart - Vertical maybe? Just text? Just show the difference? Punitiveness of starting on the draw)
 // TO DO - Win rate game 1 vs game 2 and 3 (BarChart - Vertical maybe? Just text? Just show the difference? Effectiveness of sideboarding)
 

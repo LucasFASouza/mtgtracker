@@ -102,9 +102,8 @@ export function MostPlayedFormats({ matches }: MostPlayedFormatsProps) {
           data={chartData}
           cx="50%"
           cy="50%"
-          innerRadius={50}
-          outerRadius={70}
-          paddingAngle={2}
+          innerRadius={40}
+          outerRadius={60}
           dataKey="value"
           nameKey="name"
           label={({ percentage }) => `${percentage}%`}
