@@ -27,11 +27,12 @@ export default async function AnalyticsPage() {
         </Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="flex flex-col gap-6">
         <div className="flex gap-6">
           <div className="flex-1 flex flex-col justify-around">
             <p className="text-sm text-muted-foreground pt-8">{greeting}</p>
           </div>
+
           <CurrentWinRate
             winCount={winCount}
             lossCount={lossCount}
@@ -39,15 +40,18 @@ export default async function AnalyticsPage() {
           />
         </div>
 
-        <div>
-          <WinRateOverTime matches={matches} />
-        </div>
+        <Card className="pb-2">
+          <CardTitle className="pl-5">Winrate Over Time</CardTitle>
+          <CardContent className="p-0">
+            <WinRateOverTime matches={matches} />
+          </CardContent>
+        </Card>
 
-        <div className="md:col-span-2">
+        <div>
           <Card className="pb-2">
             <CardTitle className="pl-5">Format Analytics</CardTitle>
             <CardContent className="p-0">
-              <div className="grid grid-cols-1 md:grid-cols-2">
+              <div>
                 <div className="p-2">
                   <h3 className="text-sm font-medium text-center mb-2">
                     Most Played Formats
