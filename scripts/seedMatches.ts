@@ -2,7 +2,6 @@ import { db } from "../src/db/drizzle";
 import { match, game } from "../src/db/schema";
 import { config } from "dotenv";
 
-// Load environment variables from .env file
 config({ path: ".env" });
 
 type GameSeedData = {
@@ -20,13 +19,19 @@ type MatchSeedData = {
   games: GameSeedData[];
 };
 
-// Function to generate sample matches with different dates and deck archetypes
 const generateSampleMatches = (
   userId: string,
   count: number = 50
 ): MatchSeedData[] => {
-  // Array of common MTG deck archetypes
-  const deckTypes = [
+  const yourDeckTypes = [
+    "Mono W Soldiers",
+    "Mono R Goblins",
+    "Mono U Merfolk",
+    "Mono B Zombies",
+    "Mono G Elves",
+  ];
+
+  const oppDeckTypes = [
     "Golgari Reanimator",
     "Boros Burn",
     "Simic Ramp",
@@ -41,47 +46,33 @@ const generateSampleMatches = (
 
   const formats = [
     "Standard",
-    "Modern",
-    "Pioneer",
     "Pauper",
     "Draft",
-    "Sealed",
   ];
 
-  // Create matches with dates ranging from 30 days ago to today
   const matches: MatchSeedData[] = [];
   const today = new Date();
 
-  // Create specified number of matches over the past 30 days
   for (let i = 0; i < count; i++) {
-    // Random date within the past 30 days
     const daysAgo = Math.floor(Math.random() * 30);
     const matchDate = new Date(today);
     matchDate.setDate(today.getDate() - daysAgo);
 
-    // Random decks and format
-    const yourDeckIndex = Math.floor(Math.random() * deckTypes.length);
-    let oppDeckIndex = Math.floor(Math.random() * deckTypes.length);
-    // Ensure opponent has a different deck
-    while (oppDeckIndex === yourDeckIndex) {
-      oppDeckIndex = Math.floor(Math.random() * deckTypes.length);
-    }
-
+    const yourDeckIndex = Math.floor(Math.random() * yourDeckTypes.length);
+    const oppDeckIndex = Math.floor(Math.random() * oppDeckTypes.length);
     const formatIndex = Math.floor(Math.random() * formats.length);
 
-    // Determine match outcome pattern (realistic MTG match patterns)
     const matchPattern = determineMatchPattern();
     const games = generateGamesForPattern(matchPattern);
 
-    // Generate a match note based on the outcome
     const yourWins = games.filter((g) => g.won_game).length;
     const oppWins = games.length - yourWins;
 
     let note = "";
     if (yourWins > oppWins) {
-      note = `Good matchup against ${deckTypes[oppDeckIndex]}. Sideboard plan worked well.`;
+      note = `Good matchup against ${oppDeckTypes[oppDeckIndex]}. Sideboard plan worked well.`;
     } else if (yourWins < oppWins) {
-      note = `Difficult matchup. Need to adjust sideboard for ${deckTypes[oppDeckIndex]}.`;
+      note = `Difficult matchup. Need to adjust sideboard for ${oppDeckTypes[oppDeckIndex]}.`;
     } else {
       note = `Even matchup. Time ended before we could finish game ${
         games.length + 1
@@ -89,8 +80,8 @@ const generateSampleMatches = (
     }
 
     matches.push({
-      your_deck: deckTypes[yourDeckIndex],
-      opp_deck: deckTypes[oppDeckIndex],
+      your_deck: yourDeckTypes[yourDeckIndex],
+      opp_deck: oppDeckTypes[oppDeckIndex],
       format: formats[formatIndex],
       notes: note,
       played_at: matchDate,
@@ -101,7 +92,6 @@ const generateSampleMatches = (
   return matches;
 };
 
-// Determine realistic match patterns based on MTG tournament play
 function determineMatchPattern(): string {
   const rand = Math.random() * 100;
 
@@ -115,7 +105,6 @@ function determineMatchPattern(): string {
   return "0-1"; // Rare single game loss
 }
 
-// Generate games based on the determined match pattern
 function generateGamesForPattern(pattern: string): GameSeedData[] {
   const games: GameSeedData[] = [];
 
@@ -232,7 +221,6 @@ async function seedMatches(userId: string, count: number) {
     console.log(`Seeding ${count} matches for user ${userId}...`);
     const matchesData = generateSampleMatches(userId, count);
 
-    // Insert each match and its games
     for (const matchData of matchesData) {
       const your_points = matchData.games.filter((g) => g.won_game).length;
       const opp_points = matchData.games.filter((g) => !g.won_game).length;
@@ -246,7 +234,6 @@ async function seedMatches(userId: string, count: number) {
         result = "D";
       }
 
-      // Insert the match
       const [newMatch] = await db
         .insert(match)
         .values({
@@ -262,7 +249,6 @@ async function seedMatches(userId: string, count: number) {
         })
         .returning({ id: match.id });
 
-      // Insert the games for this match
       if (matchData.games.length > 0) {
         await db.insert(game).values(
           matchData.games.map((g) => ({
@@ -289,7 +275,6 @@ async function seedMatches(userId: string, count: number) {
   }
 }
 
-// Parse command line arguments
 function parseArgs() {
   const args = process.argv.slice(2);
 
@@ -310,6 +295,5 @@ function parseArgs() {
   return { userId, count };
 }
 
-// Execute the script
 const { userId, count } = parseArgs();
 seedMatches(userId, count);

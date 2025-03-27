@@ -121,7 +121,7 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
         data={chartData}
         layout="vertical"
         margin={{ top: 0, right: 5, left: 30, bottom: 5 }}
-        barCategoryGap={8}
+        barCategoryGap={6}
       >
         <CartesianGrid
           strokeDasharray="3 3"
@@ -163,7 +163,7 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
         />
         <ReferenceLine
           x={overallWinRate}
-          stroke="rgba(255,255,255,0.5)"
+          stroke="rgba(255,255,255,0.2)"
           strokeDasharray="3 3"
           label={{
             position: "top",
@@ -172,7 +172,7 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
             fontSize: 12,
           }}
         />
-        <Bar dataKey="winRate" barSize={10}>
+        <Bar dataKey="winRate">
           {chartData.map((entry, index) => (
             <Cell
               key={`cell-${index}`}

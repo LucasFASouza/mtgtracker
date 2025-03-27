@@ -13,6 +13,7 @@ import { match as matchSchema, game as gameSchema } from "@/db/schema";
 import { InferSelectModel } from "drizzle-orm";
 import { MostPlayedDecks } from "@/components/analytics/MostPlayedDecks";
 import { WinRateByDeck } from "@/components/analytics/WinRateByDeck";
+import { WinRateByMatchup } from "@/components/analytics/WinRateByMatchup";
 
 type ExtendedMatch = InferSelectModel<typeof matchSchema> & {
   games?: InferSelectModel<typeof gameSchema>[];
@@ -162,7 +163,9 @@ export default function AnalyticsPage() {
         {activeFilters.format && !activeFilters.deck && (
           <div>
             <Card className="pb-2">
-              <CardTitle className="pl-5">Your {activeFilters.format} Decks</CardTitle>
+              <CardTitle className="pl-5">
+                Your {activeFilters.format} Decks
+              </CardTitle>
               <CardContent className="p-0">
                 <div>
                   <div className="p-2">
@@ -184,6 +187,23 @@ export default function AnalyticsPage() {
         )}
 
         {/* Deck-specific */}
+        {activeFilters.format && activeFilters.deck && (
+          <div>
+            <Card className="pb-2">
+              <CardTitle className="pl-5">
+                Matchup Analysis for {activeFilters.deck}
+              </CardTitle>
+              <CardContent className="p-0">
+                <div className="p-2">
+                  <h3 className="text-sm font-medium text-center mb-2">
+                    Win Rate by Matchup
+                  </h3>
+                  <WinRateByMatchup matches={matches} />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -202,7 +222,7 @@ export default function AnalyticsPage() {
 // IDK - Win rate by opponent deck (BarChart - Horizontal)
 
 // Deck-specific charts
-// TO DO - Win rate by matchup (BarChart - Horizontal)
+// DONE - Win rate by matchup (BarChart - Horizontal)
 // IDK - Most played matchups (PieChart - Donut)
 // TO DO - Win rate on the play/draw (BarChart - Vertical maybe? Just text? Just show the difference? Punitiveness of starting on the draw)
 // TO DO - Win rate game 1 vs game 2 and 3 (BarChart - Vertical maybe? Just text? Just show the difference? Effectiveness of sideboarding)

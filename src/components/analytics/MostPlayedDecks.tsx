@@ -104,7 +104,6 @@ export function MostPlayedDecks({ matches }: MostPlayedDecksProps) {
           cy="50%"
           innerRadius={40}
           outerRadius={60}
-          paddingAngle={2}
           dataKey="value"
           nameKey="name"
           label={({ percentage }) => `${percentage}%`}
