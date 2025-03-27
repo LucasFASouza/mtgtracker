@@ -1,36 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# mtgtracker
 
-## Getting Started
+mtgtracker is a web application designed to help Magic: The Gathering players track their matches, analyze their performance, and improve their game.
 
-First, run the development server:
+## 🧙‍♂️ What is mtgtracker?
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+mtgtracker allows you to:
+
+- Record Magic: The Gathering match results and game outcomes
+- Analyze performance metrics over time
+- Add notes to remember key moments or strategies
+
+Perfect for the data-minded planeswalker looking to level up their game!
+
+## ✨ Features
+
+- **Match Tracking**: Log your matches with format, result, and opponent details
+- **Game History**: Keep a record of all your MTG games
+- **Analytics Dashboard**: Visual charts showing your performance metrics
+- **Secure Authentication**: Login with your Google account
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 15+, React 18+, TypeScript, Tailwind CSS
+- **UI Components**: Shadcn UI, Recharts for data visualization
+- **Backend**: Next.js API routes and Server Actions
+- **Authentication**: Auth.js/NextAuth v5 with Google OAuth
+- **Database**: Neon PostgreSQL with Drizzle ORM
+- **Deployment**: Vercel-ready setup
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ installed
+- A Neon PostgreSQL database
+- Google OAuth credentials
+
+### Environment Setup
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```
+DATABASE_URL=your_neon_postgresql_connection_string
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+AUTH_SECRET=random_secure_string_for_session_encryption
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Each variable is used for:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `DATABASE_URL`: Connection string to your Neon PostgreSQL database
+- `GOOGLE_CLIENT_ID`: Your Google OAuth Client ID (from Google Cloud Console)
+- `GOOGLE_CLIENT_SECRET`: Your Google OAuth Client Secret
+- `AUTH_SECRET`: A random string used for encrypting auth sessions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Installation
 
-## Learn More
+1. Clone the repository
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   git clone https://github.com/yourusername/mtgtracker.git
+   cd mtgtracker
+   ```
+2. Install dependencies
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   npm install
+   # or
+   pnpm install
+   # or
+   yarn install
+   ```
+3. Run the development server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   npm run dev
+   # or
+   pnpm dev
+   # or
+   yarn dev
+   ```
+4. Open http://localhost:3000 to see the app in action
 
-## Deploy on Vercel
+## 📊 Database Setup
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Create a Neon PostgreSQL database at [neon.tech](https://neon.tech)
+2. Copy your connection string to the DATABASE_URL environment variable
+3. Push the schema to your database:
+   ```bash
+   npm run db:push
+   # or
+   pnpm db:push
+   # or
+   yarn db:push
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🌱 Seeding Sample Data
+
+To generate sample match data for testing:
+
+1. First, create an account in the app (Google sign-in)
+2. Find your user ID from the database:
+
+   - Run `npm run db:studio` to open Drizzle Studio
+   - Navigate to the "users" table
+   - Copy your user ID (should be a UUID)
+3. Run the seeder with your user ID:
+
+   ```bash
+   npm run db:seed-matches -- your-user-id-here 15
+   # or
+   pnpm db:seed-matches -- your-user-id-here 15
+   # or
+   yarn db:seed-matches -- your-user-id-here 15
+   ```
+
+   The number 15 represents how many sample matches to create (optional, defaults to 15)
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help improve mtgtracker:
+
+1. Fork the repository
+2. Create a new branch (git checkout -b feature/amazing-feature)
+3. Make your changes
+4. Run tests to ensure everything works
+5. Commit your changes (git commit -m 'Add some amazing feature')
+6. Push to the branch (git push origin feature/amazing-feature)
+7. Open a Pull Request
+
+Please ensure your code follows the project's style guidelines and includes appropriate tests.
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+Built with ❤️ for the Magic: The Gathering community
