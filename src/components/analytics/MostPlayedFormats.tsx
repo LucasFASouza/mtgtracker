@@ -96,7 +96,7 @@ export function MostPlayedFormats({ matches }: MostPlayedFormatsProps) {
         width={300}
         height={250}
         className="w-full"
-        margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+        margin={{ top: 15, right: 5, left: 5, bottom: 5 }}
       >
         <Pie
           data={chartData}

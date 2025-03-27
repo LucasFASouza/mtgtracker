@@ -108,14 +108,14 @@ To generate sample match data for testing:
 3. Run the seeder with your user ID:
 
    ```bash
-   npm run db:seed-matches -- your-user-id-here 15
+   npm run db:seed-matches your-user-id-here 15
    # or
-   pnpm db:seed-matches -- your-user-id-here 15
+   pnpm db:seed-matches your-user-id-here 15
    # or
-   yarn db:seed-matches -- your-user-id-here 15
+   yarn db:seed-matches your-user-id-here 15
    ```
 
-   The number 15 represents how many sample matches to create (optional, defaults to 15)
+   The number 15 represents how many sample matches to create (optional, defaults to 50)
 
 ## 🤝 Contributing
 
@@ -136,6 +136,7 @@ Please ensure your code follows the project's style guidelines and includes appr
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🫂 Special Thanks
+
 - To [Wilson Cazarré](https://github.com/WilsonCazarre), for the auth system implementation.
 
 ---

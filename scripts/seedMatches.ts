@@ -23,7 +23,7 @@ type MatchSeedData = {
 // Function to generate sample matches with different dates and deck archetypes
 const generateSampleMatches = (
   userId: string,
-  count: number = 15
+  count: number = 50
 ): MatchSeedData[] => {
   // Array of common MTG deck archetypes
   const deckTypes = [
