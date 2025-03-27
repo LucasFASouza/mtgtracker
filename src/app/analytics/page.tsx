@@ -11,13 +11,13 @@ import { FilterDrawer } from "@/components/analytics/FilterDrawer";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { match as matchSchema, game as gameSchema } from "@/db/schema";
 import { InferSelectModel } from "drizzle-orm";
+import { MostPlayedDecks } from "@/components/analytics/MostPlayedDecks";
+import { WinRateByDeck } from "@/components/analytics/WinRateByDeck";
 
-// Define match type based on your schema
 type ExtendedMatch = InferSelectModel<typeof matchSchema> & {
   games?: InferSelectModel<typeof gameSchema>[];
 };
 
-// Define filter type to match what comes from FilterDrawer
 interface FilterOptions {
   format: string | null;
   deck: string | null;
@@ -34,9 +34,8 @@ export default function AnalyticsPage() {
     startDate: null,
     endDate: null,
   });
-  const [allMatches, setAllMatches] = useState<ExtendedMatch[]>([]); // Store all matches for date range
+  const [allMatches, setAllMatches] = useState<ExtendedMatch[]>([]);
 
-  // Fetch all matches once for dropdown options and date ranges
   useEffect(() => {
     async function loadAllMatches() {
       try {
@@ -50,7 +49,6 @@ export default function AnalyticsPage() {
     loadAllMatches();
   }, []);
 
-  // Fetch filtered matches whenever filters change
   useEffect(() => {
     async function loadMatches() {
       try {
@@ -100,8 +98,25 @@ export default function AnalyticsPage() {
 
       <div className="flex flex-col gap-6">
         <div className="flex gap-6">
-          <div className="flex-1 flex flex-col justify-around">
-            <p className="text-sm text-muted-foreground pt-8">{greeting}</p>
+          <div className="flex-1 flex flex-col justify-center gap-2">
+            <p className="text-sm font-bold">{greeting}</p>
+            <p className="text-xs text-muted-foreground">
+              Seeing analytic for {activeFilters.format || "all"} matches
+              {activeFilters.deck && `,\n playing with ${activeFilters.deck}`}
+              {activeFilters.startDate &&
+                `,\n since ${activeFilters.startDate.toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })}`}
+              {activeFilters.endDate &&
+                `,\n up until ${activeFilters.endDate.toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })}`}
+              .
+            </p>
           </div>
 
           <CurrentWinRate
@@ -118,6 +133,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
+        {/* Formats Analytics */}
         {!activeFilters.format && (
           <div>
             <Card className="pb-2">
@@ -135,6 +151,31 @@ export default function AnalyticsPage() {
                       Win Rate by Format
                     </h3>
                     <WinRateByFormat matches={matches} />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Decks Analytics */}
+        {activeFilters.format && !activeFilters.deck && (
+          <div>
+            <Card className="pb-2">
+              <CardTitle className="pl-5">Your Decks Analytics</CardTitle>
+              <CardContent className="p-0">
+                <div>
+                  <div className="p-2">
+                    <h3 className="text-sm font-medium text-center mb-2">
+                      Most Played Decks
+                    </h3>
+                    <MostPlayedDecks matches={matches} />
+                  </div>
+                  <div className="p-2">
+                    <h3 className="text-sm font-medium text-center mb-2">
+                      Win Rate by Deck
+                    </h3>
+                    <WinRateByDeck matches={matches} />
                   </div>
                 </div>
               </CardContent>
