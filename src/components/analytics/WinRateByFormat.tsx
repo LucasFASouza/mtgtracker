@@ -12,10 +12,8 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Cell,
   ReferenceLine,
-  TooltipProps as RechartsTooltipProps,
 } from "recharts";
 
 interface WinRateByFormatProps {
@@ -38,34 +36,6 @@ const chartConfig = {
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
-
-interface CustomTooltipProps
-  extends Omit<RechartsTooltipProps<number, string>, "payload"> {
-  payload?: Array<{
-    value: number;
-    payload: FormatWinRate;
-    dataKey: string;
-  }>;
-}
-
-const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
-  if (active && payload && payload.length) {
-    const data = payload[0].payload as FormatWinRate;
-    return (
-      <ChartTooltipContent
-        formatter={(value) =>
-          typeof value === "number" ? `${value.toFixed(1)}%` : `${value}`
-        }
-        label={label}
-      >
-        <div className="text-xs text-muted-foreground pt-1">
-          Matches played: {data.matchCount}
-        </div>
-      </ChartTooltipContent>
-    );
-  }
-  return null;
-};
 
 export function WinRateByFormat({ matches }: WinRateByFormatProps) {
   if (matches.length === 0) {
@@ -186,7 +156,7 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
           cursor={false}
           content={
             <ChartTooltipContent
-              formatter={(value, name) => {
+              formatter={(value) => {
                 return `${(value as number).toFixed(1)}%`;
               }}
             />

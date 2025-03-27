@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { getMatches } from "@/actions/matchAction";
 import { CurrentWinRate } from "@/components/analytics/CurrentWinRate";
 import { WinRateOverTime } from "@/components/analytics/WinRateOverTime";
@@ -55,7 +55,6 @@ export default function AnalyticsPage() {
       try {
         setLoading(true);
         const matchData = await getMatches(activeFilters);
-        console.log("Fetched matches:", matchData);
         setMatches(matchData);
       } catch (error) {
         console.error("Error loading matches:", error);

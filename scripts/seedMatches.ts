@@ -280,7 +280,6 @@ function parseArgs() {
 
   if (args.length === 0) {
     console.error("Error: User ID is required");
-    console.log("Usage: npm run db:seed-matches -- <userId> [matchCount=15]");
     process.exit(1);
   }
 

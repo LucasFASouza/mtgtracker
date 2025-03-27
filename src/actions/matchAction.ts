@@ -28,7 +28,7 @@ export const getMatches = async (filters?: MatchFilters) => {
     return [];
   }
 
-  let whereConditions = [eq(match.user_id, user.id)];
+  const whereConditions = [eq(match.user_id, user.id)];
 
   if (filters?.format) {
     whereConditions.push(eq(match.format, filters.format));

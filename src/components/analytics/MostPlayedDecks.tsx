@@ -130,7 +130,7 @@ export function MostPlayedDecks({ matches }: MostPlayedDecksProps) {
           layout="vertical"
           align="right"
           verticalAlign="middle"
-          formatter={(value, entry, index) => (
+          formatter={(value) => (
             <span className="text-xs text-muted-foreground">{value}</span>
           )}
         />

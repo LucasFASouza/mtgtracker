@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Funnel } from "@phosphor-icons/react";
 import {
@@ -94,25 +94,6 @@ export function FilterDrawer({
     );
   }, [currentFilters]);
 
-  const { earliestDate, latestDate } = useMemo(() => {
-    if (!matches.length) {
-      return {
-        earliestDate: new Date(new Date().getFullYear() - 1, 0, 1), // Default to 1 year ago
-        latestDate: new Date(),
-      };
-    }
-
-    const sortedMatches = [...matches].sort(
-      (a, b) =>
-        new Date(a.played_at).getTime() - new Date(b.played_at).getTime()
-    );
-
-    return {
-      earliestDate: new Date(sortedMatches[0].played_at),
-      latestDate: new Date(sortedMatches[sortedMatches.length - 1].played_at),
-    };
-  }, [matches]);
-
   const formats = getUniqueFormats(matches);
   const decks =
     selectedFormat && selectedFormat !== "all"
@@ -177,8 +158,6 @@ export function FilterDrawer({
     if (onFiltersChange) {
       onFiltersChange(filters);
     }
-
-    console.log("Filters reset");
   };
 
   return (
