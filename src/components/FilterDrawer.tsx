@@ -171,7 +171,7 @@ export function FilterDrawer({
           <Funnel weight={filtersActive ? "fill" : "regular"} />
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="p-3">
         <DrawerHeader>
           <DrawerTitle>Filter Matches</DrawerTitle>
           <DrawerDescription>
