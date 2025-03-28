@@ -71,14 +71,23 @@ export function CurrentWinRate({
                   >
                     <tspan
                       x={viewBox.cx}
-                      y={(viewBox.cy || 0) - 5}
+                      y={(viewBox.cy || 0) - 25}
+                      className="fill-muted-foreground text-xs font-bold"
+                    >
+                      {winCount} {drawCount && ` - ${drawCount} `} - {lossCount}
+                    </tspan>
+
+                    <tspan
+                      x={viewBox.cx}
+                      y={(viewBox.cy || 0) + 0}
                       className="fill-foreground text-2xl font-bold"
                     >
                       {winPercentage.toFixed(1)}%
                     </tspan>
+
                     <tspan
                       x={viewBox.cx}
-                      y={(viewBox.cy || 0) + 15}
+                      y={(viewBox.cy || 0) + 20}
                       className="fill-muted-foreground text-sm"
                     >
                       Winrate

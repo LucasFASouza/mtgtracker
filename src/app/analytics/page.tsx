@@ -14,6 +14,7 @@ import { InferSelectModel } from "drizzle-orm";
 import { MostPlayedDecks } from "@/components/analytics/MostPlayedDecks";
 import { WinRateByDeck } from "@/components/analytics/WinRateByDeck";
 import { WinRateByMatchup } from "@/components/analytics/WinRateByMatchup";
+import { RecentWinRates } from "@/components/analytics/RecentWinRates";
 
 type ExtendedMatch = InferSelectModel<typeof matchSchema> & {
   games?: InferSelectModel<typeof gameSchema>[];
@@ -27,7 +28,12 @@ interface FilterOptions {
 }
 
 export default function AnalyticsPage() {
-  const [matches, setMatches] = useState<ExtendedMatch[]>([]);
+  const [dateFilteredMatches, setDateFilteredMatches] = useState<
+    ExtendedMatch[]
+  >([]);
+  const [dateUnfilteredMatches, setDateUnfilteredMatches] = useState<
+    ExtendedMatch[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [activeFilters, setActiveFilters] = useState<FilterOptions>({
     format: null,
@@ -54,8 +60,27 @@ export default function AnalyticsPage() {
     async function loadMatches() {
       try {
         setLoading(true);
-        const matchData = await getMatches(activeFilters);
-        setMatches(matchData);
+
+        const formatDeckFilters = {
+          format: activeFilters.format,
+          deck: activeFilters.deck,
+        };
+
+        const unfilteredData = await getMatches(formatDeckFilters);
+        setDateUnfilteredMatches(unfilteredData);
+
+        if (activeFilters.startDate || activeFilters.endDate) {
+          const allFilters = {
+            ...formatDeckFilters,
+            startDate: activeFilters.startDate,
+            endDate: activeFilters.endDate,
+          };
+
+          const filteredData = await getMatches(allFilters);
+          setDateFilteredMatches(filteredData);
+        } else {
+          setDateFilteredMatches(unfilteredData);
+        }
       } catch (error) {
         console.error("Error loading matches:", error);
       } finally {
@@ -74,11 +99,17 @@ export default function AnalyticsPage() {
     );
   }
 
-  const winCount = matches.filter((match) => match.result === "W").length;
-  const lossCount = matches.filter((match) => match.result === "L").length;
-  const drawCount = matches.filter((match) => match.result === "D").length;
+  const winCount = dateFilteredMatches.filter(
+    (match) => match.result === "W"
+  ).length;
+  const lossCount = dateFilteredMatches.filter(
+    (match) => match.result === "L"
+  ).length;
+  const drawCount = dateFilteredMatches.filter(
+    (match) => match.result === "D"
+  ).length;
 
-  const greeting = getWinrateGreeting(matches.length, winCount);
+  const greeting = getWinrateGreeting(dateFilteredMatches.length, winCount);
 
   const handleFiltersChange = (filters: FilterOptions) => {
     setActiveFilters(filters);
@@ -90,7 +121,7 @@ export default function AnalyticsPage() {
         <h2 className="text-xl font-semibold">Match History</h2>
 
         <FilterDrawer
-          matches={allMatches.length > 0 ? allMatches : matches}
+          matches={allMatches.length > 0 ? allMatches : dateUnfilteredMatches}
           onFiltersChange={handleFiltersChange}
           currentFilters={activeFilters}
         />
@@ -127,9 +158,20 @@ export default function AnalyticsPage() {
         </div>
 
         <Card className="pb-2">
-          <CardTitle className="pl-5">Winrate Over Time</CardTitle>
+          <CardTitle className="pl-5">Cumulative Winrate</CardTitle>
           <CardContent className="p-0">
-            <WinRateOverTime matches={matches} />
+            <WinRateOverTime
+              matches={dateUnfilteredMatches}
+              startDate={activeFilters.startDate}
+              endDate={activeFilters.endDate}
+            />
+          </CardContent>
+        </Card>
+
+        <Card className="pb-2">
+          <CardTitle className="pl-5">Recent Performance</CardTitle>
+          <CardContent className="p-0">
+            <RecentWinRates matches={dateUnfilteredMatches} />
           </CardContent>
         </Card>
 
@@ -144,13 +186,13 @@ export default function AnalyticsPage() {
                     <h3 className="text-sm font-medium text-center mb-2">
                       Most Played Formats
                     </h3>
-                    <MostPlayedFormats matches={matches} />
+                    <MostPlayedFormats matches={dateFilteredMatches} />
                   </div>
                   <div className="p-2">
                     <h3 className="text-sm font-medium text-center mb-2">
                       Win Rate by Format
                     </h3>
-                    <WinRateByFormat matches={matches} />
+                    <WinRateByFormat matches={dateFilteredMatches} />
                   </div>
                 </div>
               </CardContent>
@@ -171,13 +213,13 @@ export default function AnalyticsPage() {
                     <h3 className="text-sm font-medium text-center mb-2">
                       Most Played Decks
                     </h3>
-                    <MostPlayedDecks matches={matches} />
+                    <MostPlayedDecks matches={dateFilteredMatches} />
                   </div>
                   <div className="p-2">
                     <h3 className="text-sm font-medium text-center mb-2">
                       Win Rate by Deck
                     </h3>
-                    <WinRateByDeck matches={matches} />
+                    <WinRateByDeck matches={dateFilteredMatches} />
                   </div>
                 </div>
               </CardContent>
@@ -197,7 +239,7 @@ export default function AnalyticsPage() {
                   <h3 className="text-sm font-medium text-center mb-2">
                     Win Rate by Matchup
                   </h3>
-                  <WinRateByMatchup matches={matches} />
+                  <WinRateByMatchup matches={dateFilteredMatches} />
                 </div>
               </CardContent>
             </Card>
@@ -209,19 +251,19 @@ export default function AnalyticsPage() {
 }
 
 // Overall charts
-// DRAFTED - Current win rate (RadialBarChart)
-// DRAFTED - Win rate over time (AreaChart)
-// DRAFTED - Most played formats (PieChart - Donut)
-// DRAFTED - Win rate by format (BarChart - Horizontal)
+// DONE - Current win rate (RadialBarChart)
+// DONE - Win rate over time (AreaChart)
+// DONE - Most played formats (PieChart - Donut)
+// DONE - Win rate by format (BarChart - Horizontal)
 
 // Format-specific charts
-// DRAFTED - Most played decks (PieChart - Donut)
-// DRAFTED - Win rate by deck (BarChart - Horizontal)
+// DONE - Most played decks (PieChart - Donut)
+// DONE - Win rate by deck (BarChart - Horizontal)
 // IDK - Most played opponents decks (PieChart - Donut)
 // IDK - Win rate by opponent deck (BarChart - Horizontal)
 
 // Deck-specific charts
-// DRAFTED - Win rate by matchup (BarChart - Horizontal)
+// DONE - Win rate by matchup (BarChart - Horizontal)
 // IDK - Most played matchups (PieChart - Donut)
 // TO DO - Win rate on the play/draw (BarChart - Vertical maybe? Just text? Just show the difference? Punitiveness of starting on the draw)
 // TO DO - Win rate game 1 vs game 2 and 3 (BarChart - Vertical maybe? Just text? Just show the difference? Effectiveness of sideboarding)

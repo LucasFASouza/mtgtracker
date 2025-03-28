@@ -146,7 +146,7 @@ export function WinRateByFormat({ matches }: WinRateByFormatProps) {
           {chartData.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
-              fill={`hsl(var(--chart-${(index % 5) + 1}))`}
+              fill="hsl(var(--chart-1))"
               radius={4}
             />
           ))}

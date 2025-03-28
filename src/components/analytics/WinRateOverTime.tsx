@@ -30,9 +30,15 @@ interface Match {
 
 interface WinRateOverTimeProps {
   matches: Match[];
+  startDate?: Date | null;
+  endDate?: Date | null;
 }
 
-export function WinRateOverTime({ matches }: WinRateOverTimeProps) {
+export function WinRateOverTime({
+  matches,
+  startDate,
+  endDate,
+}: WinRateOverTimeProps) {
   if (matches.length === 0) {
     return (
       <div className="flex h-80 items-center justify-center text-muted-foreground">
@@ -63,7 +69,33 @@ export function WinRateOverTime({ matches }: WinRateOverTimeProps) {
     });
   }
 
-  const chartDataArray = Array.from(dateMap.values());
+  let chartDataArray = Array.from(dateMap.values());
+
+  // Filter displayed dates if date range is provided
+  if (startDate || endDate) {
+    chartDataArray = chartDataArray.filter((item) => {
+      const itemDate = new Date(item.date);
+
+      if (startDate && endDate) {
+        return itemDate >= startDate && itemDate <= endDate;
+      } else if (startDate) {
+        return itemDate >= startDate;
+      } else if (endDate) {
+        return itemDate <= endDate;
+      }
+
+      return true;
+    });
+  }
+
+  // If filtered array is empty but we have matches, show a message
+  if (chartDataArray.length === 0 && matches.length > 0) {
+    return (
+      <div className="flex h-80 items-center justify-center text-muted-foreground">
+        No matches within the selected date range
+      </div>
+    );
+  }
 
   return (
     <ChartContainer config={chartConfig}>
