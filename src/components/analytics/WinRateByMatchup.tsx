@@ -90,7 +90,7 @@ export function WinRateByMatchup({ matches }: WinRateByMatchupProps) {
     }
 
     matchupData[oppDeck].total += 1;
-    
+
     if (match.result === "W") {
       matchupData[oppDeck].wins += 1;
     }
@@ -134,7 +134,7 @@ export function WinRateByMatchup({ matches }: WinRateByMatchupProps) {
             vertical={true}
             className="stroke-muted"
           />
-          
+
           <XAxis
             type="number"
             domain={[0, maxWinRate]}
@@ -178,7 +178,7 @@ export function WinRateByMatchup({ matches }: WinRateByMatchupProps) {
               fontSize: 12,
             }}
           />
-          <Bar dataKey="winRate" >
+          <Bar dataKey="winRate">
             {chartData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}

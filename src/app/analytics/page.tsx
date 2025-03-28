@@ -15,6 +15,8 @@ import { MostPlayedDecks } from "@/components/analytics/MostPlayedDecks";
 import { WinRateByDeck } from "@/components/analytics/WinRateByDeck";
 import { WinRateByMatchup } from "@/components/analytics/WinRateByMatchup";
 import { RecentWinRates } from "@/components/analytics/RecentWinRates";
+import { PlayDrawWinrates } from "@/components/analytics/PlayDrawWinrates";
+import { SideboardEffectiveness } from "@/components/analytics/SideboardEffectiveness";
 
 type ExtendedMatch = InferSelectModel<typeof matchSchema> & {
   games?: InferSelectModel<typeof gameSchema>[];
@@ -190,7 +192,7 @@ export default function AnalyticsPage() {
                   </div>
                   <div className="p-2">
                     <h3 className="text-sm font-medium text-center mb-2">
-                      Win Rate by Format
+                      Winrate by Format
                     </h3>
                     <WinRateByFormat matches={dateFilteredMatches} />
                   </div>
@@ -217,7 +219,7 @@ export default function AnalyticsPage() {
                   </div>
                   <div className="p-2">
                     <h3 className="text-sm font-medium text-center mb-2">
-                      Win Rate by Deck
+                      Winrate by Deck
                     </h3>
                     <WinRateByDeck matches={dateFilteredMatches} />
                   </div>
@@ -237,12 +239,42 @@ export default function AnalyticsPage() {
               <CardContent className="p-0">
                 <div className="p-2">
                   <h3 className="text-sm font-medium text-center mb-2">
-                    Win Rate by Matchup
+                    Winrate by Matchup
                   </h3>
                   <WinRateByMatchup matches={dateFilteredMatches} />
                 </div>
+
+                <div className="p-2">
+                  <h3 className="text-sm font-medium text-center mb-2">
+                    Sideboard Effectiveness
+                  </h3>
+                  <SideboardEffectiveness
+                    matches={dateFilteredMatches}
+                    games={dateFilteredMatches.flatMap(
+                      (match) => match.games || []
+                    )}
+                  />
+                </div>
               </CardContent>
             </Card>
+
+            <div className="flex flex-col gap-6 mt-6">
+              <Card className="pb-2">
+                <CardTitle className="pl-5">Play vs Draw Analysis</CardTitle>
+                <CardContent className="p-0">
+                  <div className="p-2">
+                    <h3 className="text-sm font-medium text-center mb-2">
+                      Winrate on Play vs Draw
+                    </h3>
+                    <PlayDrawWinrates
+                      games={dateFilteredMatches
+                        .flatMap((match) => match.games || [])
+                        .filter((game) => game.started_play !== null)}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )}
       </div>

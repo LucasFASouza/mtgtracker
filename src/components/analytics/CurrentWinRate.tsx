@@ -74,7 +74,8 @@ export function CurrentWinRate({
                       y={(viewBox.cy || 0) - 25}
                       className="fill-muted-foreground text-xs font-bold"
                     >
-                      {winCount} {drawCount && ` - ${drawCount} `} - {lossCount}
+                      {winCount} {drawCount ? ` - ${drawCount} ` : ""} -{" "}
+                      {lossCount}
                     </tspan>
 
                     <tspan
