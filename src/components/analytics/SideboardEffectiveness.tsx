@@ -118,7 +118,7 @@ export function SideboardEffectiveness({
         <TableBody>
           {chartData.map((matchup, index) => (
             <TableRow key={index}>
-              <TableCell className="font-medium">{matchup.name}</TableCell>
+              <TableCell className="text-sm">{matchup.name}</TableCell>
               <TableCell className="text-right">
                 {matchup.g1WinRate.toFixed(1)}%
                 <span className="text-xs text-muted-foreground ml-1">
