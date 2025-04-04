@@ -137,7 +137,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🫂 Special Thanks
 
-- To [Wilson Cazarré](https://github.com/WilsonCazarre), for the auth system implementation.
+☀️ To [Wilson Cazarré](https://github.com/WilsonCazarre), for the auth system implementation.
+💧 To [Renato de Souza](https://www.instagram.com/dropdois.mtg), for his consulting on UI and project design.
 
 ---
 
