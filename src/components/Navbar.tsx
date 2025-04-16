@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -9,29 +9,13 @@ import {
   ChartLine,
 } from "@phosphor-icons/react/dist/ssr";
 import TabIcon from "@/components/TabIcon";
+import { useSession } from "next-auth/react";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data: session, status } = useSession();
 
-  useEffect(() => {
-    // Fetch session status from the server using a simple endpoint
-    const checkAuthStatus = async () => {
-      try {
-        const response = await fetch("/api/auth/session");
-        const data = await response.json();
-        setIsLoggedIn(!!data.user);
-      } catch (error) {
-        console.error("Failed to check authentication status:", error);
-        setIsLoggedIn(false);
-      }
-    };
-
-    checkAuthStatus();
-  }, []);
-
-  // Don't render navbar on login page
-  if (pathname === "/login") {
+  if (pathname === "/login" || !session?.user) {
     return null;
   }
 
@@ -47,25 +31,15 @@ export default function Navbar() {
         Matches History
       </Link>
 
-      {isLoggedIn ? (
-        <Link
-          href="/register"
-          className={`flex-1 flex flex-col items-center text-xs px-2 py-1 ${
-            pathname === "/register" ? "text-primary" : "text-muted-foreground"
-          }`}
-        >
-          <TabIcon icon={PlusSquare} isActive={pathname === "/register"} />
-          Register Match
-        </Link>
-      ) : (
-        <Link
-          href="/login"
-          className={`flex-1 flex flex-col items-center text-xs px-2 py-1 text-muted-foreground`}
-        >
-          <TabIcon icon={PlusSquare} isActive={false} />
-          Register Match
-        </Link>
-      )}
+      <Link
+        href="/register"
+        className={`flex-1 flex flex-col items-center text-xs px-2 py-1 ${
+          pathname === "/register" ? "text-primary" : "text-muted-foreground"
+        }`}
+      >
+        <TabIcon icon={PlusSquare} isActive={pathname === "/register"} />
+        Register Match
+      </Link>
 
       <Link
         href="/analytics"

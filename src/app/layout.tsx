@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/Navbar";
-import { ProfileBadge } from "@/components/ProfileBadge";
+import ProfileBadge from "@/components/ProfileBadge";
+import { AppProviders } from "@/app/_providers";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ClientConsoleLog } from "@/components/ClientConsoleLog";
@@ -32,33 +33,42 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
     >
-      <body>
-        <ClientConsoleLog />
-        <div className="flex flex-col h-screen">
-          <div className="px-6 py-4 flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-primary">mtgtracker</h1>
-              <p className="text-xs font-bold text-muted-foreground uppercase">
-                Beta version
+      <AppProviders>
+        <body>
+          <ClientConsoleLog />
+
+          <div className="flex flex-col h-screen">
+            {/* Header */}
+            <div className="px-6 py-4 flex justify-between items-center">
+              <div>
+                <h1 className="text-3xl font-bold text-primary">mtgtracker</h1>
+                <p className="text-xs font-bold text-muted-foreground uppercase">
+                  Beta version
+                </p>
+              </div>
+              <Suspense fallback={<Skeleton className="size-8 rounded-full" />}>
+                <ProfileBadge />
+              </Suspense>
+            </div>
+
+            {/* Desktop-only banner */}
+            <div className="hidden md:block bg-accent/20 border border-accent text-accent-foreground p-3 text-center mx-6 mb-4 rounded-md">
+              <p className="font-medium">
+                ⚠️ This site is optimized for mobile devices. Desktop version
+                coming soon!
               </p>
             </div>
+
+            {/* Main content */}
+            <main className="px-6 pb-24 flex-grow">{children}</main>
+
+            {/* Navbar */}
             <Suspense fallback={<Skeleton className="size-8 rounded-full" />}>
-              <ProfileBadge />
+              <Navbar />
             </Suspense>
           </div>
-
-          {/* Desktop-only banner */}
-          <div className="hidden md:block bg-accent/20 border border-accent text-accent-foreground p-3 text-center mx-6 mb-4 rounded-md">
-            <p className="font-medium">
-              ⚠️ This site is optimized for mobile devices. Desktop version
-              coming soon!
-            </p>
-          </div>
-
-          <main className="px-6 pb-24 flex-grow">{children}</main>
-          <Navbar />
-        </div>
-      </body>
+        </body>
+      </AppProviders>
     </html>
   );
 }
