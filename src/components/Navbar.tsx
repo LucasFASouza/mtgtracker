@@ -13,7 +13,7 @@ import { useSession } from "next-auth/react";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   if (pathname === "/login" || !session?.user) {
     return null;
