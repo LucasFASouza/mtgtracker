@@ -91,8 +91,12 @@ export default function MatchList() {
     const groups: Record<string, ExtendedMatch[]> = {};
 
     matches.forEach((match) => {
-      // Format date as YYYY-MM-DD
-      const dateStr = new Date(match.played_at).toISOString().split("T")[0];
+      // Format date as YYYY-MM-DD in the local timezone
+      const date = new Date(match.played_at);
+      const dateStr = `
+      ${date.getFullYear()}-
+      ${(date.getMonth() + 1).toString().padStart(2, "0")}-
+      ${date.getDate().toString().padStart(2, "0")}`;
 
       if (!groups[dateStr]) {
         groups[dateStr] = [];
@@ -102,7 +106,10 @@ export default function MatchList() {
     });
 
     return Object.entries(groups)
-      .sort(([dateA], [dateB]) => dateB.localeCompare(dateA)) // Sort dates descending
+      .sort(
+        ([dateA], [dateB]) =>
+          new Date(dateB).getTime() - new Date(dateA).getTime()
+      ) // Sort by date descending
       .map(([date, matches]) => ({
         date,
         matches,
